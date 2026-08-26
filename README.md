@@ -26,3 +26,11 @@ le site après chaque modification de la branche `main`.
 
 Le fichier `public/CNAME` associe le déploiement au domaine officiel. La zone DNS
 du domaine est administrée depuis OVHcloud.
+
+## Modifier le site avec Codex
+
+Dans une nouvelle conversation Codex/Work, utiliser la consigne suivante :
+
+> Travaille sur le dépôt GitHub `apir-radio/site-apir-radio`, branche `main`.
+> Modifie [décris la modification], teste le site, enregistre le changement et
+> vérifie la publication GitHub Pages.
