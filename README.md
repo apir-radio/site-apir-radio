@@ -18,9 +18,11 @@ npm run dev
 
 ## Publication sur GitHub Pages
 
+Le site est hébergé sur GitHub Pages et publié à l’adresse
+<https://www.apir-radio.fr>.
+
 Le workflow `.github/workflows/pages.yml` construit et publie automatiquement
 le site après chaque modification de la branche `main`.
 
-Avant le rattachement du domaine officiel, le site est construit pour l’adresse
-de projet GitHub Pages. Dès qu’un fichier `public/CNAME` est ajouté, le build
-bascule automatiquement vers le domaine personnalisé.
+Le fichier `public/CNAME` associe le déploiement au domaine officiel. La zone DNS
+du domaine est administrée depuis OVHcloud.
