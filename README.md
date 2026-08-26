@@ -24,8 +24,3 @@ le site après chaque modification de la branche `main`.
 Avant le rattachement du domaine officiel, le site est construit pour l’adresse
 de projet GitHub Pages. Dès qu’un fichier `public/CNAME` est ajouté, le build
 bascule automatiquement vers le domaine personnalisé.
-
-## Hébergement historique
-
-La configuration ChatGPT Sites est conservée pendant la migration afin que le
-site public actuel continue de fonctionner jusqu’à la bascule DNS.
