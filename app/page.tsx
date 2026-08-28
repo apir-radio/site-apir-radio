@@ -91,6 +91,7 @@ const hospitalJobs = [
 ];
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const adhesionPath = `${basePath}/adhesion`;
 
 function assetPath(path: string) {
   return `${basePath}${path}`;
@@ -117,7 +118,7 @@ export default function Home() {
           <a href="#soirees">Soirées</a>
           <a href="#ressources">Ressources</a>
         </nav>
-        <a className="header-cta" href="https://www.helloasso.com/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2025-2026" target="_blank" rel="noreferrer">
+        <a className="header-cta" href={adhesionPath}>
           Adhérer <Arrow />
         </a>
       </header>
@@ -227,7 +228,7 @@ export default function Home() {
               <h3>Adhérer à l’APIR</h3>
               <p>L’adhésion couvre toute la durée de l’internat et contribue à l’organisation des soirées de formation. Elle devient annuelle après l’internat.</p>
             </div>
-            <a href="https://www.helloasso.com/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2025-2026" target="_blank" rel="noreferrer">Adhérer sur HelloAsso <Arrow /></a>
+            <a href={adhesionPath}>Adhérer sur HelloAsso <Arrow /></a>
           </article>
           <article className="resource-card social-card">
             <span className="card-number">02</span>

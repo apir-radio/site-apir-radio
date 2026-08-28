@@ -3,6 +3,8 @@ import test from "node:test";
 
 const developmentPreviewMeta =
   /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
+const helloAssoAdhesionUrl =
+  "https://www.helloasso.com/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2025-2026";
 
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
 workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -70,6 +72,24 @@ test("serves the canonical hostname without redirecting", async () => {
   assert.doesNotMatch(html, /values-strip|Formation<\/span>.*Transmission<\/span>.*Convivialité<\/span>.*Réseau<\/span>/is);
   assert.doesNotMatch(html, /timeline-heading|class=["'][^"']*event-row/i);
   assert.match(html, /Archives des soirées.*2025 — 2026/is);
+  assert.equal((html.match(/href=["']\/adhesion["']/g) ?? []).length, 2);
+  assert.doesNotMatch(html, new RegExp(`href=["']${helloAssoAdhesionUrl}`));
+});
+
+test("redirects the adhesion shortcut to HelloAsso", async () => {
+  const response = await worker.fetch(
+    new Request("https://www.apir-radio.fr/adhesion", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /http-equiv=["']refresh["']/i);
+  assert.ok(html.includes(helloAssoAdhesionUrl));
+  assert.match(html, /window\.location\.replace/);
 });
 
 test("removes the internal annonces page", async () => {
