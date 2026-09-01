@@ -1,3 +1,6 @@
+import { JobList } from "./job-list";
+import { hospitalJobs } from "./jobs";
+
 const archiveEvents = [
   {
     year: "2025 — 2026",
@@ -45,54 +48,6 @@ const board = [
   { name: "Julie Montret", role: "Membre du bureau", initials: "JM" },
   { name: "Rachid Chekour", role: "Membre du bureau", initials: "RC" },
   { name: "Tom Galvier", role: "Membre du bureau", initials: "TG" },
-];
-
-const hospitalJobs = [
-  {
-    title: "Radiologue en CDI · Temps plein ou temps partiel (80 %)",
-    place: "Hôpital Saint-Camille · Bry-sur-Marne (94)",
-    href: "https://apir-radio.notion.site/3ced6c1400ba80bbb27bd44ed7a41a27",
-  },
-  {
-    title: "CCA ou Assistant",
-    place: "Ambroise-Paré · Boulogne-Billancourt",
-    href: "https://apir-radio.notion.site/3b5d6c1400ba8075a7cfff4d8a061292",
-  },
-  {
-    title: "CCA · Imagerie de la femme",
-    place: "Jean-Verdier · Bondy",
-    href: "https://apir-radio.notion.site/372d6c1400ba80eabe55c5eec20b2b09",
-  },
-  {
-    title: "Assistant · Imagerie pédiatrique",
-    place: "Necker · Paris 15e",
-    href: "https://apir-radio.notion.site/321d6c1400ba80f68526c9448911f5ec",
-  },
-  {
-    title: "CCA / Assistant · Imagerie digestive",
-    place: "Pitié-Salpêtrière · Paris 13e",
-    href: "https://apir-radio.notion.site/feeb82326e4d462d84c3d19f5e4405ff",
-  },
-  {
-    title: "Assistant spécialiste · Imagerie urologique",
-    place: "Pitié-Salpêtrière · Paris 13e",
-    href: "https://apir-radio.notion.site/2a8d6c1400ba802a9782cf294ae18b13",
-  },
-  {
-    title: "Assistant spécialiste · Imagerie séno-gynécologique",
-    place: "Pitié-Salpêtrière · Paris 13e",
-    href: "https://apir-radio.notion.site/14dd6c1400ba80839c33f2c1130fbb16",
-  },
-  {
-    title: "Chef de clinique · Imagerie thoracique et cardiaque",
-    place: "Cochin A UF1 · Paris 14e",
-    href: "https://apir-radio.notion.site/313d6c1400ba802796b0c337d188a5b2",
-  },
-  {
-    title: "Assistant spécialiste · Imagerie digestive",
-    place: "Beaujon · Clichy",
-    href: "https://apir-radio.notion.site/313d6c1400ba805f8eb2d74a81ab6f58",
-  },
 ];
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -276,19 +231,9 @@ export default function Home() {
               <p className="card-tag">Annonces APIR</p>
               <h3>Offres hospitalières</h3>
             </div>
-            <a href="https://apir-radio.notion.site/5d8f70d7adf64035b91657532f316a55" target="_blank" rel="noreferrer">
-              Voir la page complète <Arrow />
-            </a>
+            <p className="jobs-note">Cliquez sur une offre pour consulter les détails.</p>
           </div>
-          <div className="jobs-list">
-            {hospitalJobs.map((job, index) => (
-              <a href={job.href} target="_blank" rel="noreferrer" className="job-row" key={job.href}>
-                <span className="job-index">{String(index + 1).padStart(2, "0")}</span>
-                <span><strong>{job.title}</strong><small>{job.place}</small></span>
-                <Arrow />
-              </a>
-            ))}
-          </div>
+          <JobList jobs={hospitalJobs} />
         </div>
       </section>
 

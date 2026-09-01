@@ -68,11 +68,16 @@ test("serves the canonical hostname without redirecting", async () => {
   assert.match(html, /class=["'][^"']*events-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*resources-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*resource-card social-card[^"']*["'][^>]*>.*Suivre la vie de l’association/is);
-  assert.match(html, /href=["']https:\/\/apir-radio\.notion\.site\/5d8f70d7adf64035b91657532f316a55["']/i);
-  assert.match(
-    html,
-    /href=["']https:\/\/apir-radio\.notion\.site\/3ced6c1400ba80bbb27bd44ed7a41a27["'][^>]*>.*Radiologue en CDI.*Hôpital Saint-Camille.*Bry-sur-Marne \(94\)/is,
-  );
+  assert.doesNotMatch(html, /apir-radio\.notion\.site/i);
+  assert.match(html, /<button[^>]*data-job-id=["']saint-camille-radiologue-cdi["'][^>]*aria-haspopup=["']dialog["']/i);
+  assert.match(html, /<dialog[^>]*class=["'][^"']*job-dialog[^"']*["'][^>]*aria-labelledby=["']job-dialog-title["']/i);
+  assert.match(html, /Radiologue en CDI.*Hôpital Saint-Camille.*Pourquoi nous rejoindre.*S\.Sillou@ch-bry\.org/is);
+  assert.equal((html.match(/data-job-id=/g) ?? []).length, 9);
+  assert.match(html, /Ambroise-Paré.*marie-france\.bellin@aphp\.fr/is);
+  assert.match(html, /Jean-Verdier.*olivier\.seror@aphp\.fr/is);
+  assert.match(html, /Necker.*nathalie\.boddaert@aphp\.fr/is);
+  assert.match(html, /Cochin A UF1.*marie-pierre\.revel@aphp\.fr/is);
+  assert.match(html, /Beaujon.*maxime\.ronot@aphp\.fr/is);
   assert.doesNotMatch(html, /values-strip|Formation<\/span>.*Transmission<\/span>.*Convivialité<\/span>.*Réseau<\/span>/is);
   assert.doesNotMatch(html, /timeline-heading|class=["'][^"']*event-row/i);
   assert.match(html, /Archives des soirées.*2025 — 2026/is);
