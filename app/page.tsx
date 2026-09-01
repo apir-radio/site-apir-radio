@@ -49,6 +49,11 @@ const board = [
 
 const hospitalJobs = [
   {
+    title: "Radiologue en CDI · Temps plein ou temps partiel (80 %)",
+    place: "Hôpital Saint-Camille · Bry-sur-Marne (94)",
+    href: "https://apir-radio.notion.site/3ced6c1400ba80bbb27bd44ed7a41a27",
+  },
+  {
     title: "CCA ou Assistant",
     place: "Ambroise-Paré · Boulogne-Billancourt",
     href: "https://apir-radio.notion.site/3b5d6c1400ba8075a7cfff4d8a061292",
