@@ -5,7 +5,7 @@ La commande de build régénère automatiquement les catalogues à partir de ces
 Pour mettre à jour l’aperçu sans reconstruire tout le site, lance npm run content:generate.
 
 Les archives des soirées sont regroupées dans [events.md](./events.md). Chaque
-ligne suit le format \`Mois · Spécialité — Intervenant, Établissement\` et est
+ligne suit le format `Mois · Spécialité — Intervenant, Établissement` et est
 transformée automatiquement en données structurées pour l’affichage.
 
 Le bloc entre les deux lignes `---` contient les champs de gestion :

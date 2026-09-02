@@ -27,6 +27,10 @@ le site après chaque modification de la branche `main`.
 Le fichier `public/CNAME` associe le déploiement au domaine officiel. La zone DNS
 du domaine est administrée depuis OVHcloud.
 
+Le site est autonome : il ne dépend plus de ChatGPT Sites, de Cloudflare ou de
+Notion. Les annonces et les archives sont gérées dans `content/`, puis intégrées
+au site lors de chaque build GitHub Pages.
+
 ## Modifier le site avec Codex
 
 Dans une nouvelle conversation Codex/Work, utiliser la consigne suivante :

@@ -7,6 +7,7 @@ const sourcePath = path.join(projectRoot, "content", "events.md");
 const outputPath = path.join(projectRoot, "app", "events.generated.ts");
 const source = fs.readFileSync(sourcePath, "utf8");
 const seasons = [];
+const seenYears = new Set();
 let currentSeason = null;
 
 for (const rawLine of source.split(/\r?\n/)) {
@@ -14,7 +15,12 @@ for (const rawLine of source.split(/\r?\n/)) {
   if (!line) continue;
 
   if (line.startsWith("## ")) {
-    currentSeason = { year: line.slice(3).trim(), events: [] };
+    const year = line.slice(3).trim();
+    if (seenYears.has(year)) {
+      throw new Error("Saison dupliquée dans content/events.md : " + year + ".");
+    }
+    seenYears.add(year);
+    currentSeason = { year, events: [] };
     seasons.push(currentSeason);
     continue;
   }
@@ -31,6 +37,9 @@ for (const rawLine of source.split(/\r?\n/)) {
   }
 
   const [, month, specialty, speaker, hospital] = match;
+  if (currentSeason.events.some((event) => event.label === value)) {
+    throw new Error("Événement dupliqué dans content/events.md : " + value + ".");
+  }
   currentSeason.events.push({ month, specialty, speaker, hospital, label: value });
 }
 

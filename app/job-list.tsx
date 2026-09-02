@@ -106,6 +106,7 @@ function RowContent({ job, index }: { job: HospitalJob; index: number }) {
 export function JobList({ jobs }: { jobs: HospitalJob[] }) {
   const [selectedJob, setSelectedJob] = useState<HospitalJob | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -115,6 +116,12 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
 
   function closeDialog() {
     dialogRef.current?.close();
+  }
+
+  function handleDialogClose() {
+    setSelectedJob(null);
+    triggerRef.current?.focus();
+    triggerRef.current = null;
   }
 
   return (
@@ -127,7 +134,12 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
             key={job.id}
             data-job-id={job.id}
             aria-haspopup="dialog"
-            onClick={() => setSelectedJob(job)}
+            aria-controls="job-dialog"
+            aria-expanded={selectedJob?.id === job.id}
+            onClick={(event) => {
+              triggerRef.current = event.currentTarget;
+              setSelectedJob(job);
+            }}
           >
             <RowContent job={job} index={index} />
           </button>
@@ -140,10 +152,11 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
 
       <dialog
         ref={dialogRef}
+        id="job-dialog"
         className="job-dialog"
         aria-labelledby="job-dialog-title"
         aria-describedby={selectedJob ? "job-dialog-description" : undefined}
-        onClose={() => setSelectedJob(null)}
+        onClose={handleDialogClose}
         onClick={(event) => {
           if (event.target === event.currentTarget) closeDialog();
         }}

@@ -3,11 +3,11 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const geistSans = localFont({
-  src: "../.vinext/fonts/geist-8ac0455e797f/geist-98bbbccb.woff2",
+  src: "./fonts/geist-8ac0455e797f/geist-98bbbccb.woff2",
   variable: "--font-geist-sans",
 });
 const geistMono = localFont({
-  src: "../.vinext/fonts/geist-mono-00e989178794/geist-mono-013b2f2f.woff2",
+  src: "./fonts/geist-mono-00e989178794/geist-mono-013b2f2f.woff2",
   variable: "--font-geist-mono",
 });
 
@@ -55,7 +55,6 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  other: { "codex-preview": "development" },
   icons: {
     icon: `${basePath}/favicon.png`,
     shortcut: `${basePath}/favicon.png`,

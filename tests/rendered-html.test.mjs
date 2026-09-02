@@ -2,47 +2,28 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
+const outputDirectory = new URL("../out/", import.meta.url);
 const helloAssoAdhesionUrl =
   "https://www.helloasso.com/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2025-2026";
 
-const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-const { default: worker } = await import(workerUrl.href);
+async function readOutput(relativePath) {
+  return fs.readFile(new URL(relativePath, outputDirectory), "utf8");
+}
 
-const env = {
-  ASSETS: {
-    fetch: async () => new Response("Not found", { status: 404 }),
-  },
-};
+async function outputExists(relativePath) {
+  try {
+    await fs.access(new URL(relativePath, outputDirectory));
+    return true;
+  } catch (error) {
+    if (error?.code === "ENOENT") return false;
+    throw error;
+  }
+}
 
-const ctx = {
-  waitUntil() {},
-  passThroughOnException() {},
-};
-
-test("renders development preview metadata", async () => {
-  const response = await worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    env,
-    ctx,
-  );
-
-  assert.equal(response.status, 200);
-  assert.match(
-    response.headers.get("content-type") ?? "",
-    /^text\/html\b/i,
-  );
-  assert.match(await response.text(), developmentPreviewMeta);
-});
-
-test("exposes useful search and social metadata", async () => {
-  const html = await fs.readFile(new URL("../out/index.html", import.meta.url), "utf8");
-  const robots = await fs.readFile(new URL("../out/robots.txt", import.meta.url), "utf8");
-  const sitemap = await fs.readFile(new URL("../out/sitemap.xml", import.meta.url), "utf8");
+test("publishes the canonical page with useful metadata", async () => {
+  const html = await readOutput("index.html");
+  const robots = await readOutput("robots.txt");
+  const sitemap = await readOutput("sitemap.xml");
 
   assert.match(html, /<title>APIR — Internes en radiologie d’Île-de-France<\/title>/i);
   assert.match(html, /name=["']description["'][^>]*offres de postes hospitaliers/i);
@@ -50,45 +31,31 @@ test("exposes useful search and social metadata", async () => {
   assert.match(html, /property=["']og:title["'][^>]*APIR — Internes en radiologie/i);
   assert.match(html, /name=["']twitter:card["'][^>]*summary/i);
   assert.match(html, /<script type=["']application\/ld\+json["']>[\s\S]*Organization[\s\S]*WebSite/i);
+  assert.match(html, /src=["'][^"']*apir-logo\.webp/i);
+  assert.match(html, /src=["'][^"']*la-medicale-logo\.webp/i);
+  assert.doesNotMatch(html, /codex-preview|chatgpt\.site|apir-radio\.notion\.site/i);
   assert.match(robots, /User-Agent:\s*\*/i);
   assert.match(robots, /Sitemap:\s*https:\/\/www\.apir-radio\.fr\/sitemap\.xml/i);
   assert.match(sitemap, /<loc>https:\/\/www\.apir-radio\.fr<\/loc>/i);
   assert.doesNotMatch(sitemap, /\/adhesion\/?<\/loc>/i);
 });
 
-test("serves the canonical hostname without redirecting", async () => {
-  const response = await worker.fetch(
-    new Request("https://www.apir-radio.fr/", {
-      headers: { accept: "text/html" },
-    }),
-    env,
-    ctx,
-  );
+test("keeps the accessible job announcements in the static page", async () => {
+  const html = await readOutput("index.html");
 
-  assert.equal(response.status, 200);
-  assert.equal(response.headers.get("location"), null);
-  const html = await response.text();
-  assert.match(html, /href=["']mailto:contact@apir-radio\.fr["'][^>]*>Nous contacter</i);
-  assert.match(html, /class=["'][^"']*contact-address[^"']*["'][^>]*>contact@apir-radio\.fr</i);
+  assert.match(html, /href=["']mailto:contact@apir-radio\.fr["'][^>]*>Nous contacter/i);
+  assert.match(html, /class=["'][^"']*contact-address[^"']*["'][^>]*>contact@apir-radio\.fr/i);
   assert.doesNotMatch(html, /apir\.radiologie@gmail\.com/i);
-  assert.match(
-    html,
-    /href=["']#mission["'][^>]*>L’association<\/a>.*href=["']#bureau["'][^>]*>Bureau<\/a>.*href=["']#soirees["'][^>]*>Soirées<\/a>.*href=["']#ressources["'][^>]*>Ressources<\/a>/is,
-  );
-  assert.doesNotMatch(html, />Parlons radio<\/a>|>Annonces<\/a>|href=["']\/annonces["']/i);
-  assert.ok(html.indexOf('id="mission"') < html.indexOf('id="bureau"'));
-  assert.ok(html.indexOf('id="bureau"') < html.indexOf('id="soirees"'));
-  assert.ok(html.indexOf('id="soirees"') < html.indexOf('id="ressources"'));
-  assert.match(html, /class=["'][^"']*jobs-section[^"']*["'][^>]*id=["']postes-hospitaliers["']/i);
+  assert.match(html, /class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["'][^>]*>Aller au contenu/i);
+  assert.match(html, /<main[^>]*id=["']main-content["'][^>]*tabindex=["']-1["']/i);
+  assert.match(html, /<h3[^>]*id=["']jobs-heading["'][^>]*>Offres hospitalières/i);
   assert.match(html, /class=["'][^"']*contact-section[^"']*["'][^>]*id=["']contact["'][^>]*>.*Contactez le bureau\./is);
   assert.match(html, /class=["'][^"']*mission-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*board-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*events-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*resources-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*resource-card social-card[^"']*["'][^>]*>.*Suivre la vie de l’association/is);
-  assert.doesNotMatch(html, /apir-radio\.notion\.site/i);
-  assert.match(html, /<button[^>]*data-job-id=["']saint-camille-radiologue-cdi["'][^>]*aria-haspopup=["']dialog["']/i);
-  assert.match(html, /<dialog[^>]*class=["'][^"']*job-dialog[^"']*["'][^>]*aria-labelledby=["']job-dialog-title["']/i);
+  assert.doesNotMatch(html, />Parlons radio<\/a>|>Annonces<\/a>|href=["']\/annonces["']/i);
   assert.match(html, /Radiologue en CDI.*Hôpital Saint-Camille.*Pourquoi nous rejoindre.*S\.Sillou@ch-bry\.org/is);
   assert.equal((html.match(/data-job-id=/g) ?? []).length, 9);
   assert.match(html, /Ambroise-Paré.*marie-france\.bellin@aphp\.fr/is);
@@ -103,63 +70,15 @@ test("serves the canonical hostname without redirecting", async () => {
   assert.doesNotMatch(html, new RegExp(`href=["']${helloAssoAdhesionUrl}`));
 });
 
-test("redirects the adhesion shortcut to HelloAsso", async () => {
-  const response = await worker.fetch(
-    new Request("https://www.apir-radio.fr/adhesion", {
-      headers: { accept: "text/html" },
-    }),
-    env,
-    ctx,
-  );
+test("keeps the adhesion shortcut as a noindex redirect", async () => {
+  const html = await readOutput("adhesion/index.html");
 
-  assert.equal(response.status, 200);
-  const html = await response.text();
   assert.match(html, /http-equiv=["']refresh["']/i);
   assert.match(html, /name=["']robots["'][^>]*noindex/i);
   assert.ok(html.includes(helloAssoAdhesionUrl));
   assert.match(html, /window\.location\.replace/);
 });
 
-test("removes the internal annonces page", async () => {
-  const response = await worker.fetch(
-    new Request("https://www.apir-radio.fr/annonces", {
-      headers: { accept: "text/html" },
-    }),
-    env,
-    ctx,
-  );
-
-  assert.equal(response.status, 404);
-  assert.doesNotMatch(await response.text(), /<iframe/i);
-});
-
-test("redirects only the legacy hostname while preserving path and query", async () => {
-  const response = await worker.fetch(
-    new Request("https://apir-radiologie.msq-bui.chatgpt.site/annonces?source=legacy&ref=nav"),
-    env,
-    ctx,
-  );
-
-  assert.equal(response.status, 308);
-  assert.equal(
-    response.headers.get("location"),
-    "https://www.apir-radio.fr/annonces?source=legacy&ref=nav",
-  );
-});
-
-test("serves the legacy hostname inside the embedded ChatGPT preview", async () => {
-  const response = await worker.fetch(
-    new Request("https://apir-radiologie.msq-bui.chatgpt.site/", {
-      headers: {
-        accept: "text/html",
-        "sec-fetch-dest": "iframe",
-      },
-    }),
-    env,
-    ctx,
-  );
-
-  assert.equal(response.status, 200);
-  assert.equal(response.headers.get("location"), null);
-  assert.match(await response.text(), developmentPreviewMeta);
+test("does not generate the retired annonces route", async () => {
+  assert.equal(await outputExists("annonces/index.html"), false);
 });

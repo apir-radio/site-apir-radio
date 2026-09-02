@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
         trailingSlash: true,
         basePath: pagesBasePath,
         images: { unoptimized: true },
-        typescript: { ignoreBuildErrors: true },
       }
     : {}),
 };

@@ -42,12 +42,17 @@ function parseFrontmatter(source, fileName) {
     throw new Error("Annonce invalide dans content/jobs/" + fileName + " : order doit être un entier positif.");
   }
 
+  const status = frontmatter.status || "active";
+  if (status !== "active" && status !== "archived") {
+    throw new Error("Annonce invalide dans content/jobs/" + fileName + " : status doit être active ou archived.");
+  }
+
   return {
     id: frontmatter.id,
     order,
     title: frontmatter.title,
     place: frontmatter.place,
-    status: frontmatter.status === "archived" ? "archived" : "active",
+    status,
     ...(frontmatter.publishedAt ? { publishedAt: frontmatter.publishedAt } : {}),
     ...(frontmatter.expiresAt ? { expiresAt: frontmatter.expiresAt } : {}),
     content: rawContent.trim(),
@@ -59,6 +64,19 @@ const jobs = fs
   .filter((fileName) => fileName.endsWith(".md"))
   .map((fileName) => parseFrontmatter(fs.readFileSync(path.join(jobsDirectory, fileName), "utf8"), fileName))
   .sort((a, b) => a.order - b.order);
+
+const ids = new Set();
+const orders = new Set();
+for (const job of jobs) {
+  if (ids.has(job.id)) {
+    throw new Error("Annonces dupliquées dans content/jobs : id " + job.id + ".");
+  }
+  if (orders.has(job.order)) {
+    throw new Error("Ordre d’affichage dupliqué dans content/jobs : " + job.order + ".");
+  }
+  ids.add(job.id);
+  orders.add(job.order);
+}
 
 const generated = [
   "// This file is generated from content/jobs/*.md. Do not edit it directly.",

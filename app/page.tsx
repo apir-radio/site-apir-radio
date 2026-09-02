@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
 import { MobileNav } from "./mobile-nav";
@@ -62,13 +63,17 @@ function Arrow() {
 }
 
 export default function Home() {
+  const currentSeason = archiveEvents[0];
+  const currentSeasonEventCount = currentSeason?.events.length ?? 0;
+
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <a className="skip-link" href="#main-content">Aller au contenu</a>
       <header className="site-header">
         <div className="header-identity">
           <a className="brand" href="#top" aria-label="APIR, retour en haut">
-            <img className="brand-logo" src={assetPath("/apir-logo.webp")} alt="" width="900" height="959" />
+            <Image className="brand-logo" src={assetPath("/apir-logo.webp")} alt="" width={900} height={959} sizes="2.5rem" />
             <span>APIR</span>
           </a>
           <a className="header-contact" href="mailto:contact@apir-radio.fr">Nous contacter</a>
@@ -96,20 +101,21 @@ export default function Home() {
         </div>
 
         <div className="hero-mark">
-          <img
+          <Image
             className="hero-logo"
             src={assetPath("/apir-logo.webp")}
             alt="Logo de l’Association Parisienne des Internes en Radiologie"
-            width="900"
-            height="959"
-            fetchPriority="high"
+            width={900}
+            height={959}
+            sizes="(max-width: 720px) 34vw, 28vw"
+            priority
           />
         </div>
 
         <div className="hero-stats" aria-label="APIR en chiffres">
           <div><strong>1998</strong><span>Fondation de l’association</span></div>
           <div><strong>8</strong><span>Internes au bureau</span></div>
-          <div><strong>6</strong><span>Soirées organisées en 2025–2026</span></div>
+          <div><strong>{currentSeasonEventCount}</strong><span>Soirées organisées en {currentSeason?.year ?? "cours"}</span></div>
         </div>
       </section>
 
@@ -226,12 +232,12 @@ export default function Home() {
 
       </section>
 
-      <section className="section jobs-section" id="postes-hospitaliers">
+      <section className="section jobs-section" id="postes-hospitaliers" aria-labelledby="jobs-heading">
         <div className="jobs-panel">
           <div className="jobs-heading">
             <div>
               <p className="card-tag">Annonces APIR</p>
-              <h3>Offres hospitalières</h3>
+              <h3 id="jobs-heading">Offres hospitalières</h3>
             </div>
             <p className="jobs-note">Cliquez sur une offre pour consulter les détails.</p>
           </div>
@@ -262,7 +268,7 @@ export default function Home() {
 
       <footer>
         <a className="brand footer-brand" href="#top" aria-label="APIR, retour en haut">
-          <img className="brand-logo" src={assetPath("/apir-logo.webp")} alt="" width="900" height="959" />
+          <Image className="brand-logo" src={assetPath("/apir-logo.webp")} alt="" width={900} height={959} sizes="2.5rem" />
           <span>APIR</span>
         </a>
         <p>
@@ -278,11 +284,12 @@ export default function Home() {
         </div>
         <div className="footer-partner">
           <span>Partenaire</span>
-          <img
-            src={assetPath("/la-medicale-logo.png")}
+          <Image
+            src={assetPath("/la-medicale-logo.webp")}
             alt="La Médicale par Generali"
-            width="2048"
-            height="661"
+            width={2048}
+            height={661}
+            sizes="(max-width: 720px) 11rem, 13rem"
             loading="lazy"
             decoding="async"
           />
