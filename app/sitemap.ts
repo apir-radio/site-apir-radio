@@ -11,10 +11,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
-    {
-      url: `${siteUrl}/adhesion/`,
-      changeFrequency: "yearly",
-      priority: 0.6,
-    },
   ];
 }

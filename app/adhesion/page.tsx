@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Adhésion APIR — Redirection vers HelloAsso",
   description: "Adhérez à l’APIR sur HelloAsso.",
   alternates: { canonical: "/adhesion" },
+  robots: { index: false, follow: false },
 };
 
 export default function AdhesionRedirect() {

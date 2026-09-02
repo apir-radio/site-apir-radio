@@ -1,44 +1,7 @@
 import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
 import { MobileNav } from "./mobile-nav";
-
-const archiveEvents = [
-  {
-    year: "2025 — 2026",
-    events: [
-      "Mai · Imagerie tête et cou — Alexandre Faure, Hôpital Tenon",
-      "Avril · Imagerie gynécologique — Benjamin Fedida, Hôpital Tenon",
-      "Mars · Imagerie ostéo-articulaire — Teodor Grand, Hôpital Européen Georges-Pompidou",
-      "Février · Imagerie uro-néphrologique — Chloé Gallego, Hôpital Saint-Joseph",
-      "Janvier · Imagerie digestive — Mathilde Wagner, Hôpital Saint-Antoine",
-      "Novembre · Imagerie thoracique — Stéphane Tran Ba, Hôpital Avicenne",
-    ],
-  },
-  {
-    year: "2024 — 2025",
-    events: [
-      "Mai · Imagerie ORL — Guillaume Poillon, Fondation Adolphe de Rothschild",
-      "Avril · Imagerie ostéo-articulaire — Maxime Lacroix, HEGP",
-      "Mars · Imagerie gynécologique — Benjamin Fedida, Hôpital Tenon",
-      "Février · Imagerie thoracique — Samia Boussouar, Pitié-Salpêtrière",
-      "Janvier · Imagerie digestive — Aurélien Saltel-Fulero, HEGP",
-      "Décembre · Imagerie neurologique — Matthias Babin, Hôpital Bicêtre",
-      "Novembre · Imagerie uro-néphrologique — Michel Dupuis, Pitié-Salpêtrière",
-    ],
-  },
-  {
-    year: "2023 — 2024",
-    events: [
-      "Juin · Imagerie digestive — Aurélien Saltel-Fulero, HEGP",
-      "Mai · Radiologie interventionnelle — Lambros Tselikas, Gustave-Roussy",
-      "Avril · Imagerie tête et cou — Guillaume Poillon, Fondation Rothschild",
-      "Mars · Imagerie cardio-vasculaire — Alban Redheuil, Pitié-Salpêtrière",
-      "Février · Imagerie uro-néphrologique — Emmanuel Arama, Hôpital Béclère",
-      "Janvier · Imagerie ostéo-articulaire — Raphaël Campagna, Hôpital Cochin",
-      "Novembre · Imagerie thoracique — Guillaume Chassagnon, Hôpital Cochin",
-    ],
-  },
-];
+import { archiveEvents } from "./events";
 
 const board = [
   { name: "David Toubert", role: "Président", initials: "DT" },
@@ -207,7 +170,7 @@ export default function Home() {
           {archiveEvents.map((season) => (
             <details key={season.year}>
               <summary><span>{season.year}</span><span className="plus">+</span></summary>
-              <ul>{season.events.map((event) => <li key={event}>{event}</li>)}</ul>
+              <ul>{season.events.map((event) => <li key={event.label}>{event.label}</li>)}</ul>
             </details>
           ))}
         </div>
@@ -320,6 +283,8 @@ export default function Home() {
             alt="La Médicale par Generali"
             width="2048"
             height="661"
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </footer>

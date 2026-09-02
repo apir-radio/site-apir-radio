@@ -142,6 +142,7 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
         ref={dialogRef}
         className="job-dialog"
         aria-labelledby="job-dialog-title"
+        aria-describedby={selectedJob ? "job-dialog-description" : undefined}
         onClose={() => setSelectedJob(null)}
         onClick={(event) => {
           if (event.target === event.currentTarget) closeDialog();
@@ -149,6 +150,9 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
       >
         {selectedJob?.content && (
           <article className="job-dialog-shell">
+            <p id="job-dialog-description" className="visually-hidden">
+              Informations détaillées, conditions et coordonnées de candidature.
+            </p>
             <header className="job-dialog-header">
               <span>Offre hospitalière</span>
               <button type="button" onClick={closeDialog} aria-label="Fermer l’annonce">×</button>

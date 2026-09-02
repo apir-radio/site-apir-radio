@@ -53,7 +53,7 @@ test("exposes useful search and social metadata", async () => {
   assert.match(robots, /User-Agent:\s*\*/i);
   assert.match(robots, /Sitemap:\s*https:\/\/www\.apir-radio\.fr\/sitemap\.xml/i);
   assert.match(sitemap, /<loc>https:\/\/www\.apir-radio\.fr<\/loc>/i);
-  assert.match(sitemap, /<loc>https:\/\/www\.apir-radio\.fr\/adhesion\/?<\/loc>/i);
+  assert.doesNotMatch(sitemap, /\/adhesion\/?<\/loc>/i);
 });
 
 test("serves the canonical hostname without redirecting", async () => {
@@ -115,6 +115,7 @@ test("redirects the adhesion shortcut to HelloAsso", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /http-equiv=["']refresh["']/i);
+  assert.match(html, /name=["']robots["'][^>]*noindex/i);
   assert.ok(html.includes(helloAssoAdhesionUrl));
   assert.match(html, /window\.location\.replace/);
 });
