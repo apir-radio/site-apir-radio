@@ -4,8 +4,10 @@ Chaque fichier Markdown du dossier `content/jobs` correspond à une annonce affi
 La commande de build régénère automatiquement les catalogues à partir de ces fichiers.
 Pour mettre à jour l’aperçu sans reconstruire tout le site, lance npm run content:generate.
 
-Les archives des soirées sont regroupées dans [events.md](./events.md). Chaque
-ligne suit le format `Mois · Spécialité — Intervenant, Établissement` et est
+Les soirées sont regroupées dans [events.md](./events.md). La section `À venir`
+contient au maximum une soirée courante (date, thème, intervenant, lieu et lien
+d’inscription). Les sections par saison regroupent les archives ; chaque ligne
+archivée suit le format `Mois · Spécialité — Intervenant, Établissement` et est
 transformée automatiquement en données structurées pour l’affichage.
 
 La composition du bureau et la coordination du DES sont gérées dans

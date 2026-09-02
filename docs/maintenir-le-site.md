@@ -8,7 +8,9 @@ Ce guide reste dans le dépôt GitHub : il n’est pas publié sur le site.
   Copier la structure de `content/job-template.md` et conserver un `id` égal au
   nom du fichier.
 - Bureau : modifier `content/board.md`.
-- Archives des soirées : modifier `content/events.md`.
+- Soirée à venir et archives : modifier `content/events.md`. Après une soirée,
+  retirer sa section `À venir`, ajouter la ligne correspondante à la saison
+  d’archives, puis renseigner la prochaine soirée lorsqu’elle est connue.
 
 Ne pas modifier directement `app/*.generated.ts` : ces fichiers sont régénérés
 à partir de `content/`.
