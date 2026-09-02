@@ -163,6 +163,10 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
 
   function closeDialog() {
     if (typeof window !== "undefined" && pushedHashRef.current) {
+      // Mark the close as history-driven before traversing. The popstate
+      // callback can run after the dialog's close event, so setting this
+      // first prevents the close handler from going back a second time.
+      syncingFromHistoryRef.current = true;
       window.history.back();
       return;
     }
