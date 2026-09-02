@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const helloAssoUrl =
-  "https://www.helloasso.com/beta/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2026-2027";
+  "https://www.helloasso.com/beta/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir";
 
 export const metadata: Metadata = {
   title: "Adhésion APIR — Redirection vers HelloAsso",
