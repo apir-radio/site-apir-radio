@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import fs from "node:fs/promises";
 import test from "node:test";
 
 const developmentPreviewMeta =
@@ -36,6 +37,23 @@ test("renders development preview metadata", async () => {
     /^text\/html\b/i,
   );
   assert.match(await response.text(), developmentPreviewMeta);
+});
+
+test("exposes useful search and social metadata", async () => {
+  const html = await fs.readFile(new URL("../out/index.html", import.meta.url), "utf8");
+  const robots = await fs.readFile(new URL("../out/robots.txt", import.meta.url), "utf8");
+  const sitemap = await fs.readFile(new URL("../out/sitemap.xml", import.meta.url), "utf8");
+
+  assert.match(html, /<title>APIR — Internes en radiologie d’Île-de-France<\/title>/i);
+  assert.match(html, /name=["']description["'][^>]*offres de postes hospitaliers/i);
+  assert.match(html, /name=["']keywords["'][^>]*internes en radiologie/i);
+  assert.match(html, /property=["']og:title["'][^>]*APIR — Internes en radiologie/i);
+  assert.match(html, /name=["']twitter:card["'][^>]*summary/i);
+  assert.match(html, /<script type=["']application\/ld\+json["']>[\s\S]*Organization[\s\S]*WebSite/i);
+  assert.match(robots, /User-Agent:\s*\*/i);
+  assert.match(robots, /Sitemap:\s*https:\/\/www\.apir-radio\.fr\/sitemap\.xml/i);
+  assert.match(sitemap, /<loc>https:\/\/www\.apir-radio\.fr<\/loc>/i);
+  assert.match(sitemap, /<loc>https:\/\/www\.apir-radio\.fr\/adhesion\/?<\/loc>/i);
 });
 
 test("serves the canonical hostname without redirecting", async () => {

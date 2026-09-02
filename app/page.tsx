@@ -53,6 +53,42 @@ const board = [
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const adhesionPath = `${basePath}/adhesion`;
+const siteUrl = "https://www.apir-radio.fr";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Association Parisienne des Internes en Radiologie",
+      alternateName: "APIR",
+      url: siteUrl,
+      logo: `${siteUrl}/apir-logo.webp`,
+      description: "Association loi 1901 qui organise des soirées de formation et rassemble les internes en radiologie d’Île-de-France.",
+      email: "contact@apir-radio.fr",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "83 boulevard de l’Hôpital",
+        postalCode: "75013",
+        addressLocality: "Paris",
+        addressCountry: "FR",
+      },
+      sameAs: [
+        "https://www.instagram.com/apir.radiologie",
+        "https://www.facebook.com/groups/apir.radio",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: "APIR — Internes en radiologie d’Île-de-France",
+      inLanguage: "fr-FR",
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+  ],
+};
 
 function assetPath(path: string) {
   return `${basePath}${path}`;
@@ -65,6 +101,7 @@ function Arrow() {
 export default function Home() {
   return (
     <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <header className="site-header">
         <div className="header-identity">
           <a className="brand" href="#top" aria-label="APIR, retour en haut">
