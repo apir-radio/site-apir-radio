@@ -21,3 +21,7 @@ Le texte qui suit est du Markdown simple : paragraphes, titres de niveau 2 ou 3,
 
 Pour ajouter une offre, crée un nouveau fichier .md dans content/jobs, renseigne les champs ci-dessus et place le texte de l’annonce sous le second séparateur ---.
 Pour retirer une offre sans perdre son contenu, passe simplement status à archived.
+
+Un modèle prêt à copier est disponible dans [job-template.md](./job-template.md).
+Après une modification, lance `npm run content:check` pour vérifier que les
+fichiers générés sont à jour, puis `npm run content:generate` si nécessaire.

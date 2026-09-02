@@ -31,6 +31,21 @@ Le site est autonome : il ne dépend plus de ChatGPT Sites, de Cloudflare ou de
 Notion. Les annonces et les archives sont gérées dans `content/`, puis intégrées
 au site lors de chaque build GitHub Pages.
 
+## Contrôles automatiques
+
+- `npm run content:check` vérifie que les données TypeScript générées sont bien
+  synchronisées avec les fichiers Markdown éditoriaux.
+- `npm run links:check` cherche les liens externes cassés dans le dossier `out`
+  après un build. Le contrôle est relancé chaque semaine par
+  `.github/workflows/links.yml` et reste informatif : il ne bloque pas la
+  publication.
+- `.github/workflows/lighthouse.yml` lance chaque semaine un audit Lighthouse
+  de performance, accessibilité et SEO. Les seuils sont des avertissements, pas
+  un garde-barrière de déploiement.
+
+Les mises à jour Dependabot mineures et correctives sont regroupées dans les
+fichiers `.github/dependabot.yml` afin de réduire le nombre de pull requests.
+
 ## Modifier le site avec Codex
 
 Dans une nouvelle conversation Codex/Work, utiliser la consigne suivante :

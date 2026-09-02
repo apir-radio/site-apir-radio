@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(projectRoot, "content", "events.md");
 const outputPath = path.join(projectRoot, "app", "events.generated.ts");
+const checkMode = process.argv.includes("--check");
 const source = fs.readFileSync(sourcePath, "utf8");
 const seasons = [];
 const seenYears = new Set();
@@ -57,5 +58,13 @@ const generated = [
   "",
 ].join("\n");
 
-fs.writeFileSync(outputPath, generated, "utf8");
-console.log("Generated " + seasons.reduce((total, season) => total + season.events.length, 0) + " archived events in app/events.generated.ts");
+if (checkMode) {
+  const current = fs.readFileSync(outputPath, "utf8");
+  if (current !== generated) {
+    throw new Error("app/events.generated.ts ne correspond pas à content/events.md. Lancez npm run content:generate.");
+  }
+  console.log("Checked " + seasons.reduce((total, season) => total + season.events.length, 0) + " archived events in app/events.generated.ts");
+} else {
+  fs.writeFileSync(outputPath, generated, "utf8");
+  console.log("Generated " + seasons.reduce((total, season) => total + season.events.length, 0) + " archived events in app/events.generated.ts");
+}

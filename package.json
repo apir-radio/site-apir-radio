@@ -10,6 +10,8 @@
     "jobs:generate": "node scripts/generate-jobs.mjs",
     "events:generate": "node scripts/generate-events.mjs",
     "content:generate": "npm run jobs:generate && npm run events:generate",
+    "content:check": "node scripts/generate-jobs.mjs --check && node scripts/generate-events.mjs --check",
+    "links:check": "node scripts/check-links.mjs out",
     "build": "npm run build:pages",
     "build:pages": "npm run content:generate && GITHUB_PAGES=true next build --webpack",
     "test": "npm run build:pages && node --test tests/rendered-html.test.mjs",

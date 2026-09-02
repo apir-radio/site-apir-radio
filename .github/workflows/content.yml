@@ -1,0 +1,33 @@
+# Vérifie que les catalogues générés correspondent aux fichiers Markdown.
+name: Vérifier le contenu éditorial
+
+on:
+  pull_request:
+    paths:
+      - "content/**"
+      - "scripts/generate-*.mjs"
+      - "app/jobs.generated.ts"
+      - "app/events.generated.ts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérifier les annonces et les archives
+        run: npm run content:check

@@ -1,0 +1,33 @@
+# Contrôle périodique des liens externes, sans bloquer une publication.
+name: Vérifier les liens externes
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire le site
+        run: npm run build:pages
+
+      - name: Vérifier les liens
+        run: node scripts/check-links.mjs out

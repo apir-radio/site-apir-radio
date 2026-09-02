@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const jobsDirectory = path.join(projectRoot, "content", "jobs");
 const outputPath = path.join(projectRoot, "app", "jobs.generated.ts");
+const checkMode = process.argv.includes("--check");
 
 function parseFrontmatter(source, fileName) {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
@@ -100,5 +101,13 @@ const generated = [
   "",
 ].join("\n");
 
-fs.writeFileSync(outputPath, generated, "utf8");
-console.log("Generated " + jobs.length + " job announcements in app/jobs.generated.ts");
+if (checkMode) {
+  const current = fs.readFileSync(outputPath, "utf8");
+  if (current !== generated) {
+    throw new Error("app/jobs.generated.ts ne correspond pas aux sources content/jobs/*.md. Lancez npm run content:generate.");
+  }
+  console.log("Checked " + jobs.length + " job announcements in app/jobs.generated.ts");
+} else {
+  fs.writeFileSync(outputPath, generated, "utf8");
+  console.log("Generated " + jobs.length + " job announcements in app/jobs.generated.ts");
+}
