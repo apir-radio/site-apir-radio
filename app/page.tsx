@@ -1,5 +1,6 @@
 import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
+import { MobileNav } from "./mobile-nav";
 
 const archiveEvents = [
   {
@@ -72,6 +73,7 @@ export default function Home() {
           </a>
           <a className="header-contact" href="mailto:contact@apir-radio.fr">Nous contacter</a>
         </div>
+        <MobileNav />
         <nav aria-label="Navigation principale">
           <a href="#mission">L’association</a>
           <a href="#bureau">Bureau</a>
