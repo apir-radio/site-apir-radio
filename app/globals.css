@@ -259,9 +259,11 @@ nav a.is-active::after { content: ""; position: absolute; right: 0; bottom: .28r
 .event-heading { display: grid; grid-template-columns: 1fr minmax(20rem, .58fr); gap: 6vw; align-items: end; }
 .status-pill { width: fit-content; padding: .55rem .8rem; display: flex; align-items: center; gap: .55rem; margin: 0 0 1.4rem; border: 1px solid rgba(27,45,83,.2); border-radius: 99rem; color: var(--logo-navy); background: rgba(255,255,255,.55); font-family: var(--font-geist-mono), monospace; font-size: .67rem; letter-spacing: .06em; text-transform: uppercase; }
 .status-pill span { width: .45rem; height: .45rem; border-radius: 50%; background: var(--logo-navy); box-shadow: 0 0 0 .22rem rgba(27,45,83,.1); }
-.event-heading h2 { margin: 0; font-size: clamp(4rem, 8vw, 8rem); line-height: .84; letter-spacing: -.075em; font-weight: 560; }
+.event-heading h2 { margin: 0; font-size: clamp(3.25rem, 5.8vw, 6rem); line-height: .94; letter-spacing: -.065em; font-weight: 590; }
 .next-card { padding: 2rem; border: 1px solid var(--line); border-radius: 1.4rem; background: rgba(255,255,255,.58); backdrop-filter: blur(20px); }
 .next-card p { margin: 0 0 .6rem; font-size: 1.35rem; letter-spacing: -.03em; }
+.next-card .next-date { color: var(--logo-navy); font-family: var(--font-geist-mono), monospace; font-size: .72rem; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; }
+.next-card strong { display: block; margin-bottom: .6rem; font-size: 1.35rem; line-height: 1.15; letter-spacing: -.03em; font-weight: 650; }
 .next-card > span { display: block; color: rgba(12,25,51,.7); font-size: .9rem; line-height: 1.55; }
 .next-card a { min-height: 2.75rem; margin-top: 2.1rem; display: flex; align-items: center; justify-content: space-between; color: var(--logo-navy); font-size: .84rem; font-weight: 680; }
 .archive-wrap { margin-top: clamp(6rem, 10vw, 10rem); }
@@ -332,7 +334,7 @@ details li { padding: .7rem 0 .7rem 2rem; color: rgba(12,25,51,.72); font-size: 
 .job-dialog-header button:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
 .job-dialog-scroll { padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) 5rem; overflow-y: auto; overscroll-behavior: contain; }
 .job-dialog-place { margin: 0 0 1rem; color: var(--logo-navy); font-family: var(--font-geist-mono), monospace; font-size: .67rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
-.job-dialog h2 { max-width: 36rem; margin: 0; font-size: clamp(2.7rem, 6vw, 4.8rem); line-height: .98; letter-spacing: -.06em; font-weight: 600; }
+.job-dialog h2 { max-width: 36rem; margin: 0; font-size: clamp(2.25rem, 4.6vw, 3.6rem); line-height: 1.02; letter-spacing: -.05em; font-weight: 600; }
 .job-description { max-width: 38rem; margin-top: 3rem; color: rgba(12,25,51,.78); }
 .job-description p { margin: 0 0 1.2rem; line-height: 1.72; }
 .job-description p:first-child { color: var(--ink); font-size: 1.16rem; line-height: 1.55; }
@@ -457,7 +459,7 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
   .section { padding: 4.75rem 1.25rem; }
   .section-kicker { margin-bottom: 3.4rem; }
   .mission-grid h2, .resources-heading h2, .board-heading h2 { font-size: 3.5rem; }
-  .event-heading h2 { font-size: 4.2rem; }
+  .event-heading h2 { font-size: 3.5rem; }
   details li { padding-left: 1rem; line-height: 1.55; }
   .resource-grid, .board-grid { grid-template-columns: 1fr; }
   .resource-card { min-height: 22rem; }
@@ -471,7 +473,7 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
   .job-dialog-header { min-height: 4.25rem; padding: .75rem 1rem .75rem 1.25rem; }
   .job-dialog-header button { width: 2.7rem; height: 2.7rem; }
   .job-dialog-scroll { padding: 1.5rem 1.25rem calc(2.5rem + env(safe-area-inset-bottom)); }
-  .job-dialog h2 { font-size: clamp(2.35rem, 10vw, 3.2rem); }
+  .job-dialog h2 { font-size: clamp(2.05rem, 8vw, 2.8rem); }
   .job-description { margin-top: 2rem; }
   .coordination { grid-template-columns: 1fr; gap: 1.5rem; }
   .contact-section { padding: 5.5rem 1.25rem; gap: 3rem; }

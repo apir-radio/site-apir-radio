@@ -1,5 +1,14 @@
 # Archives des soirées
 
+## À venir
+
+- Date : 16 septembre 2026
+- Thème : Imagerie neurologique
+- Intervenant : Giacomo Lucchi
+- Établissement de l’intervenant : Hôpital Bicêtre
+- Lieu : l’hôpital Saint-Joseph
+- Inscriptions : https://forms.gle/aAKgJAYqwx9rAGbo6
+
 ## 2025 — 2026
 
 - Mai · Imagerie tête et cou — Alexandre Faure, Hôpital Tenon

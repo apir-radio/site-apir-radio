@@ -70,6 +70,9 @@ test("keeps the accessible job announcements in the static page", async () => {
   assert.doesNotMatch(html, /timeline-heading|class=["'][^"']*event-row/i);
   assert.match(html, /Archives des soirées.*2025 — 2026/is);
   assert.match(html, /class=["']archive-count["'][^>]*>6[\s\S]*?soirée/is);
+  assert.match(html, /Rendez-vous[\s\S]*?16 septembre 2026[\s\S]*?l’hôpital Saint-Joseph[\s\S]*?\./i);
+  assert.match(html, /Imagerie neurologique[\s\S]*?Avec[\s\S]*?Giacomo Lucchi[\s\S]*?Hôpital Bicêtre[\s\S]*?S’inscrire à la soirée/i);
+  assert.match(html, /href=["']https:\/\/forms\.gle\/aAKgJAYqwx9rAGbo6["']/i);
   assert.equal((html.match(/href=["']\/adhesion["']/g) ?? []).length, 2);
   assert.doesNotMatch(html, new RegExp(`href=["']${helloAssoAdhesionUrl}`));
 });

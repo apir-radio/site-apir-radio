@@ -4,7 +4,7 @@ import { board } from "./board";
 import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
 import { SiteNav } from "./site-nav";
-import { archiveEvents } from "./events";
+import { archiveEvents, upcomingEvent } from "./events";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const adhesionPath = `${basePath}/adhesion`;
@@ -147,12 +147,22 @@ export default function Home() {
         <div className="event-heading">
           <div>
             <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>On se retrouve<br />à la rentrée.</h2>
+            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEvent.date} à {upcomingEvent.venue}.</> : <>On se retrouve<br />à la rentrée.</>}</h2>
           </div>
           <div className="next-card">
-            <p>Le programme sera annoncé prochainement.</p>
-            <span>La date, le thème et les inscriptions seront publiés sur Instagram.</span>
-            <a href="https://www.instagram.com/apir.radiologie" target="_blank" rel="noreferrer">@apir.radiologie <Arrow /></a>
+            {upcomingEvent ? (
+              <>
+                <strong>{upcomingEvent.specialty}</strong>
+                <span>Avec {upcomingEvent.speaker}, {upcomingEvent.speakerHospital}.</span>
+                <a href={upcomingEvent.registrationUrl} target="_blank" rel="noreferrer">S’inscrire à la soirée <Arrow /></a>
+              </>
+            ) : (
+              <>
+                <p>Le programme sera annoncé prochainement.</p>
+                <span>La date, le thème et les inscriptions seront publiés sur Instagram.</span>
+                <a href="https://www.instagram.com/apir.radiologie" target="_blank" rel="noreferrer">@apir.radiologie <Arrow /></a>
+              </>
+            )}
           </div>
         </div>
 

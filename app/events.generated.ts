@@ -3,6 +3,17 @@ export type ArchiveEvent = { month: string; specialty: string; speaker: string; 
 
 export type ArchiveSeason = { year: string; events: ArchiveEvent[] };
 
+export type UpcomingEvent = { date: string; specialty: string; speaker: string; speakerHospital: string; venue: string; registrationUrl: string };
+
+export const upcomingEvent: UpcomingEvent | null = {
+  "date": "16 septembre 2026",
+  "specialty": "Imagerie neurologique",
+  "speaker": "Giacomo Lucchi",
+  "speakerHospital": "Hôpital Bicêtre",
+  "venue": "l’hôpital Saint-Joseph",
+  "registrationUrl": "https://forms.gle/aAKgJAYqwx9rAGbo6"
+};
+
 export const archiveEvents: ArchiveSeason[] = [
   {
     "year": "2025 — 2026",
