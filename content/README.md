@@ -1,4 +1,19 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{D@0IRÆ y¶¬{®vçºh¢ø¥zŠ.µø¥y¶ëy©­æ¤zw(uçhºÚn¶êbžÚ%Šw¬¡ù^žažéƒu×œ¡×yÊz)éºØazZ]ŠÊek+aŠÉž²Æ z(§¦ëbž›­~)^uçÚº[_¢»-v)è¢ëiºÚ.¶›­~)^uçÚº[_¢»-v‹­
+# Annonces hospitaliÃ¨res
+
+Chaque fichier Markdown de ce dossier correspond Ã  une annonce affichÃ©e sur le site.
+La commande de build rÃ©gÃ©nÃ¨re automatiquement le catalogue Ã  partir de ces fichiers.
+Pour mettre Ã  jour lâ€™aperÃ§u sans reconstruire tout le site, lance npm run jobs:generate.
+
+Le bloc entre les deux lignes `---` contient les champs de gestion :
+
+- `id` : identifiant stable de lâ€™annonce (le nom du fichier doit lui correspondre)
+- `order` : ordre dâ€™affichage
+- `title` : intitulÃ© court affichÃ© dans la liste
+- `place` : Ã©tablissement et ville
+- `status` : `active` ou `archived`
+- `publishedAt` et `expiresAt` : champs optionnels pour le suivi
+
+Le texte qui suit est du Markdown simple : paragraphes, titres de niveau 2 ou 3, listes, gras et liens e-mail/tÃ©lÃ©phone sont pris en charge.
+
+Pour ajouter une offre, crÃ©e un nouveau fichier .md dans content/jobs, renseigne les champs ci-dessus et place le texte de lâ€™annonce sous le second sÃ©parateur ---.
+Pour retirer une offre sans perdre son contenu, passe simplement status Ã  archived.

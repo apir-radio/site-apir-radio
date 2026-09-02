@@ -1,4 +1,43 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìþwœ‘êâ™¨®'©yØš¶¸ª¹éRÆ y¶¬{®vçºh¢ø¥zŠ.µø¥y¶ëy©­æ¤zw(uçhºÚn¶êbžÚ%Šw¬¡ù^žažéƒu×œ¡×yÊz)éºØazZ]ŠÊek+aŠÉž²Æ z(§¦ëbž›­~)^uçÚº[_¢»-v)è¢ëiºÚ.¶›­~)^uçÚº[_¢»-v‹­
+---
+id: "necker-imagerie-pediatrique"
+order: 4
+title: "Assistant Â· Imagerie pÃ©diatrique"
+place: "Necker Â· Paris 15e"
+status: "active"
+---
+
+## ActivitÃ© du service
+
+- Imagerie pÃ©diatrique et antÃ©natale exclusive, couvrant toutes les spÃ©cialitÃ©s.
+- Vacations spÃ©cialisÃ©es et staffs en imagerie neurologique, ORL, osseuse, thoracique, viscÃ©rale, rÃ©nale, cardiaque et antÃ©natale.
+- Radiologie interventionnelle cÃ©rÃ©brale et pÃ©riphÃ©rique.
+
+## ActivitÃ© de lâ€™assistant spÃ©cialiste
+
+- Selon le souhait du candidat, possibilitÃ© dâ€™organiser lâ€™activitÃ© de faÃ§on gÃ©nÃ©raliste ou surspÃ©cialisÃ©e. Participation possible Ã  lâ€™activitÃ© interventionnelle.
+- Vacations dâ€™IRM, scanner, Ã©chographie et opacifications. Staffs selon les spÃ©cialitÃ©s dâ€™intÃ©rÃªt.
+
+## PrÃ©requis
+
+- Une spÃ©cialisation prÃ©alable en radiopÃ©diatrie nâ€™est pas indispensable : la formation radiopÃ©diatrique sera assurÃ©e dans le service.
+- Le poste sâ€™adresse aux internes de radiologie en fin dâ€™internat ou Ã  dâ€™anciens assistants ou CCA souhaitant complÃ©ter leur formation.
+- Le contrat est dâ€™une durÃ©e dâ€™un an, renouvelable.
+
+## Plateau technique
+
+- 3,5 IRM, dont une 3 T
+- 1 scanner Ã  comptage photonique
+- Ã‰chographes rÃ©cents
+- Salle dÃ©diÃ©e Ã  la radiologie interventionnelle
+
+## Ã‰quipe
+
+- 1 PU-PH cheffe de service et 1 MCU-PH
+- 5 PH temps plein et 3 PH temps partiel
+- 4 CCA et 2 assistants spÃ©cialistes
+- 5 internes DES, 2 FFI et 1 inter-CHU
+
+## Candidature et renseignements
+
+[nathalie.boddaert@aphp.fr](mailto:nathalie.boddaert@aphp.fr)
+

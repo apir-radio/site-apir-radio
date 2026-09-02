@@ -1,4 +1,51 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìþ7šž÷«v'«Šf z¸ž}é¦zgT±¨m«ë€Ý…¹îš(§~)^¢‹­~)^mºÞjFëy©ÊyÚ.¶›­º˜§¶‰bë(~W§‚Øgº`Ýuç(uç^r‡^Šzn¶^–—b²™ZÊØb²g¬±¨Š)éºØ§¦ë_ŠWyö®–×è®Ë]Šz(ºÚn¶‹­¦ë_ŠWyö®–×è®Ë]¢ë
+---
+id: "jean-verdier-imagerie-femme"
+order: 3
+title: "CCA Â· Imagerie de la femme"
+place: "Jean-Verdier Â· Bondy"
+status: "active"
+---
+
+**Prise de poste : novembre 2026**
+
+Le service dâ€™Imagerie Diagnostique et Interventionnelle (SIDIT) des HÃ´pitaux Universitaires Paris Seine-Saint-Denis recrute un **CCA orientÃ© imagerie de la femme (sein et pelvis)**, avec possibilitÃ© dâ€™activitÃ© complÃ©mentaire en **imagerie ostÃ©o-articulaire**.
+
+## Pourquoi nous rejoindre ?
+
+- ActivitÃ© spÃ©cialisÃ©e Ã  fort volume
+- Formation complÃ¨te en sÃ©nologie diagnostique et interventionnelle
+- Plateau technique rÃ©cent et complet
+- PossibilitÃ© dâ€™activitÃ© libÃ©rale intrahospitaliÃ¨re
+
+## Plateau technique
+
+- IRM rÃ©cente
+- Scanner renouvelÃ© prochainement
+- Mammographe numÃ©rique avec tomosynthÃ¨se et angiomammographie
+
+## ActivitÃ© en sÃ©nologie et gynÃ©cologie
+
+- Biopsies mammaires (microbiopsies, macrobiopsies) et ganglionnaires
+- RepÃ©rages prÃ©opÃ©ratoires (harpons et repÃ¨res Ã©lectromagnÃ©tiques)
+- Vacations hebdomadaires Â« **Urgences seins** Â» dÃ©diÃ©es au diagnostic rapide du cancer du sein, en collaboration avec la gynÃ©cologie et lâ€™anatomopathologie
+- IRM mammaire et IRM pelvienne
+- HystÃ©rosalpingographies, avec possibilitÃ© de formation aux cathÃ©tÃ©rismes sÃ©lectifs et repermÃ©abilisations tubaires
+
+## ActivitÃ© ostÃ©o-articulaire
+
+- Imagerie multimodale (Ã©chographie, arthrographie, scanner, IRM)
+- Infiltrations standards et PRP sous radiographie, Ã©chographie ou scanner
+- Collaboration Ã©troite avec la mÃ©decine du sport
+
+Le service propose une activitÃ© polyvalente adulte et pÃ©diatrique, avec une expertise reconnue en **imagerie des cancers fÃ©minins** et en **imagerie ostÃ©o-articulaire**.
+
+Les praticiens Ã©ligibles, y compris les CCA, peuvent, sâ€™ils le souhaitent, exercer une **activitÃ© libÃ©rale intrahospitaliÃ¨re**.
+
+## Contacts
+
+**Pr Olivier Seror**, chef de service du SIDIT  
+[olivier.seror@aphp.fr](mailto:olivier.seror@aphp.fr)
+
+**Dr Olivier Sutter**, responsable dâ€™UF  
+[olivier.sutter@aphp.fr](mailto:olivier.sutter@aphp.fr)
+

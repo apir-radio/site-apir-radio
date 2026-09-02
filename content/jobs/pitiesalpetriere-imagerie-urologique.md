@@ -1,4 +1,74 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìþ˜­‰ë–—­®'«z)šêâzêè–ˆ"ªç¦uKæÚ±î¸Ø[žé¢Šwâ•ê(º×â•æÛ­æ¤n·š‘éÜ¡×¢ëiºÛ©Š{h–)Þ²‡åzx-†{¦×^r‡^uç(uè§¦ëa…éiv+)•¬­†+&zËè¢ž›­Šznµø¥y×Ÿjém~ŠìµØ§¢‹­¦ëhºÚnµø¥y×Ÿjém~ŠìµÚ.
+---
+id: "pitiesalpetriere-imagerie-urologique"
+order: 6
+title: "Assistant spÃ©cialiste Â· Imagerie urologique"
+place: "PitiÃ©-SalpÃªtriÃ¨re Â· Paris 13e"
+status: "active"
+---
+
+Poste dâ€™Assistant en Imagerie Urologique  
+HÃ´pital PitiÃ©-SalpÃªtriÃ¨re â€“ AP-HP / Sorbonne UniversitÃ©
+
+**Prise de poste : novembre 2026**
+
+Vous souhaitez dÃ©velopper une expertise de haut niveau en imagerie urologique dans un environnement hospitalo-universitaire dâ€™excellence ? Rejoignez-nous !
+
+Le Service des Imageries SpÃ©cialisÃ©es et des Urgences (SISU) recrute un(e) Assistant(e) en Imagerie Urologique Ã  partir de novembre 2026.
+
+## Environnement et service
+
+Service : Imageries SpÃ©cialisÃ©es et des Urgences  
+Responsable : Pr Olivier Lucidarme
+
+Le service bÃ©nÃ©ficie dâ€™une activitÃ© riche et diversifiÃ©e, organisÃ©e autour de plusieurs surspÃ©cialitÃ©s :
+
+- Imagerie urologique
+- Imagerie digestive
+- Imagerie ostÃ©o-articulaire
+- Imagerie thoracique
+- Imagerie de la femme
+- Imagerie des urgences
+
+Cette organisation favorise une pratique polyvalente et des interactions transversales quotidiennes avec les Ã©quipes cliniques et chirurgicales.
+
+## Plateau technique
+
+- 2 IRM (1,5 T et 3 T)
+- 3 scanners, dont un scanner spectral double couche
+- 5 Ã©chographes pour lâ€™Ã©chographie avancÃ©e, lâ€™Ã©chographie de contraste et les biopsies prostatiques sous fusion dâ€™images
+
+Ce plateau technique permet une prise en charge complÃ¨te et spÃ©cialisÃ©e des pathologies urologiques.
+
+## Lâ€™Ã©quipe
+
+Vous intÃ©grerez une Ã©quipe :
+
+- Jeune, dynamique et investie
+- ComposÃ©e notamment de PU-PH, CCA, assistants et praticiens hospitaliers
+- Fonctionnant dans une ambiance conviviale et collaborative
+
+La richesse des Ã©changes entre surspÃ©cialitÃ©s et avec les cliniciens constitue un vÃ©ritable levier de formation et dâ€™excellence.
+
+## Descriptif du poste
+
+En tant quâ€™Assistant(e) en Imagerie Urologique, vous participerez Ã  :
+
+- Lâ€™activitÃ© diagnostique et interventionnelle en imagerie urologique
+- La prise en charge spÃ©cialisÃ©e des pathologies prostatiques, rÃ©nales et uro-gÃ©nitales
+- La participation aux RCP dÃ©diÃ©es
+- Lâ€™encadrement des internes
+- Les activitÃ©s universitaires et de recherche selon votre projet
+- La permanence des soins avec deux internes
+
+Ce poste offre une opportunitÃ© privilÃ©giÃ©e de dÃ©velopper une expertise reconnue en imagerie urologique dans un cadre hospitalo-universitaire de premier plan.
+
+## Candidature
+
+Merci dâ€™adresser votre CV et votre lettre de motivation Ã  :
+
+**Pr RaphaÃ«le Renard-Penna**  
+[raphaele.renardpenna@aphp.fr](mailto:raphaele.renardpenna@aphp.fr)
+
+**Pr Olivier Lucidarme**  
+[Olivier.Lucidarme@aphp.fr](mailto:Olivier.Lucidarme@aphp.fr)
+

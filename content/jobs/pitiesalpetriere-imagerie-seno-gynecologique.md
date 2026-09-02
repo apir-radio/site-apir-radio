@@ -1,4 +1,78 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìþ˜­‰ë–—­®'«z)šêâzÇ§¢§yÊ%¢ª¹éRÆ y¶¬{®vçºh¢ø¥zŠ.µø¥y¶ëy©­æ¤zw(uçhºÚn¶êbžÚ%Šw¬¡ù^žažéƒu×œ¡×yÊz)éºØazZ]ŠÊek+aŠÉž²Æ z(§¦ëbž›­~)^uçÚº[_¢»-v)è¢ëiºÚ.¶›­~)^uçÚº[_¢»-v‹­
+---
+id: "pitiesalpetriere-imagerie-seno-gynecologique"
+order: 7
+title: "Assistant spÃ©cialiste Â· Imagerie sÃ©no-gynÃ©cologique"
+place: "PitiÃ©-SalpÃªtriÃ¨re Â· Paris 13e"
+status: "active"
+---
+
+Poste dâ€™Assistant(e) en Imagerie de la Femme  
+HÃ´pital PitiÃ©-SalpÃªtriÃ¨re â€“ AP-HP / Sorbonne UniversitÃ©
+
+**Prise de poste : novembre 2026**
+
+Vous souhaitez dÃ©velopper une expertise complÃ¨te en imagerie de la femme dans un environnement hospitalo-universitaire dâ€™excellence ? Rejoignez-nous !
+
+Le service dâ€™Imagerie MÃ©dicale de la PitiÃ©-SalpÃªtriÃ¨re recrute un(e) Assistant(e) en Imagerie de la Femme Ã  partir de novembre 2026.
+
+## Notre activitÃ©
+
+Lâ€™activitÃ© est riche, spÃ©cialisÃ©e et reconnue, couvrant lâ€™ensemble du spectre de lâ€™imagerie mammaire et pelvienne.
+
+### Imagerie mammaire
+
+- Mammographie numÃ©rique
+- TomosynthÃ¨se
+- Angiomammographie
+- Ã‰chographie mammaire
+- Biopsies percutanÃ©es et macrobiopsies
+- Biopsies sous IRM et sous angiomammographie
+
+### Imagerie gynÃ©cologique
+
+- IRM pelvienne et IRM mammaire
+- Imagerie des pathologies gynÃ©cologiques bÃ©nignes et tumorales
+- Suivi oncologique
+- EndomÃ©triose
+
+Le service participe activement Ã  de nombreuses RCP spÃ©cialisÃ©es, garantissant une intÃ©gration forte dans les parcours de soins.
+
+## Lâ€™Ã©quipe et lâ€™environnement
+
+Vous intÃ©grerez une Ã©quipe :
+
+- Jeune, dynamique et investie
+- ComposÃ©e de seniors, assistants, CCA et internes
+- Fonctionnant dans une dynamique collaborative
+
+Le service est polyvalent et transversal, avec de nombreuses interactions avec lâ€™urologie, la gynÃ©cologie, lâ€™oncologie, le digestif et lâ€™ostÃ©o-articulaire.
+
+Cet environnement favorise une formation complÃ¨te et une montÃ©e en compÃ©tence rapide.
+
+## Plateau technique
+
+- IRM 1,5 T et 3 T
+- Mammographes numÃ©riques avec tomosynthÃ¨se, angiomammographie et deux Ã©chographes dÃ©diÃ©s avec SWE
+- Ã‰chographe haut de gamme en imagerie pelvienne
+- MatÃ©riel dÃ©diÃ© aux biopsies guidÃ©es et Ã  lâ€™interventionnel mammaire
+
+## Vos missions
+
+- Lâ€™activitÃ© diagnostique mammaire et gynÃ©cologique
+- Les gestes interventionnels guidÃ©s
+- Les RCP spÃ©cialisÃ©es
+- La permanence des soins avec deux internes
+- Les projets acadÃ©miques et de recherche selon votre profil
+
+Ce poste constitue une opportunitÃ© idÃ©ale pour dÃ©velopper une expertise reconnue dans un centre de rÃ©fÃ©rence.
+
+## Candidature
+
+Merci dâ€™adresser votre CV et votre lettre de motivation Ã  :
+
+**Pr RaphaÃ«le Renard-Penna**  
+[raphaele.renardpenna@aphp.fr](mailto:raphaele.renardpenna@aphp.fr)
+
+**Pr Olivier Lucidarme**  
+[Olivier.Lucidarme@aphp.fr](mailto:Olivier.Lucidarme@aphp.fr)
+

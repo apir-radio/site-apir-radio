@@ -1,4 +1,63 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìþ˜­‰ë–—­®'«z)šêâyØ zËb½éRÆ y¶¬{®vçºh¢ø¥zŠ.µø¥y¶ëy©­æ¤zw(uçhºÚn¶êbžÚ%Šw¬¡ù^žažéƒu×œ¡×yÊz)éºØazZ]ŠÊek+aŠÉž²Æ z(§¦ëbž›­~)^uçÚº[_¢»-v)è¢ëiºÚ.¶›­~)^uçÚº[_¢»-v‹­
+---
+id: "pitiesalpetriere-imagerie-digestive"
+order: 5
+title: "CCA / Assistant Â· Imagerie digestive"
+place: "PitiÃ©-SalpÃªtriÃ¨re Â· Paris 13e"
+status: "active"
+---
+
+Poste dâ€™Assistant SpÃ©cialiste ou CCA en Imagerie Digestive  
+HÃ´pital PitiÃ©-SalpÃªtriÃ¨re â€“ Service dâ€™Imagerie MÃ©dicale (SISU)
+
+**Prise de poste : novembre 2026**
+
+Vous recherchez un poste stimulant en imagerie abdominale dans un environnement clinique dâ€™excellence ? Bonne nouvelle : nous recrutons !
+
+Le service dâ€™Imagerie MÃ©dicale SISU de la PitiÃ©-SalpÃªtriÃ¨re recrute un(e) Assistant(e) SpÃ©cialiste ou CCA Ã  partir de novembre 2026.
+
+## Notre activitÃ©
+
+Le service est fortement orientÃ© vers :
+
+- Lâ€™imagerie des maladies et tumeurs hÃ©patiques et pancrÃ©atiques
+- Lâ€™imagerie de la transplantation hÃ©patique
+- Lâ€™imagerie des pathologies digestives inflammatoires et vasculaires
+- Lâ€™imagerie oncologique intestinale et pÃ©ritonÃ©ale
+
+Lâ€™environnement clinique est particuliÃ¨rement riche, avec de nombreuses RCP spÃ©cialisÃ©es et une collaboration Ã©troite avec les Ã©quipes mÃ©dicales et chirurgicales.
+
+## Une Ã©quipe polyvalente et transversale
+
+Vous rejoindrez une Ã©quipe :
+
+- Jeune, dynamique et soudÃ©e
+- ComposÃ©e de seniors, CCA, assistants et internes, impliquÃ©s dans une vÃ©ritable dynamique collective
+- Polyvalente, avec de multiples interactions possibles avec lâ€™imagerie urologique, gynÃ©cologique, ostÃ©o-articulaire et lâ€™oncologie transversale
+
+Cette transversalitÃ© permet un enrichissement quotidien et une montÃ©e en compÃ©tence dans plusieurs domaines dâ€™expertise.
+
+## Plateau technique
+
+- 2 IRM (1,5 T et 3 T)
+- 3 scanners, dont un scanner spectral double couche
+- 5 Ã©chographes (Ã©chographie avancÃ©e, Ã©chographie de contraste, SWE)
+
+Ce plateau technique permet une prise en charge complÃ¨te et spÃ©cialisÃ©e des pathologies digestives.
+
+## Vos missions
+
+- ActivitÃ© dâ€™imagerie diagnostique : scanner, IRM, Ã©chographie et biopsie percutanÃ©e optionnelle
+- Participation rÃ©guliÃ¨re aux RCP thÃ©matiques : tumeurs hÃ©patiques, tumeurs du pancrÃ©as, tumeurs du cÃ´lon et du rectum, et RCP RENAPE (tumeurs du pÃ©ritoine)
+- Participation Ã  la permanence des soins avec deux internes
+- Implication dans la vie institutionnelle et universitaire du service
+
+## Candidature
+
+Merci dâ€™adresser votre CV et votre lettre de motivation Ã  :
+
+**Pr Olivier Lucidarme**  
+[Olivier.Lucidarme@aphp.fr](mailto:Olivier.Lucidarme@aphp.fr)
+
+**Pr RaphaÃ«le Renard-Penna**  
+[raphaele.renardpenna@aphp.fr](mailto:raphaele.renardpenna@aphp.fr)
+

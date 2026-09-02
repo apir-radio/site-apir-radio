@@ -1,4 +1,23 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìý©›®ˆ¬z–«yÇjË"²Ö§¶gT±¨m«ë€Ý…¹îš(§~)^¢‹­~)^mºÞjFëy©ÊyÚ.¶›­º˜§¶‰bë(~W§‚Øgº`Ýuç(uç^r‡^Šzn¶^–—b²™ZÊØb²g¬±¨Š)éºØ§¦ë_ŠWyö®–×è®Ë]Šz(ºÚn¶‹­¦ë_ŠWyö®–×è®Ë]¢ë
+---
+id: "ambroise-pare-cca-assistant"
+order: 2
+title: "CCA ou Assistant"
+place: "Ambroise-ParÃ© Â· Boulogne-Billancourt"
+status: "active"
+---
+
+Suite Ã  un dÃ©sistement, un poste de CCA ou dâ€™assistant est disponible dans le service de radiologie de lâ€™hÃ´pital universitaire Ambroise-ParÃ©, AP-HP, Ã  Boulogne-Billancourt (92).
+
+Ce poste peut Ãªtre Ã  orientation **digestive**, **thoracique**, **ostÃ©o-articulaire** ou **vasculaire**.
+
+## Renseignements
+
+Adresser un CV et une lettre de motivation Ã  :
+
+**Pr Marie-France Bellin**, cheffe de service par intÃ©rim  
+[marie-france.bellin@aphp.fr](mailto:marie-france.bellin@aphp.fr)
+
+Ou contacter le **secrÃ©tariat du service** :  
+TÃ©l. : [01 49 09 55 49](tel:+33149095549)  
+Fax : 01 49 09 59 10
+

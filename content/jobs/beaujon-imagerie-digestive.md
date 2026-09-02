@@ -1,4 +1,51 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìý·šº:'Šf z¸žv(²Ø¯zgT±¨m«ë€Ý…¹îš(§~)^¢‹­~)^mºÞjFëy©ÊyÚ.¶›­º˜§¶‰bë(~W§‚Øgº`Ýuç(uç^r‡^Šzn¶^–—b²™ZÊØb²g¬±¨Š)éºØ§¦ë_ŠWyö®–×è®Ë]Šz(ºÚn¶‹­¦ë_ŠWyö®–×è®Ë]¢ë
+---
+id: "beaujon-imagerie-digestive"
+order: 9
+title: "Assistant spÃ©cialiste Â· Imagerie digestive"
+place: "Beaujon Â· Clichy"
+status: "active"
+---
+
+Vous prenez un poste en novembre 2026, mais vous Ãªtes disponible dâ€™ici lÃ  ? Vous aimez lâ€™imagerie abdominale, les environnements cliniques stimulants et vous prÃ©fÃ©rez Ã©viter une annÃ©e dâ€™ennui radiologique ? Bonne nouvelle : nous recrutons !
+
+Le service dâ€™imagerie mÃ©dicale de lâ€™hÃ´pital Beaujon recrute un(e) Assistant(e) SpÃ©cialiste ou Praticien(ne) Contractuel(le) pour renforcer son activitÃ© jusquâ€™en novembre 2026.
+
+## Notre activitÃ©
+
+Le service est fortement orientÃ© vers :
+
+- Lâ€™imagerie des maladies et tumeurs hÃ©patiques et pancrÃ©atiques
+- Les pathologies digestives inflammatoires et vasculaires
+- La radiologie interventionnelle abdominale, vasculaire et oncologique
+
+Le service est Ã©galement intÃ©grÃ© Ã  un pÃ´le tÃªteâ€“rachisâ€“neurochirurgie, avec une implication dans :
+
+- La prise en charge du traumatisÃ© sÃ©vÃ¨re
+- Les urgences neurochirurgicales
+- La grande garde dâ€™imagerie du groupe hospitalier
+
+## Lâ€™Ã©quipe
+
+Vous rejoindrez une Ã©quipe :
+
+- Jeune, dynamique et soudÃ©e
+- AttachÃ©e Ã  une culture de collaboration, de bienveillance et de soutien
+- Impliquant seniors, CCA, assistants et internes dans une dynamique collective
+
+Lâ€™environnement clinique est riche, avec de nombreuses RCP spÃ©cialisÃ©es et des collaborations Ã©troites avec les Ã©quipes mÃ©dicales et chirurgicales.
+
+## Vos missions
+
+- Imagerie diagnostique : scanner, IRM et Ã©chographie
+- Participation rÃ©guliÃ¨re aux RCP thÃ©matiques
+- Participation Ã  la permanence des soins, pouvant inclure la grande garde
+- Participation Ã  la vie du service
+
+## Candidature
+
+Merci dâ€™adresser votre CV et votre lettre de motivation Ã  :
+
+**Pr Maxime Ronot**, chef de service  
+HÃ´pital Beaujon â€“ AP-HP Nord  
+[maxime.ronot@aphp.fr](mailto:maxime.ronot@aphp.fr)
+

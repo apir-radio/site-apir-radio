@@ -1,4 +1,15 @@
-m«ëˆ§½©buªàºg§·õ,z»?™§¢‰Š¿Ü¡×±ýÈZ¶
-m¦º#yËlþ
-zk¿ZÛ´÷­<×Ý}wŽ¹k—tsNÕ§ÿ²+^j˜«­§b¢)íz
-Úµçr‰íz{Ž†ìýÊ†)â™¨®'­†ŠÚr*®yÆ«v&ª¹éRÆ y¶¬{®vçºh¢ø¥zŠ.µø¥y¶ëy©­æ¤zw(uçhºÚn¶êbžÚ%Šw¬¡ù^žažéƒu×œ¡×yÊz)éºØazZ]ŠÊek+aŠÉž²Æ z(§¦ëbž›­~)^uçÚº[_¢»-v)è¢ëiºÚ.¶›­~)^uçÚº[_¢»-v‹­
+---
+id: "cochin-imagerie-thoracique-cardiaque"
+order: 8
+title: "Chef de clinique Â· Imagerie thoracique et cardiaque"
+place: "Cochin A UF1 Â· Paris 14e"
+status: "active"
+---
+
+Un poste de **chef de clinique en imagerie thoracique et cardiaque**, dans le service de Radiologie A du Pr Revel Ã  lâ€™**hÃ´pital Cochin**, sâ€™est libÃ©rÃ© pour **novembre 2026**.
+
+## Contacts
+
+- Michel Dupuis, sur Messenger
+- [marie-pierre.revel@aphp.fr](mailto:marie-pierre.revel@aphp.fr)
+
