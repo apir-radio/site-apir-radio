@@ -1,19 +1,9 @@
 import Image from "next/image";
+import { board } from "./board";
 import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
 import { MobileNav } from "./mobile-nav";
 import { archiveEvents } from "./events";
-
-const board = [
-  { name: "David Toubert", role: "Président", initials: "DT" },
-  { name: "Quentin Vigogne", role: "Vice-président", initials: "QV" },
-  { name: "Quentin Bui", role: "Trésorier", initials: "QB" },
-  { name: "Camélia El Gani", role: "Secrétaire", initials: "CE" },
-  { name: "Emmanuelle Sirieix", role: "Membre du bureau", initials: "ES" },
-  { name: "Julie Montret", role: "Membre du bureau", initials: "JM" },
-  { name: "Rachid Chekour", role: "Membre du bureau", initials: "RC" },
-  { name: "Tom Galvier", role: "Membre du bureau", initials: "TG" },
-];
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const adhesionPath = `${basePath}/adhesion`;
@@ -73,7 +63,7 @@ export default function Home() {
       <header className="site-header">
         <div className="header-identity">
           <a className="brand" href="#top" aria-label="APIR, retour en haut">
-            <Image className="brand-logo" src={assetPath("/apir-logo.webp")} alt="" width={900} height={959} sizes="2.5rem" />
+            <Image className="brand-logo" src={assetPath("/apir-logo-small.webp")} alt="" width={192} height={205} sizes="2.5rem" />
             <span>APIR</span>
           </a>
           <a className="header-contact" href="mailto:contact@apir-radio.fr">Nous contacter</a>
@@ -135,13 +125,13 @@ export default function Home() {
       </section>
 
       <section className="section board-section" id="bureau">
-        <div className="section-kicker light">02 · Bureau 2025 — 2026</div>
+        <div className="section-kicker light">02 · Bureau {board.season}</div>
         <div className="board-heading">
           <h2>Le bureau de l’APIR</h2>
-          <p>Huit internes bénévoles organisent les formations et animent l’association tout au long de l’année.</p>
+          <p>{board.description}</p>
         </div>
         <div className="board-grid">
-          {board.map((member) => (
+          {board.members.map((member) => (
             <article className="member-card" key={member.name}>
               <span className="member-avatar">{member.initials}</span>
               <div><h3>{member.name}</h3><p>{member.role}</p></div>
@@ -151,8 +141,8 @@ export default function Home() {
         <div className="coordination">
           <span>Coordination du DES</span>
           <div>
-            <p>Pr Raphaële Renard-Penna<br />Pr Stéphanie Franchi-Abella</p>
-            <a href="mailto:coordidesrx.psl@aphp.fr">coordidesrx.psl@aphp.fr <Arrow /></a>
+            <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
+            <a href={`mailto:${board.coordinationEmail}`}>{board.coordinationEmail} <Arrow /></a>
           </div>
         </div>
       </section>
@@ -232,7 +222,7 @@ export default function Home() {
 
       </section>
 
-      <section className="section jobs-section" id="postes-hospitaliers" aria-labelledby="jobs-heading">
+      <section className="section jobs-section" id="postes-hospitaliers" aria-labelledby="jobs-heading" data-nosnippet>
         <div className="jobs-panel">
           <div className="jobs-heading">
             <div>
@@ -268,7 +258,7 @@ export default function Home() {
 
       <footer>
         <a className="brand footer-brand" href="#top" aria-label="APIR, retour en haut">
-          <Image className="brand-logo" src={assetPath("/apir-logo.webp")} alt="" width={900} height={959} sizes="2.5rem" />
+          <Image className="brand-logo" src={assetPath("/apir-logo-small.webp")} alt="" width={192} height={205} sizes="2.5rem" />
           <span>APIR</span>
         </a>
         <p>

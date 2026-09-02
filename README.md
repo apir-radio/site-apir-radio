@@ -42,6 +42,14 @@ au site lors de chaque build GitHub Pages.
 - `.github/workflows/lighthouse.yml` lance chaque semaine un audit Lighthouse
   de performance, accessibilité et SEO. Les seuils sont des avertissements, pas
   un garde-barrière de déploiement.
+- `npm run health:check` vérifie la disponibilité de la page d’accueil, du
+  sitemap, de `robots.txt` et du logo. Le même contrôle est lancé chaque semaine
+  par `.github/workflows/health.yml`.
+
+Le bureau est également éditorialisé dans `content/board.md`, au même titre que
+les annonces et les archives. Les offres hospitalières ne reçoivent aucune
+donnée structurée `JobPosting` ; leur section est marquée `data-nosnippet` pour
+éviter qu’elle soit utilisée comme extrait de résultat de recherche.
 
 Les mises à jour Dependabot mineures et correctives sont regroupées dans les
 fichiers `.github/dependabot.yml` afin de réduire le nombre de pull requests.

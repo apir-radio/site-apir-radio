@@ -1,0 +1,25 @@
+# Vérifie la disponibilité publique du site, indépendamment du déploiement.
+name: Surveiller la disponibilité du site
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Vérifier la disponibilité publique
+        run: node scripts/check-site-health.mjs

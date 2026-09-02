@@ -32,6 +32,7 @@ test("publishes the canonical page with useful metadata", async () => {
   assert.match(html, /name=["']twitter:card["'][^>]*summary/i);
   assert.match(html, /<script type=["']application\/ld\+json["']>[\s\S]*Organization[\s\S]*WebSite/i);
   assert.match(html, /src=["'][^"']*apir-logo\.webp/i);
+  assert.match(html, /src=["'][^"']*apir-logo-small\.webp/i);
   assert.match(html, /src=["'][^"']*la-medicale-logo\.webp/i);
   assert.doesNotMatch(html, /codex-preview|chatgpt\.site|apir-radio\.notion\.site/i);
   assert.match(robots, /User-Agent:\s*\*/i);
@@ -49,6 +50,8 @@ test("keeps the accessible job announcements in the static page", async () => {
   assert.match(html, /class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["'][^>]*>Aller au contenu/i);
   assert.match(html, /<main[^>]*id=["']main-content["'][^>]*tabindex=["']-1["']/i);
   assert.match(html, /<h3[^>]*id=["']jobs-heading["'][^>]*>Offres hospitalières/i);
+  assert.match(html, /id=["']postes-hospitaliers["'][^>]*data-nosnippet/i);
+  assert.match(html, /JavaScript est désactivé.*annonces sont affichées directement/i);
   assert.match(html, /class=["'][^"']*contact-section[^"']*["'][^>]*id=["']contact["'][^>]*>.*Contactez le bureau\./is);
   assert.match(html, /class=["'][^"']*mission-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*board-section[^"']*["']/i);

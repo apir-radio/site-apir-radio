@@ -8,6 +8,10 @@ Les archives des soirées sont regroupées dans [events.md](./events.md). Chaque
 ligne suit le format `Mois · Spécialité — Intervenant, Établissement` et est
 transformée automatiquement en données structurées pour l’affichage.
 
+La composition du bureau et la coordination du DES sont gérées dans
+[board.md](./board.md). Chaque ligne du bureau suit le format `Nom · Fonction ·
+Initiales`.
+
 Le bloc entre les deux lignes `---` contient les champs de gestion :
 
 - `id` : identifiant stable de l’annonce (le nom du fichier doit lui correspondre)

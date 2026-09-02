@@ -338,6 +338,11 @@ details li { padding: .7rem 0 .7rem 2rem; color: rgba(12,25,51,.72); font-size: 
 .job-description li { margin-bottom: .65rem; padding-left: .25rem; line-height: 1.6; }
 .job-description strong { color: var(--ink); font-weight: 680; }
 .job-description a { color: var(--logo-navy); font-weight: 680; text-decoration: underline; text-decoration-color: var(--accent-strong); text-underline-offset: .2em; }
+.jobs-noscript { margin-top: 2.5rem; }
+.jobs-noscript-note { margin: 0 0 1.5rem; color: rgba(12,25,51,.68); font-size: .8rem; }
+.jobs-noscript-card { padding: 1.5rem 0 2.5rem; border-top: 1px solid var(--line); }
+.jobs-noscript-card h3 { max-width: 38rem; margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1; letter-spacing: -.055em; font-weight: 600; }
+.jobs-noscript-card .job-description { margin-top: 1.5rem; }
 
 @keyframes panel-in { from { transform: translateX(2rem); opacity: .75; } to { transform: translateX(0); opacity: 1; } }
 @keyframes sheet-in { from { transform: translateY(1.5rem); opacity: .75; } to { transform: translateY(0); opacity: 1; } }

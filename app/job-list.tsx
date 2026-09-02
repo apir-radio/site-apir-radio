@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import type { HospitalJob } from "./jobs";
 
 function safeHref(href: string) {
@@ -107,6 +107,53 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
   const [selectedJob, setSelectedJob] = useState<HospitalJob | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const pushedHashRef = useRef(false);
+  const syncingFromHistoryRef = useRef(false);
+
+  const jobFromHash = useCallback(() => {
+    if (typeof window === "undefined") return null;
+    if (!window.location.hash.startsWith("#poste-")) return null;
+    let jobId: string;
+    try {
+      jobId = decodeURIComponent(window.location.hash.replace(/^#poste-/, ""));
+    } catch {
+      return null;
+    }
+    if (!jobId) return null;
+    return jobs.find((job) => job.id === jobId && job.content) ?? null;
+  }, [jobs]);
+
+  function clearJobHash() {
+    if (typeof window === "undefined") return;
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+  }
+
+  useEffect(() => {
+    const updateFromLocation = () => {
+      const job = jobFromHash();
+      if (job) {
+        pushedHashRef.current = false;
+        setSelectedJob(job);
+        return;
+      }
+
+      if (dialogRef.current?.open) {
+        syncingFromHistoryRef.current = true;
+        dialogRef.current.close();
+      } else {
+        setSelectedJob(null);
+        syncingFromHistoryRef.current = false;
+      }
+    };
+
+    updateFromLocation();
+    window.addEventListener("popstate", updateFromLocation);
+    window.addEventListener("hashchange", updateFromLocation);
+    return () => {
+      window.removeEventListener("popstate", updateFromLocation);
+      window.removeEventListener("hashchange", updateFromLocation);
+    };
+  }, [jobFromHash]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -115,13 +162,25 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
   }, [selectedJob]);
 
   function closeDialog() {
+    if (typeof window !== "undefined" && pushedHashRef.current) {
+      window.history.back();
+      return;
+    }
+    clearJobHash();
     dialogRef.current?.close();
   }
 
   function handleDialogClose() {
+    if (!syncingFromHistoryRef.current && pushedHashRef.current) {
+      window.history.back();
+    } else if (!syncingFromHistoryRef.current) {
+      clearJobHash();
+    }
+    pushedHashRef.current = false;
     setSelectedJob(null);
     triggerRef.current?.focus();
     triggerRef.current = null;
+    syncingFromHistoryRef.current = false;
   }
 
   return (
@@ -138,6 +197,8 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
             aria-expanded={selectedJob?.id === job.id}
             onClick={(event) => {
               triggerRef.current = event.currentTarget;
+              pushedHashRef.current = true;
+              window.history.pushState(null, "", `#poste-${encodeURIComponent(job.id)}`);
               setSelectedJob(job);
             }}
           >
@@ -149,6 +210,20 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
           </a>
         ))}
       </div>
+
+      <noscript>
+        <style>{`.jobs-list { display: none; }`}</style>
+        <div className="jobs-noscript">
+          <p className="jobs-noscript-note">JavaScript est désactivé : les annonces sont affichées directement ci-dessous.</p>
+          {jobs.filter((job) => job.content).map((job) => (
+            <article className="jobs-noscript-card" key={job.id}>
+              <p className="job-dialog-place">{job.place}</p>
+              <h3>{job.title}</h3>
+              <MarkdownContent source={job.content ?? ""} />
+            </article>
+          ))}
+        </div>
+      </noscript>
 
       <dialog
         ref={dialogRef}

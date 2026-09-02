@@ -8,6 +8,7 @@ on:
       - "scripts/generate-*.mjs"
       - "app/jobs.generated.ts"
       - "app/events.generated.ts"
+      - "app/board.generated.ts"
   workflow_dispatch:
 
 permissions:
