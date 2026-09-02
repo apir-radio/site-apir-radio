@@ -56,6 +56,10 @@ fichiers `.github/dependabot.yml` afin de réduire le nombre de pull requests.
 
 ## Modifier le site avec Codex
 
+Le guide de maintenance quotidien est disponible dans
+[`docs/maintenir-le-site.md`](./docs/maintenir-le-site.md), directement dans le
+dépôt GitHub.
+
 Dans une nouvelle conversation Codex/Work, utiliser la consigne suivante :
 
 > Travaille sur le dépôt GitHub `apir-radio/site-apir-radio`, branche `main`.

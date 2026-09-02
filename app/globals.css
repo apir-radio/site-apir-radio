@@ -103,8 +103,9 @@ a:active, summary:active { transform: scale(.975); }
   filter: drop-shadow(0 .35rem .7rem rgba(0, 0, 0, .18));
 }
 nav { display: flex; align-items: center; gap: clamp(.9rem, 2.2vw, 2rem); }
-nav a { min-height: 2.75rem; display: inline-flex; align-items: center; color: rgba(255, 255, 255, .72); font-size: .84rem; font-weight: 560; transition: color .18s ease; }
-nav a:hover, nav a:focus-visible { color: #fff; }
+nav a { position: relative; min-height: 2.75rem; display: inline-flex; align-items: center; color: rgba(255, 255, 255, .72); font-size: .84rem; font-weight: 560; transition: color .18s ease; }
+nav a:hover, nav a:focus-visible, nav a.is-active { color: #fff; }
+nav a.is-active::after { content: ""; position: absolute; right: 0; bottom: .28rem; left: 0; height: 2px; border-radius: 99rem; background: var(--accent); }
 .mobile-nav { display: none; position: relative; border: 0; }
 .mobile-nav summary {
   min-height: 2.75rem;
@@ -144,7 +145,7 @@ nav a:hover, nav a:focus-visible { color: #fff; }
 }
 .mobile-nav-popover p { margin: .25rem .65rem .5rem; color: rgba(255,255,255,.6); font-family: var(--font-geist-mono), monospace; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; }
 .mobile-nav-popover a { min-height: 2.75rem; padding: .65rem; display: flex; align-items: center; border-radius: .6rem; color: rgba(255,255,255,.78); font-size: .88rem; font-weight: 560; }
-.mobile-nav-popover a:hover, .mobile-nav-popover a:focus-visible { color: #fff; background: rgba(185,210,255,.12); }
+.mobile-nav-popover a:hover, .mobile-nav-popover a:focus-visible, .mobile-nav-popover a.is-active { color: #fff; background: rgba(185,210,255,.12); }
 .header-cta {
   min-height: 3.1rem;
   padding: 0 1.15rem;
@@ -270,6 +271,8 @@ details:last-child { border-bottom: 1px solid var(--line); }
 summary { padding: 1.7rem 0; display: flex; justify-content: space-between; cursor: pointer; list-style: none; font-size: 1.2rem; letter-spacing: -.02em; transition: color .18s ease; }
 summary::-webkit-details-marker { display: none; }
 summary:hover { color: var(--logo-navy); }
+.archive-summary-meta { display: inline-flex; align-items: center; gap: 1.25rem; }
+.archive-count { color: rgba(12,25,51,.54); font-family: var(--font-geist-mono), monospace; font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
 .plus { font-size: 1.45rem; font-weight: 300; transition: transform .25s ease; }
 details[open] .plus { transform: rotate(45deg); }
 details ul { margin: 0; padding: 0 0 2rem; list-style: none; }

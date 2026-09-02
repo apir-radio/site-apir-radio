@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { ArchiveList } from "./archive-list";
 import { board } from "./board";
 import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
-import { MobileNav } from "./mobile-nav";
+import { SiteNav } from "./site-nav";
 import { archiveEvents } from "./events";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -68,13 +69,7 @@ export default function Home() {
           </a>
           <a className="header-contact" href="mailto:contact@apir-radio.fr">Nous contacter</a>
         </div>
-        <MobileNav />
-        <nav aria-label="Navigation principale">
-          <a href="#mission">L’association</a>
-          <a href="#bureau">Bureau</a>
-          <a href="#soirees">Soirées</a>
-          <a href="#ressources">Ressources</a>
-        </nav>
+        <SiteNav />
         <a className="header-cta" href={adhesionPath}>
           Adhérer <Arrow />
         </a>
@@ -161,15 +156,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="archive-wrap">
-          <p className="archive-label">Archives des soirées</p>
-          {archiveEvents.map((season) => (
-            <details key={season.year}>
-              <summary><span>{season.year}</span><span className="plus">+</span></summary>
-              <ul>{season.events.map((event) => <li key={event.label}>{event.label}</li>)}</ul>
-            </details>
-          ))}
-        </div>
+        <ArchiveList seasons={archiveEvents} />
       </section>
 
       <section className="section resources-section" id="ressources">

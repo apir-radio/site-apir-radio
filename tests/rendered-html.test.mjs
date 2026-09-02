@@ -69,6 +69,7 @@ test("keeps the accessible job announcements in the static page", async () => {
   assert.doesNotMatch(html, /values-strip|Formation<\/span>.*Transmission<\/span>.*Convivialité<\/span>.*Réseau<\/span>/is);
   assert.doesNotMatch(html, /timeline-heading|class=["'][^"']*event-row/i);
   assert.match(html, /Archives des soirées.*2025 — 2026/is);
+  assert.match(html, /class=["']archive-count["'][^>]*>6[\s\S]*?soirée/is);
   assert.equal((html.match(/href=["']\/adhesion["']/g) ?? []).length, 2);
   assert.doesNotMatch(html, new RegExp(`href=["']${helloAssoAdhesionUrl}`));
 });

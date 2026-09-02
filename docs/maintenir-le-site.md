@@ -1,0 +1,40 @@
+# Maintenir le site APIR
+
+Ce guide reste dans le dépôt GitHub : il n’est pas publié sur le site.
+
+## Modifier le contenu
+
+- Annonces hospitalières : modifier ou ajouter un fichier dans `content/jobs/`.
+  Copier la structure de `content/job-template.md` et conserver un `id` égal au
+  nom du fichier.
+- Bureau : modifier `content/board.md`.
+- Archives des soirées : modifier `content/events.md`.
+
+Ne pas modifier directement `app/*.generated.ts` : ces fichiers sont régénérés
+à partir de `content/`.
+
+## Vérifier avant un commit
+
+```bash
+npm ci
+npm run content:check
+npm run build:pages
+npm run lint
+```
+
+Pour un contrôle supplémentaire après le build :
+
+```bash
+npm run links:check
+npm run health:check
+```
+
+## Publier
+
+1. Créer un commit sur une branche de travail.
+2. Relire le contenu et vérifier les coordonnées publiques.
+3. Fusionner ou pousser sur `main`.
+4. Consulter l’action **Publier le site APIR** dans l’onglet *Actions* de GitHub.
+
+Les contrôles de liens, Lighthouse et disponibilité sont planifiés séparément
+et ne bloquent pas les publications normales.

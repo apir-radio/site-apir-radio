@@ -1,10 +1,17 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 const baseUrl = process.argv[2] || "https://www.apir-radio.fr";
+const expectedDomain = "www.apir-radio.fr";
+const expectedHttpsOrigin = `https://${expectedDomain}`;
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const timeoutMs = Number(process.env.SITE_HEALTH_TIMEOUT_MS || 15_000);
 const userAgent = "APIR-site-health-check/1.0 (+https://www.apir-radio.fr)";
+const base = new URL(baseUrl);
 const resources = [
-  { path: "/", expectedText: "APIR" },
+  { path: "/", expectedText: "APIR", ...(base.hostname === expectedDomain && base.protocol === "https:" ? { expectedUrl: `${expectedHttpsOrigin}/` } : {}) },
   { path: "/robots.txt" },
   { path: "/sitemap.xml" },
   { path: "/apir-logo.webp" },
@@ -28,6 +35,9 @@ async function checkResource(resource) {
     if (resource.expectedText && !body?.includes(resource.expectedText)) {
       return { url, state: "broken", reason: `texte attendu absent : ${resource.expectedText}` };
     }
+    if (resource.expectedUrl && new URL(response.url).toString() !== resource.expectedUrl) {
+      return { url, state: "broken", reason: `destination finale inattendue : ${response.url}` };
+    }
     return { url, state: "ok", status: response.status };
   } catch (error) {
     return { url, state: "broken", reason: error instanceof Error ? error.message : String(error) };
@@ -36,8 +46,24 @@ async function checkResource(resource) {
   }
 }
 
+const results = [];
+const configuredDomain = (await fs.readFile(path.join(projectRoot, "public", "CNAME"), "utf8")).trim();
+if (configuredDomain === expectedDomain) {
+  results.push({ url: "public/CNAME", state: "ok", status: "configured" });
+} else {
+  results.push({ url: "public/CNAME", state: "broken", reason: `domaine configuré : ${configuredDomain || "vide"} (attendu : ${expectedDomain})` });
+}
+
+if (base.hostname === expectedDomain && base.protocol === "https:") {
+  resources.push({
+    path: "/",
+    expectedUrl: `${expectedHttpsOrigin}/`,
+    sourceUrl: `http://${expectedDomain}/`,
+  });
+}
+
 console.log(`Vérification de disponibilité de ${baseUrl}…`);
-const results = await Promise.all(resources.map(checkResource));
+results.push(...await Promise.all(resources.map((resource) => resource.sourceUrl ? checkResource({ ...resource, path: resource.sourceUrl }) : checkResource(resource))));
 for (const result of results) {
   if (result.state === "ok") {
     console.log(`✅ ${result.url} (${result.status})`);
