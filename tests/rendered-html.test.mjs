@@ -4,7 +4,7 @@ import test from "node:test";
 
 const outputDirectory = new URL("../out/", import.meta.url);
 const helloAssoAdhesionUrl =
-  "https://www.helloasso.com/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2025-2026";
+  "https://www.helloasso.com/beta/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir-2026-2027";
 
 async function readOutput(relativePath) {
   return fs.readFile(new URL(relativePath, outputDirectory), "utf8");
