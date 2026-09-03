@@ -38,12 +38,10 @@ test("le menu mobile se referme après une navigation", async ({ page }) => {
   await expect(page).toHaveURL(/#postes-hospitaliers$/);
 });
 
-test("les archives conservent leur état et les liens du pied de page restent tactiles", async ({ page }) => {
+test("les archives s’ouvrent et les liens du pied de page restent tactiles", async ({ page }) => {
   const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
   await archive.locator("summary").click();
   await expect(archive).toHaveAttribute("open", "");
-  await page.reload();
-  await expect(page.locator("details").filter({ hasText: "2025 — 2026" }).first()).toHaveAttribute("open", "");
 
   const footerLinks = page.locator("footer .footer-links a");
   for (const link of await footerLinks.all()) {

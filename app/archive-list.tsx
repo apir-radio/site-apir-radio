@@ -24,15 +24,17 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
     };
   }, [seasons]);
 
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem(storageKey, JSON.stringify(openYears));
+    } catch {
+      // Le stockage est un confort, pas une condition de fonctionnement.
+    }
+  }, [openYears]);
+
   function updateOpenYear(year: string, isOpen: boolean) {
     setOpenYears((current) => {
-      const next = isOpen ? [...new Set([...current, year])] : current.filter((item) => item !== year);
-      try {
-        window.sessionStorage.setItem(storageKey, JSON.stringify(next));
-      } catch {
-        // Le stockage est un confort, pas une condition de fonctionnement.
-      }
-      return next;
+      return isOpen ? [...new Set([...current, year])] : current.filter((item) => item !== year);
     });
   }
 
