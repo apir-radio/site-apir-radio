@@ -369,7 +369,20 @@ details li { padding: .7rem 0 .7rem 2rem; color: rgba(12,25,51,.72); font-size: 
 .coordination p { margin: 0; font-size: 1rem; line-height: 1.7; }
 .coordination a { min-height: 2.75rem; margin-top: 1rem; display: inline-flex; align-items: center; gap: .7rem; color: var(--accent); font-size: .82rem; font-weight: 650; }
 
-.contact-section { padding: clamp(5rem, 9vw, 9rem) max(5vw, calc((100vw - 76rem) / 2)); display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; align-items: end; background: linear-gradient(135deg, var(--accent-soft), #f1f5fc); }
+.contact-section {
+  padding: clamp(5rem, 9vw, 9rem) max(5vw, calc((100vw - 76rem) / 2));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5vw;
+  align-items: end;
+  color: #f7f9fc;
+  background: var(--ink);
+}
+.contact-section .eyebrow.dark { color: rgba(255,255,255,.58); }
+.contact-section .eyebrow.dark span {
+  background: var(--accent);
+  box-shadow: 0 0 0 .25rem rgba(185, 210, 255, .14);
+}
 .contact-section h2 { min-width: 0; max-width: 100%; font-size: clamp(4rem, 8vw, 8rem); }
 .contact-mail {
   min-height: 14rem;
@@ -511,67 +524,4 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
   .site-header, .next-card, .member-card { border-color: currentColor; }
   .site-header { background: var(--ink); }
   .job-dialog::backdrop { backdrop-filter: none; }
-}
-
-/* Respecte l’apparence sombre du système sans ajouter un réglage local. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --paper: #111b2f;
-    --paper-deep: #192945;
-    --accent-soft: #223657;
-    --accent-strong: #a9c7ff;
-    --line: rgba(247, 249, 252, .18);
-  }
-
-  body { color: #f7f9fc; background: #070f20; }
-  .mission-section, .jobs-section { color: #f7f9fc; background: var(--paper); }
-  .events-section { color: #f7f9fc; background: var(--paper-deep); }
-  .section-kicker:not(.light), .mission-copy p, .archive-label, .archive-count,
-  details li, .jobs-section .card-tag, .jobs-note, .job-index, .job-row small,
-  .eyebrow.dark, .contact-mail small, .contact-address, .job-dialog-header > span,
-  .job-description, .jobs-noscript-note { color: rgba(247, 249, 252, .76); }
-  .mission-copy .large-copy, .next-card p, .next-card strong, details, .job-row,
-  .contact-section h2, .contact-mail strong, .job-dialog { color: #f7f9fc; }
-  summary:hover { color: var(--accent); }
-  .eyebrow.dark span, .status-pill span { background: var(--accent); }
-  .eyebrow.dark span { box-shadow: 0 0 0 .25rem rgba(185, 210, 255, .14); }
-  .status-pill {
-    color: #f7f9fc;
-    background: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .22);
-  }
-  .status-pill span { box-shadow: 0 0 0 .22rem rgba(185, 210, 255, .16); }
-  .next-card { background: rgba(255, 255, 255, .08); }
-  .next-card > span { color: rgba(247, 249, 252, .76); }
-  .next-card .next-date, .next-card a, .job-row:hover, .job-row:focus-visible,
-  .job-description a { color: var(--accent); }
-  .resource-card.social-card {
-    color: #f7f9fc;
-    background: linear-gradient(145deg, #1c304f, #243d63);
-    border-color: rgba(185, 210, 255, .4);
-  }
-  .resource-card.social-card:hover { background: linear-gradient(145deg, #234064, #2c4b76); }
-  .resource-card.social-card .card-number { color: rgba(247, 249, 252, .72); }
-  .resource-card.social-card .card-tag { color: var(--accent); }
-  .resource-card.social-card div > p:last-child { color: rgba(247, 249, 252, .76); }
-  .resource-card.social-card .double-links a { border-color: rgba(247, 249, 252, .22); }
-  .contact-section { background: linear-gradient(135deg, #172946, #203961); }
-  .contact-mail {
-    border-color: rgba(247, 249, 252, .18);
-    background: rgba(255, 255, 255, .08);
-    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
-  }
-  .contact-mail:hover, .contact-mail:focus-visible {
-    background: rgba(255, 255, 255, .14);
-    box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, .28);
-  }
-  .job-dialog-shell { background: #101b2e; }
-  .job-dialog-header { background: rgba(16, 27, 46, .92); }
-  .job-dialog-header button {
-    color: #f7f9fc;
-    background: #1d2e4b;
-    border-color: rgba(247, 249, 252, .18);
-  }
-  .job-dialog-header button:hover, .job-dialog-header button:focus-visible { background: #29446c; }
 }
