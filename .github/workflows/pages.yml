@@ -18,6 +18,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v7
@@ -30,6 +31,18 @@ jobs:
 
       - name: Installer les dépendances
         run: npm ci
+
+      - name: Vérifier les catalogues générés
+        run: npm run content:check
+
+      - name: Tester les règles du contenu
+        run: npm run test:content
+
+      - name: Vérifier TypeScript
+        run: npx tsc --noEmit --incremental false
+
+      - name: Vérifier ESLint
+        run: npm run lint
 
       - name: Déterminer le chemin GitHub Pages
         shell: bash
@@ -58,6 +71,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: build
     steps:
       - name: Publier sur GitHub Pages

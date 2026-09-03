@@ -1,3 +1,4 @@
+// Active l’export statique et le chemin de base nécessaires à GitHub Pages.
 import type { NextConfig } from "next";
 
 const isGitHubPagesBuild = process.env.GITHUB_PAGES === "true";

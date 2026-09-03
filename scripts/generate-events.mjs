@@ -1,3 +1,4 @@
+// Valide content/events.md et génère le catalogue TypeScript des soirées.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -100,7 +101,7 @@ if (upcomingEvent) {
 }
 
 const generated = [
-  "// This file is generated from content/events.md. Do not edit it directly.",
+  "// Fichier généré depuis content/events.md. Ne pas le modifier directement.",
   "export type ArchiveEvent = { month: string; specialty: string; speaker: string; hospital: string; label: string };",
   "",
   "export type ArchiveSeason = { year: string; events: ArchiveEvent[] };",

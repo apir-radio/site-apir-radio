@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Styles partagés de l’interface, responsive et accessibles. */
 :root {
   --ink: #0c1933;
   --ink-soft: #14284a;

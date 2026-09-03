@@ -12,6 +12,7 @@ permissions:
 jobs:
   health:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v7

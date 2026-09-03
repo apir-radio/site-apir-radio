@@ -2,6 +2,9 @@
 
 Ce guide reste dans le dépôt GitHub : il n’est pas publié sur le site.
 
+Pour comprendre le rôle de chaque dossier avant d’intervenir, consulter
+[`architecture.md`](./architecture.md).
+
 ## Modifier le contenu
 
 - Annonces hospitalières : modifier ou ajouter un fichier dans `content/jobs/`.
@@ -47,6 +50,10 @@ npm run verify
 2. Relire le contenu et vérifier les coordonnées publiques.
 3. Fusionner ou pousser sur `main`.
 4. Consulter l’action **Publier le site APIR** dans l’onglet *Actions* de GitHub.
+
+Le workflow de publication revalide les catalogues, le contenu, TypeScript et
+ESLint avant de créer l’artefact GitHub Pages. Une erreur dans l’un de ces
+contrôles bloque le déploiement.
 
 Les contrôles de liens, Lighthouse et disponibilité sont planifiés séparément
 et ne bloquent pas les publications normales.

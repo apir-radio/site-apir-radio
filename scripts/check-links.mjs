@@ -1,3 +1,4 @@
+// Vérifie les liens externes de l’export avec concurrence et retries bornés.
 import { createRequire } from "node:module";
 import fs from "node:fs/promises";
 import path from "node:path";

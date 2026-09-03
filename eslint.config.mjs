@@ -1,3 +1,4 @@
+// Règles de qualité Next.js/TypeScript appliquées à tout le dépôt.
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -5,7 +6,7 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Avoid eslint-plugin-react auto-detection, which uses a removed ESLint 10 context API.
+  // Force la version React pour éviter l’auto-détection obsolète d’ESLint 10.
   { settings: { react: { version: "19.2.8" } } },
   // Override default ignores of eslint-config-next.
   globalIgnores([

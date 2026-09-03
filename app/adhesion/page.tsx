@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "../site-config";
 
+// Route technique conservée pour les anciens liens d’adhésion.
 export const metadata: Metadata = {
   title: "Adhésion APIR — Redirection vers HelloAsso",
   description: "Adhérez à l’APIR sur HelloAsso.",

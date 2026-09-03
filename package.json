@@ -20,7 +20,7 @@
     "build:pages": "npm run content:generate && GITHUB_PAGES=true next build --webpack",
     "test": "npm run build:pages && npm run test:content && node --test tests/rendered-html.test.mjs",
     "test:ui": "playwright test",
-    "lint": "eslint . --ignore-pattern .next",
+    "lint": "eslint . --ignore-pattern .next --max-warnings=0",
     "verify": "npm run content:check && npm run test:content && npx tsc --noEmit --incremental false && npm run lint && npm run build:pages && node --test tests/rendered-html.test.mjs && npm run anchors:check"
   },
   "dependencies": {

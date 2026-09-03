@@ -1,3 +1,4 @@
+// Règles communes de lecture et de validation des sources éditoriales Markdown.
 export function parseFrontmatter(source, context) {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/);
   if (!match) {

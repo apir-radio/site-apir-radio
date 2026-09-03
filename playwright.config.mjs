@@ -1,3 +1,4 @@
+// Configuration des tests navigateur contre l’export statique local.
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({

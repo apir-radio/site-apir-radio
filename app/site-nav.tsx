@@ -1,5 +1,6 @@
 "use client";
 
+// Navigation principale : liens de section, état actif et menu mobile.
 import { useEffect, useRef, useState } from "react";
 
 const links = [

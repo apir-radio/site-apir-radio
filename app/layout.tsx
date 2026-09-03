@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { basePath, siteConfig } from "./site-config";
 
+// Layout racine : polices locales, métadonnées et enveloppe HTML commune.
 const geistSans = localFont({
   src: "./fonts/geist-8ac0455e797f/geist-98bbbccb.woff2",
   variable: "--font-geist-sans",

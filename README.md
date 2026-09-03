@@ -1,13 +1,13 @@
-# Site officiel de l’APIR
+# APIR — site public
 
-Version **1.0.0** du site de l’Association Parisienne des Internes en Radiologie.
+Site officiel de l’Association Parisienne des Internes en Radiologie (APIR),
+destiné aux internes en radiologie d’Île-de-France.
 
-## Adresses
-
-- Site officiel : <https://www.apir-radio.fr>
+- Site public : <https://www.apir-radio.fr>
 - Dépôt : <https://github.com/apir-radio/site-apir-radio>
+- Hébergement : GitHub Pages, avec publication automatique depuis `main`
 
-## Développement
+## Démarrer
 
 Prérequis : Node.js 22 ou une version plus récente.
 
@@ -16,61 +16,85 @@ npm ci
 npm run dev
 ```
 
-## Publication sur GitHub Pages
+Le serveur de développement régénère les catalogues éditoriaux avant de lancer
+Next.js.
 
-Le site est hébergé sur GitHub Pages et publié à l’adresse
-<https://www.apir-radio.fr>.
+## Organisation du dépôt
 
-Le workflow `.github/workflows/pages.yml` construit et publie automatiquement
-le site après chaque modification de la branche `main`.
+La cartographie complète se trouve dans
+[`docs/architecture.md`](./docs/architecture.md). Le flux principal est :
 
-Le fichier `public/CNAME` associe le déploiement au domaine officiel. La zone DNS
+```text
+content/*.md → scripts/generate-*.mjs → app/*.generated.ts → Next.js → out/ → GitHub Pages
+```
+
+Les fichiers Markdown de `content/` sont les sources éditoriales. Les fichiers
+`app/*.generated.ts` sont produits automatiquement et ne doivent jamais être
+modifiés directement.
+
+## Fichiers et dossiers à connaître
+
+| Chemin | Rôle |
+| --- | --- |
+| `app/` | Pages Next.js, composants d’interface, styles et données générées |
+| `content/` | Annonces, soirées, bureau et modèles éditoriaux |
+| `scripts/` | Génération du contenu et contrôles de qualité |
+| `tests/` | Tests de contenu, HTML rendu et parcours navigateur |
+| `public/` | Logos, favicon et configuration du domaine GitHub Pages |
+| `.github/` | Workflows, Dependabot et règles de contribution |
+| `docs/` | Guides de maintenance et documentation technique |
+| `site.config.json` | Configuration publique partagée par le site et les contrôles |
+| `next.config.ts` | Configuration de l’export statique GitHub Pages |
+| `package.json` | Commandes de développement, test, build et vérification |
+| `package-lock.json` | Versions exactes des dépendances installées par CI |
+| `.design-rules/` | Sous-module contenant les règles de revue UI/UX |
+
+## Contrôles locaux
+
+Avant une fusion, lancer :
+
+```bash
+npm run verify
+npm run test:ui
+```
+
+Les contrôles disponibles sont les suivants :
+
+- `npm run content:check` vérifie les catalogues générés ;
+- `npm run test:content` teste les règles de validation éditoriale ;
+- `npm run lint` vérifie le code sans tolérer d’avertissement ;
+- `npm run build:pages` produit l’export statique dans `out/` ;
+- `npm run anchors:check` vérifie les ancres internes du HTML ;
+- `npm run test:ui` vérifie les interactions principales, dont la fermeture des
+  annonces, le retour navigateur et le menu mobile ;
+- `npm run links:check` contrôle les liens externes après un build ;
+- `npm run health:check` vérifie les ressources publiques essentielles ;
+- `npm run verify` regroupe les contrôles statiques principaux.
+
+Les liens externes et Lighthouse sont contrôlés périodiquement par GitHub
+Actions. Les contrôles de liens restent informatifs, car certains services
+publics refusent les requêtes automatisées.
+
+## Publication
+
+Toute modification poussée sur `main` déclenche
+`.github/workflows/pages.yml`. Avant de préparer l’artefact, ce workflow vérifie
+les catalogues, le contenu, TypeScript et ESLint. Une erreur de qualité empêche
+donc la publication.
+
+Le fichier `public/CNAME` associe GitHub Pages à `www.apir-radio.fr`. La zone DNS
 du domaine est administrée depuis OVHcloud.
 
-Le site est autonome et géré uniquement via GitHub Pages. Les annonces et les
-archives sont gérées dans `content/`, puis intégrées au site lors de chaque
-build GitHub Pages.
+## Modifier le contenu
 
-## Contrôles automatiques
+Consulter [`content/README.md`](./content/README.md), puis le guide
+[`docs/maintenir-le-site.md`](./docs/maintenir-le-site.md). Le bureau, les
+annonces et les soirées restent édités dans `content/`; les fichiers générés
+sont uniquement des sorties de build.
 
-- `npm run content:check` vérifie que les données TypeScript générées sont bien
-  synchronisées avec les fichiers Markdown éditoriaux.
-- `npm run test:content` vérifie les règles communes de lecture et de validation
-  du contenu.
-- `npm run anchors:check` vérifie les ancres internes du HTML généré et bloque
-  les erreurs déterministes.
-- `npm run test:ui` vérifie les parcours interactifs principaux après un build,
-  notamment la fermeture des annonces, le retour navigateur, le menu mobile et
-  les contrôles tactiles du pied de page.
-- `npm run links:check` cherche les liens externes cassés et les ancres internes
-  invalides dans le dossier `out` après un build. Le contrôle est relancé chaque semaine par
-  `.github/workflows/links.yml` et reste informatif : il ne bloque pas la
-  publication.
-- `.github/workflows/lighthouse.yml` lance chaque semaine un audit Lighthouse
-  de performance, accessibilité et SEO. Les seuils sont des avertissements, pas
-  un garde-barrière de déploiement.
-- `npm run health:check` vérifie la disponibilité de la page d’accueil, du
-  sitemap, de `robots.txt` et du logo. Le même contrôle est lancé chaque semaine
-  par `.github/workflows/health.yml`.
-- `npm run verify` regroupe les contrôles locaux principaux avant une fusion.
+## Contribution
 
-Le bureau est également éditorialisé dans `content/board.md`, au même titre que
-les annonces et les archives. Les offres hospitalières ne reçoivent aucune
-donnée structurée `JobPosting` ; leur section est marquée `data-nosnippet` pour
-éviter qu’elle soit utilisée comme extrait de résultat de recherche.
-
-La configuration publique du site est regroupée dans `site.config.json`. Les
-mises à jour Dependabot mineures et correctives sont regroupées dans les
-fichiers `.github/dependabot.yml` afin de réduire le nombre de pull requests.
-
-## Modifier le site avec Codex
-
-Le guide de maintenance quotidien est disponible dans
-[`docs/maintenir-le-site.md`](./docs/maintenir-le-site.md), directement dans le
-dépôt GitHub.
-
-Dans une nouvelle conversation Codex/Work, utiliser la consigne suivante :
-
-> Travaille sur le dépôt GitHub `apir-radio/site-apir-radio`, branche `main`.
-> Modifie [décris la modification], teste le site, enregistre le changement et
-> vérifie la publication GitHub Pages.
+Les pull requests utilisent le modèle
+`.github/pull_request_template.md`. Toute modification d’interface doit aussi
+respecter les règles de revue dans `.design-rules/SKILL.md` et les guides HIG
+référencés par ce fichier.

@@ -1,5 +1,6 @@
 "use client";
 
+// Affiche les archives et mémorise uniquement les années ouvertes par l’utilisateur.
 import { useEffect, useRef, useState } from "react";
 import type { ArchiveSeason } from "./events";
 

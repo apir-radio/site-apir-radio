@@ -1,3 +1,4 @@
+// Valide content/jobs/*.md et génère le catalogue TypeScript des annonces.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -80,7 +81,7 @@ for (const job of jobs) {
 }
 
 const generated = [
-  "// This file is generated from content/jobs/*.md. Do not edit it directly.",
+  "// Fichier généré depuis content/jobs/*.md. Ne pas le modifier directement.",
   "export type JobStatus = \"active\" | \"archived\";",
   "",
   "export type HospitalJob = {",

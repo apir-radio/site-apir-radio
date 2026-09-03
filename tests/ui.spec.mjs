@@ -1,3 +1,4 @@
+// Parcours navigateur critiques sur écran étroit/mobile et retour historique.
 import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {

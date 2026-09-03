@@ -7,6 +7,7 @@ import { SiteNav } from "./site-nav";
 import { archiveEvents, upcomingEvent } from "./events";
 import { assetPath, siteConfig, sitePath } from "./site-config";
 
+// Page d’accueil publique : présentation, bureau, soirées, ressources et annonces.
 const adhesionPath = sitePath("/adhesion");
 const { siteUrl, organizationName, organizationDescription, email, socials, address } = siteConfig;
 

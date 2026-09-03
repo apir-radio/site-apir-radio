@@ -1,3 +1,4 @@
+# Regroupe les mises à jour afin de limiter le bruit dans les pull requests.
 version: 2
 
 updates:

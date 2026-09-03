@@ -1,3 +1,4 @@
+// Sert l’export out/ sur localhost pour les tests Playwright.
 import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";

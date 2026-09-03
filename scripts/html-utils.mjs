@@ -1,3 +1,4 @@
+// Fonctions partagées pour inspecter les fichiers HTML générés.
 import fs from "node:fs/promises";
 import path from "node:path";
 

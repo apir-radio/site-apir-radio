@@ -1,5 +1,6 @@
 "use client";
 
+// Liste les annonces et gère les fiches locales avec l’historique navigateur.
 import { Fragment, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import type { HospitalJob } from "./jobs";
 

@@ -1,3 +1,4 @@
+// Vérifie les ressources essentielles du site public et la redirection HTTP.
 import { createRequire } from "node:module";
 import fs from "node:fs/promises";
 import path from "node:path";
