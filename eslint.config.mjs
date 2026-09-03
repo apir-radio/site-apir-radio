@@ -5,8 +5,8 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // eslint-plugin-react uses a removed ESLint context API in ESLint 10.
-  { rules: { "react/display-name": "off" } },
+  // Avoid eslint-plugin-react auto-detection, which uses a removed ESLint 10 context API.
+  { settings: { react: { version: "19.2.8" } } },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
