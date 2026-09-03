@@ -2,9 +2,9 @@ import { createRequire } from "node:module";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 const require = createRequire(import.meta.url);
-const nextParser = require("eslint-config-next/parser");
 const requireFromNext = createRequire(require.resolve("eslint-config-next/parser"));
 const nextPlugin = requireFromNext("@next/eslint-plugin-next");
+const typescriptParser = requireFromNext("@typescript-eslint/parser");
 const reactPlugin = requireFromNext("eslint-plugin-react");
 const reactHooksPlugin = requireFromNext("eslint-plugin-react-hooks");
 const importPlugin = requireFromNext("eslint-plugin-import");
@@ -23,7 +23,6 @@ const eslintConfig = defineConfig([
       "@next/next": nextPlugin,
     },
     languageOptions: {
-      parser: nextParser,
       parserOptions: {
         requireConfigFile: false,
         sourceType: "module",
@@ -65,6 +64,11 @@ const eslintConfig = defineConfig([
       "jsx-a11y/role-supports-aria-props": "warn",
       "react/jsx-no-target-blank": "off",
     },
+  },
+  {
+    name: "typescript-parser",
+    files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+    languageOptions: { parser: typescriptParser },
   },
   globalIgnores([
     ".next/**",
