@@ -49,6 +49,7 @@ const eslintConfig = defineConfig([
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
       "import/no-anonymous-default-export": "warn",
       "react/no-unknown-property": "off",
       "react/react-in-jsx-scope": "off",
@@ -64,10 +65,6 @@ const eslintConfig = defineConfig([
       "jsx-a11y/role-supports-aria-props": "warn",
       "react/jsx-no-target-blank": "off",
     },
-  },
-  {
-    name: "next/core-web-vitals",
-    rules: { ...nextPlugin.configs["core-web-vitals"].rules },
   },
   globalIgnores([
     ".next/**",
