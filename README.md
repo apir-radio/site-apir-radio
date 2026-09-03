@@ -92,6 +92,33 @@ Consulter [`content/README.md`](./content/README.md), puis le guide
 annonces et les soirées restent édités dans `content/`; les fichiers générés
 sont uniquement des sorties de build.
 
+## Mettre à jour avec un assistant de code
+
+Le dépôt peut être travaillé avec Claude Code, ChatGPT Codex ou un autre agent
+de développement. Depuis le dossier du projet, lui donner une consigne précise
+avec l’objectif, le périmètre et la demande de vérification. Par exemple :
+
+```text
+Travaille sur le dépôt GitHub apir-radio/site-apir-radio, branche main.
+
+Objectif : [décrire précisément la modification].
+
+Commence par vérifier l’état du dépôt et les règles de contribution. Modifie les
+sources nécessaires, ne modifie pas directement app/*.generated.ts, lance les
+contrôles adaptés, puis présente le diff et les résultats des tests. Ne change
+pas le contenu éditorial non concerné et ne publie qu’après validation.
+```
+
+Pour une mise à jour d’annonce, modifier `content/jobs/*.md`, puis demander
+`npm run content:check` et `npm run content:generate`. Pour une évolution du
+site, demander au minimum `npm run verify` et `npm run test:ui` si l’interface
+ou un parcours utilisateur est concerné.
+
+Avant de fusionner ou de publier, relire le diff, vérifier les coordonnées et
+liens publics, puis contrôler les actions **Vérifier le code** et **Publier le
+site APIR** dans GitHub. Une pull request est préférable pour conserver une
+relecture et l’historique du changement.
+
 ## Contribution
 
 Les pull requests utilisent le modèle
