@@ -12,7 +12,7 @@ const links = [
   ["#contact", "Nous contacter"],
 ] as const;
 
-const desktopLinks = links.slice(0, 4);
+const desktopLinks = links.slice(0, 5);
 
 export function SiteNav() {
   const [activeId, setActiveId] = useState<string | null>(null);

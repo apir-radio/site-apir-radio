@@ -56,6 +56,12 @@ test("le menu mobile se referme après une navigation", async ({ page }) => {
   await expect(page).toHaveURL(/#postes-hospitaliers$/);
 });
 
+test("affiche les annonces dans la navigation desktop", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+
+  await expect(page.getByRole("navigation", { name: "Navigation principale" }).getByRole("link", { name: "Annonces", exact: true })).toBeVisible();
+});
+
 test("le menu mobile reste entièrement visible sur un écran étroit", async ({ page }) => {
   await page.locator("details.mobile-nav summary").click();
 
