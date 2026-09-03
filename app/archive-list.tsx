@@ -18,6 +18,7 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
   const [openYears, setOpenYears] = useState<string[]>([]);
   const [hasRestoredState, setHasRestoredState] = useState(false);
   const userInteractedRef = useRef(false);
+  const detailsRefs = useRef(new Map<string, HTMLDetailsElement>());
 
   useEffect(() => {
     const restoreTimer = window.setTimeout(() => {
@@ -38,6 +39,9 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
 
   useEffect(() => {
     if (!hasRestoredState) return;
+    detailsRefs.current.forEach((details, year) => {
+      details.open = openYears.includes(year);
+    });
     persistOpenYears(openYears);
   }, [hasRestoredState, openYears]);
 
@@ -48,6 +52,14 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
     persistOpenYears(nextOpenYears);
   }
 
+  function toggleArchive(year: string) {
+    const details = detailsRefs.current.get(year);
+    if (!details) return;
+    const isOpen = !details.open;
+    details.open = isOpen;
+    updateOpenYear(year, isOpen);
+  }
+
   return (
     <div className="archive-wrap">
       <p className="archive-label">Archives des soirées</p>
@@ -56,12 +68,21 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
         return (
           <details
             key={season.year}
-            open={openYears.includes(season.year)}
+            ref={(element) => {
+              if (element) detailsRefs.current.set(season.year, element);
+              else detailsRefs.current.delete(season.year);
+            }}
           >
             <summary
               onClick={(event) => {
                 event.preventDefault();
-                updateOpenYear(season.year, !openYears.includes(season.year));
+                toggleArchive(season.year);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  toggleArchive(season.year);
+                }
               }}
             >
               <span>{season.year}</span>

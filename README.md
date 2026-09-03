@@ -66,7 +66,8 @@ Les contrôles disponibles sont les suivants :
 - `npm run build:pages` produit l’export statique dans `out/` ;
 - `npm run anchors:check` vérifie les ancres internes du HTML ;
 - `npm run test:ui` vérifie les interactions principales, dont la fermeture des
-  annonces, le retour navigateur et le menu mobile ;
+  annonces, le retour navigateur, les archives au clavier, le menu mobile, les
+  petits écrans et l’apparence sombre ;
 - `npm run links:check` contrôle les liens externes après un build ;
 - `npm run health:check` vérifie les ressources publiques essentielles ;
 - `npm run verify` regroupe les contrôles statiques principaux.
@@ -79,8 +80,12 @@ publics refusent les requêtes automatisées.
 
 Toute modification poussée sur `main` déclenche
 `.github/workflows/pages.yml`. Avant de préparer l’artefact, ce workflow vérifie
-les catalogues, le contenu, TypeScript et ESLint. Une erreur de qualité empêche
-donc la publication.
+les catalogues, le contenu, TypeScript, ESLint, les dépendances de production,
+le HTML, les ancres internes et les parcours navigateur. Une erreur de qualité
+empêche donc la publication.
+
+L’interface suit aussi l’apparence claire ou sombre choisie dans les réglages
+du système, sans ajouter de réglage local supplémentaire.
 
 Le fichier `public/CNAME` associe GitHub Pages à `www.apir-radio.fr`. La zone DNS
 du domaine est administrée depuis OVHcloud.

@@ -97,6 +97,45 @@ test("les archives s’ouvrent et les liens du pied de page restent tactiles", a
   }
 });
 
+test("les archives restent utilisables au clavier", async ({ page }) => {
+  const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
+  const summary = archive.locator("summary");
+
+  await summary.focus();
+  await page.keyboard.press("Enter");
+  await expect(archive).toHaveAttribute("open", "");
+
+  await page.keyboard.press("Space");
+  await expect(archive).not.toHaveAttribute("open", "");
+});
+
+test("ne crée pas de débordement horizontal sur un petit écran", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+
+  const dimensions = await page.evaluate(() => ({
+    documentWidth: document.documentElement.scrollWidth,
+    viewportWidth: window.innerWidth,
+  }));
+
+  expect(dimensions.documentWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+});
+
+test("respecte l’apparence sombre du système", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.reload();
+
+  const appearance = await page.evaluate(() => ({
+    colorScheme: getComputedStyle(document.documentElement).colorScheme,
+    documentWidth: document.documentElement.scrollWidth,
+    viewportWidth: window.innerWidth,
+    jobsColor: getComputedStyle(document.querySelector(".jobs-section")).color,
+  }));
+
+  expect(appearance.colorScheme).toContain("dark");
+  expect(appearance.documentWidth).toBeLessThanOrEqual(appearance.viewportWidth);
+  expect(appearance.jobsColor).toBe("rgb(247, 249, 252)");
+});
+
 test("conserve une archive ouverte après rechargement", async ({ page }) => {
   const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
   await archive.locator("summary").click();
