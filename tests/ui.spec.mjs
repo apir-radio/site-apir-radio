@@ -126,20 +126,34 @@ test("ne crée pas de débordement horizontal sur un petit écran", async ({ pag
   expect(dimensions.documentWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
 });
 
-test("respecte l’apparence sombre du système", async ({ page }) => {
+test("conserve la palette de marque en mode sombre du système", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await page.reload();
 
-  const appearance = await page.evaluate(() => ({
-    colorScheme: getComputedStyle(document.documentElement).colorScheme,
-    documentWidth: document.documentElement.scrollWidth,
-    viewportWidth: window.innerWidth,
-    jobsColor: getComputedStyle(document.querySelector(".jobs-section")).color,
-  }));
+  const appearance = await page.evaluate(() => {
+    const getBackground = (selector) => getComputedStyle(document.querySelector(selector)).backgroundColor;
 
-  expect(appearance.colorScheme).toContain("dark");
+    return {
+      colorScheme: getComputedStyle(document.documentElement).colorScheme,
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth,
+      missionBackground: getBackground(".mission-section"),
+      eventsBackground: getBackground(".events-section"),
+      jobsBackground: getBackground(".jobs-section"),
+      boardBackground: getBackground(".board-section"),
+      resourcesBackground: getBackground(".resources-section"),
+      contactBackground: getBackground(".contact-section"),
+    };
+  });
+
+  expect(appearance.colorScheme).toContain("light");
   expect(appearance.documentWidth).toBeLessThanOrEqual(appearance.viewportWidth);
-  expect(appearance.jobsColor).toBe("rgb(247, 249, 252)");
+  expect(appearance.missionBackground).toBe("rgb(246, 247, 248)");
+  expect(appearance.eventsBackground).toBe("rgb(232, 238, 247)");
+  expect(appearance.jobsBackground).toBe("rgb(246, 247, 248)");
+  expect(appearance.boardBackground).toBe("rgb(16, 31, 60)");
+  expect(appearance.resourcesBackground).toBe("rgb(12, 25, 51)");
+  expect(appearance.contactBackground).toBe("rgb(12, 25, 51)");
 });
 
 test("conserve une archive ouverte après rechargement", async ({ page }) => {
