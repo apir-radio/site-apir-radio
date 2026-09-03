@@ -1,4 +1,4 @@
-// Fichier généré depuis content/board.md. Ne pas le modifier directement.
+// This file is generated from content/board.md. Do not edit it directly.
 export type BoardMember = { name: string; role: string; initials: string };
 
 export type BoardInfo = { season: string; description: string; members: BoardMember[]; coordinationNames: string[]; coordinationEmail: string };

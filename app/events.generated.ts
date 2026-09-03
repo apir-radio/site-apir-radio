@@ -1,4 +1,4 @@
-// Fichier généré depuis content/events.md. Ne pas le modifier directement.
+// This file is generated from content/events.md. Do not edit it directly.
 export type ArchiveEvent = { month: string; specialty: string; speaker: string; hospital: string; label: string };
 
 export type ArchiveSeason = { year: string; events: ArchiveEvent[] };

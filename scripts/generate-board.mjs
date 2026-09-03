@@ -1,4 +1,3 @@
-// Valide content/board.md et génère le catalogue TypeScript du bureau.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -45,7 +44,7 @@ if (coordinationNames.length === 0) {
 }
 
 const generated = [
-  "// Fichier généré depuis content/board.md. Ne pas le modifier directement.",
+  "// This file is generated from content/board.md. Do not edit it directly.",
   "export type BoardMember = { name: string; role: string; initials: string };",
   "",
   "export type BoardInfo = { season: string; description: string; members: BoardMember[]; coordinationNames: string[]; coordinationEmail: string };",
