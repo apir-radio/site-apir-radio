@@ -87,6 +87,21 @@ du système, sans ajouter de réglage local supplémentaire.
 Le fichier `public/CNAME` associe GitHub Pages à `www.apir-radio.fr`. La zone DNS
 du domaine est administrée depuis OVHcloud.
 
+## Automatisation GitHub
+
+Le dossier `.github/` contient les contrôles et conventions du dépôt :
+
+- `workflows/ci.yml` vérifie le code et les parcours UI avant fusion ou publication ;
+- `workflows/pages.yml` reprend ces contrôles avant de publier l’export statique ;
+- `workflows/content.yml` accélère le retour sur les changements éditoriaux ;
+- `workflows/health.yml` surveille la disponibilité du site public ;
+- `dependabot.yml` regroupe les mises à jour de dépendances ;
+- `pull_request_template.md` rappelle les vérifications à effectuer.
+
+Les workflows utilisent des permissions minimales et des références d’actions
+figées sur des commits. La branche `main` est protégée par les règles du dépôt
+GitHub.
+
 ## Modifier le contenu
 
 Consulter [`content/README.md`](./content/README.md), puis le guide
