@@ -49,7 +49,7 @@ test("le bouton Retour du navigateur ferme la fiche sans quitter le site", async
 
 test("le menu mobile se referme après une navigation", async ({ page }) => {
   await page.locator("details.mobile-nav summary").click();
-  await page.getByRole("link", { name: "Postes hospitaliers", exact: true }).click();
+  await page.getByRole("link", { name: "Annonces", exact: true }).click();
 
   await expect(page.locator("details.mobile-nav")).not.toHaveAttribute("open", "");
   await expect(page).toHaveURL(/#postes-hospitaliers$/);

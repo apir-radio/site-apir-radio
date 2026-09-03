@@ -7,7 +7,7 @@ const links = [
   ["#bureau", "Bureau"],
   ["#soirees", "Soirées"],
   ["#ressources", "Ressources"],
-  ["#postes-hospitaliers", "Postes hospitaliers"],
+  ["#postes-hospitaliers", "Annonces"],
   ["#contact", "Nous contacter"],
 ] as const;
 

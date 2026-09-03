@@ -61,7 +61,7 @@ test("keeps the accessible job announcements in the static page", async () => {
   assert.match(html, /class=["'][^"']*events-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*resources-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*resource-card social-card[^"']*["'][^>]*>.*Suivre la vie de l’association/is);
-  assert.doesNotMatch(html, />Parlons radio<\/a>|>Annonces<\/a>|href=["']\/annonces["']/i);
+  assert.doesNotMatch(html, />Parlons radio<\/a>|href=["']\/annonces["']/i);
   assert.match(html, /Radiologue en CDI.*Hôpital Saint-Camille.*Pourquoi nous rejoindre.*S\.Sillou@ch-bry\.org/is);
   assert.equal((html.match(/data-job-id=/g) ?? []).length, 9);
   assert.match(html, /Ambroise-Paré.*marie-france\.bellin@aphp\.fr/is);
