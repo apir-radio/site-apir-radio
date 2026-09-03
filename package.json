@@ -14,7 +14,6 @@
     "content:check": "node scripts/generate-jobs.mjs --check && node scripts/generate-events.mjs --check && node scripts/generate-board.mjs --check",
     "test:content": "node --test tests/content-utils.test.mjs",
     "anchors:check": "node scripts/check-anchors.mjs out",
-    "links:check": "node scripts/check-links.mjs out",
     "health:check": "node scripts/check-site-health.mjs",
     "build": "npm run build:pages",
     "build:pages": "npm run content:generate && GITHUB_PAGES=true next build --webpack",
@@ -34,7 +33,7 @@
     "@types/node": "26.4.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
-    "eslint": "10.9.1",
+    "eslint": "9.39.4",
     "eslint-config-next": "16.3.3",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3"

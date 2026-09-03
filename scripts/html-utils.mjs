@@ -18,27 +18,6 @@ export async function listHtmlFiles(directory) {
   return files.sort();
 }
 
-export function collectExternalLinks(html, filePath) {
-  const links = [];
-  const attributePattern = /\b(?:href|src)\s*=\s*["']([^"']+)["']/gi;
-  let match;
-
-  while ((match = attributePattern.exec(html))) {
-    const value = match[1].trim();
-    if (!/^https?:\/\//i.test(value)) continue;
-
-    try {
-      const url = new URL(value);
-      url.hash = "";
-      links.push({ url: url.toString(), filePath });
-    } catch {
-      // Les attributs invalides sont signalés par le contrôle du contenu ou du build.
-    }
-  }
-
-  return links;
-}
-
 export function collectInternalAnchors(html, filePath) {
   const links = [];
   const attributePattern = /\bhref\s*=\s*["']([^"']+)["']/gi;

@@ -31,10 +31,9 @@ npm run lint
 npm run test:ui
 ```
 
-Pour un contrôle supplémentaire après le build :
+Pour vérifier la disponibilité du site public :
 
 ```bash
-npm run links:check
 npm run health:check
 ```
 
@@ -55,5 +54,5 @@ Le workflow de publication revalide les catalogues, le contenu, TypeScript et
 ESLint avant de créer l’artefact GitHub Pages. Une erreur dans l’un de ces
 contrôles bloque le déploiement.
 
-Les contrôles de liens, Lighthouse et disponibilité sont planifiés séparément
-et ne bloquent pas les publications normales.
+La disponibilité du site public est planifiée séparément et ne bloque pas les
+publications normales.

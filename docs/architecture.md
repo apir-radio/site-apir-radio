@@ -55,9 +55,8 @@ Site public www.apir-radio.fr
 | `generate-jobs.mjs` | Validation et génération des annonces |
 | `generate-events.mjs` | Validation et génération des soirées |
 | `generate-board.mjs` | Validation et génération du bureau |
-| `html-utils.mjs` | Lecture HTML et collecte des liens/ancres |
+| `html-utils.mjs` | Lecture HTML et collecte des ancres |
 | `check-anchors.mjs` | Contrôle des ancres internes du build |
-| `check-links.mjs` | Contrôle des liens externes avec retries limités |
 | `check-site-health.mjs` | Contrôle des ressources publiques essentielles |
 
 ### Tests (`tests/`)
@@ -77,8 +76,6 @@ Site public www.apir-radio.fr
 | `workflows/content.yml` | Vérification ciblée des changements éditoriaux |
 | `workflows/pages.yml` | Build validé et déploiement GitHub Pages |
 | `workflows/health.yml` | Surveillance hebdomadaire de disponibilité |
-| `workflows/links.yml` | Surveillance hebdomadaire des liens externes |
-| `workflows/lighthouse.yml` | Audit hebdomadaire indicatif performance/accessibilité/SEO |
 | `dependabot.yml` | Mises à jour groupées des dépendances |
 | `pull_request_template.md` | Checklist commune des contributions |
 

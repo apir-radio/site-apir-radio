@@ -68,13 +68,10 @@ Les contrôles disponibles sont les suivants :
 - `npm run test:ui` vérifie les interactions principales, dont la fermeture des
   annonces, le retour navigateur, les archives au clavier, le menu mobile, les
   petits écrans et l’apparence sombre ;
-- `npm run links:check` contrôle les liens externes après un build ;
 - `npm run health:check` vérifie les ressources publiques essentielles ;
 - `npm run verify` regroupe les contrôles statiques principaux.
 
-Les liens externes et Lighthouse sont contrôlés périodiquement par GitHub
-Actions. Les contrôles de liens restent informatifs, car certains services
-publics refusent les requêtes automatisées.
+La disponibilité du site public est contrôlée périodiquement par GitHub Actions.
 
 ## Publication
 

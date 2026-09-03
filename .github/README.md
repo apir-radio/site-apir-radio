@@ -6,8 +6,6 @@ Ce dossier contient uniquement les contrôles et conventions du dépôt GitHub.
 - `workflows/pages.yml` reprend ces contrôles avant de publier l’export statique ;
 - `workflows/content.yml` accélère le retour sur les changements éditoriaux ;
 - `workflows/health.yml` surveille le site public ;
-- `workflows/links.yml` contrôle périodiquement les liens externes ;
-- `workflows/lighthouse.yml` fournit un audit indicatif de qualité web ;
 - `dependabot.yml` regroupe les mises à jour de dépendances ;
 - `pull_request_template.md` rappelle les vérifications à effectuer.
 
