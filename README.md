@@ -35,6 +35,10 @@ build GitHub Pages.
 
 - `npm run content:check` vérifie que les données TypeScript générées sont bien
   synchronisées avec les fichiers Markdown éditoriaux.
+- `npm run test:content` vérifie les règles communes de lecture et de validation
+  du contenu.
+- `npm run anchors:check` vérifie les ancres internes du HTML généré et bloque
+  les erreurs déterministes.
 - `npm run test:ui` vérifie les parcours interactifs principaux après un build,
   notamment la fermeture des annonces, le retour navigateur, le menu mobile et
   les contrôles tactiles du pied de page.
@@ -48,13 +52,15 @@ build GitHub Pages.
 - `npm run health:check` vérifie la disponibilité de la page d’accueil, du
   sitemap, de `robots.txt` et du logo. Le même contrôle est lancé chaque semaine
   par `.github/workflows/health.yml`.
+- `npm run verify` regroupe les contrôles locaux principaux avant une fusion.
 
 Le bureau est également éditorialisé dans `content/board.md`, au même titre que
 les annonces et les archives. Les offres hospitalières ne reçoivent aucune
 donnée structurée `JobPosting` ; leur section est marquée `data-nosnippet` pour
 éviter qu’elle soit utilisée comme extrait de résultat de recherche.
 
-Les mises à jour Dependabot mineures et correctives sont regroupées dans les
+La configuration publique du site est regroupée dans `site.config.json`. Les
+mises à jour Dependabot mineures et correctives sont regroupées dans les
 fichiers `.github/dependabot.yml` afin de réduire le nombre de pull requests.
 
 ## Modifier le site avec Codex

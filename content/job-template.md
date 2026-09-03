@@ -4,7 +4,6 @@ order: 20
 title: "Intitulé du poste"
 place: "Établissement · Ville (département)"
 status: "active"
-publishedAt: "2026-09-02"
 ---
 
 Décrivez ici le poste en Markdown.

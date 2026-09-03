@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-
-const helloAssoUrl =
-  "https://www.helloasso.com/beta/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir";
+import { siteConfig } from "../site-config";
 
 export const metadata: Metadata = {
   title: "Adhésion APIR — Redirection vers HelloAsso",
@@ -13,15 +11,10 @@ export const metadata: Metadata = {
 export default function AdhesionRedirect() {
   return (
     <main>
-      <meta httpEquiv="refresh" content={`0;url=${helloAssoUrl}`} />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `window.location.replace(${JSON.stringify(helloAssoUrl)});`,
-        }}
-      />
+      <meta httpEquiv="refresh" content={`0;url=${siteConfig.helloAssoUrl}`} />
       <p>
         Redirection vers la page d’adhésion APIR sur HelloAsso…{" "}
-        <a href={helloAssoUrl}>Continuer vers HelloAsso</a>
+        <a href={siteConfig.helloAssoUrl}>Continuer vers HelloAsso</a>
       </p>
     </main>
   );

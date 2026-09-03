@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { assertHttpsUrl } from "./content-utils.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(projectRoot, "content", "events.md");
@@ -95,9 +96,7 @@ if (upcomingEvent) {
   if (missing.length > 0) {
     throw new Error("Événement à venir incomplet dans content/events.md : " + missing.join(", ") + ".");
   }
-  if (!/^https:\/\//.test(upcomingEvent.registrationUrl)) {
-    throw new Error("Lien d’inscription invalide dans content/events.md : https:// attendu.");
-  }
+  assertHttpsUrl(upcomingEvent.registrationUrl, "Lien d’inscription invalide dans content/events.md");
 }
 
 const generated = [

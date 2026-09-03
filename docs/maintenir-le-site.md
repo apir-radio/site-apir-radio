@@ -20,8 +20,10 @@ Ne pas modifier directement `app/*.generated.ts` : ces fichiers sont régénér�
 ```bash
 npm ci
 npm run content:check
+npm run test:content
 npm run build:pages
 node --test tests/rendered-html.test.mjs
+npm run anchors:check
 npm run lint
 npm run test:ui
 ```
@@ -31,6 +33,12 @@ Pour un contrôle supplémentaire après le build :
 ```bash
 npm run links:check
 npm run health:check
+```
+
+Pour lancer les contrôles statiques principaux en une seule commande :
+
+```bash
+npm run verify
 ```
 
 ## Publier

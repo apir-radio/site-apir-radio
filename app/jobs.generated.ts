@@ -7,8 +7,6 @@ export type HospitalJob = {
   title: string;
   place: string;
   status: JobStatus;
-  publishedAt?: string;
-  expiresAt?: string;
   href?: string;
   content?: string;
 };

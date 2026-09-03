@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import fs from "node:fs/promises";
 import test from "node:test";
 
+const require = createRequire(import.meta.url);
+const siteConfig = require("../site.config.json");
 const outputDirectory = new URL("../out/", import.meta.url);
-const helloAssoAdhesionUrl =
-  "https://www.helloasso.com/beta/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir";
+const helloAssoAdhesionUrl = siteConfig.helloAssoUrl;
 
 async function readOutput(relativePath) {
   return fs.readFile(new URL(relativePath, outputDirectory), "utf8");
@@ -34,6 +36,7 @@ test("publishes the canonical page with useful metadata", async () => {
   assert.match(html, /src=["'][^"']*apir-logo\.webp/i);
   assert.match(html, /src=["'][^"']*apir-logo-small\.webp/i);
   assert.match(html, /src=["'][^"']*la-medicale-logo\.webp/i);
+  assert.match(html, /target=["']_blank["'][^>]*rel=["']noopener noreferrer["']/i);
   assert.doesNotMatch(html, /codex-preview|chatgpt\.site|apir-radio\.notion\.site/i);
   assert.match(robots, /User-Agent:\s*\*/i);
   assert.match(robots, /Sitemap:\s*https:\/\/www\.apir-radio\.fr\/sitemap\.xml/i);
@@ -83,7 +86,7 @@ test("keeps the adhesion shortcut as a noindex redirect", async () => {
   assert.match(html, /http-equiv=["']refresh["']/i);
   assert.match(html, /name=["']robots["'][^>]*noindex/i);
   assert.ok(html.includes(helloAssoAdhesionUrl));
-  assert.match(html, /window\.location\.replace/);
+  assert.doesNotMatch(html, /window\.location\.replace/);
 });
 
 test("does not generate the retired annonces route", async () => {

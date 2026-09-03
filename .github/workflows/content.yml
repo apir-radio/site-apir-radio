@@ -25,10 +25,9 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
-
-      - name: Installer les dépendances
-        run: npm ci
 
       - name: Vérifier les annonces et les archives
         run: npm run content:check
+
+      - name: Tester les règles du contenu
+        run: npm run test:content

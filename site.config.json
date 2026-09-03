@@ -1,0 +1,24 @@
+{
+  "siteUrl": "https://www.apir-radio.fr",
+  "domain": "www.apir-radio.fr",
+  "name": "APIR — Internes en radiologie d’Île-de-France",
+  "organizationName": "Association Parisienne des Internes en Radiologie",
+  "organizationDescription": "Association loi 1901 qui organise des soirées de formation et rassemble les internes en radiologie d’Île-de-France.",
+  "description": "L’Association Parisienne des Internes en Radiologie organise des soirées de formation, rassemble les internes et relaie les offres de postes hospitaliers en Île-de-France.",
+  "openGraphDescription": "Formations, vie associative et offres de postes hospitaliers pour les internes en radiologie d’Île-de-France.",
+  "email": "contact@apir-radio.fr",
+  "helloAssoUrl": "https://www.helloasso.com/beta/associations/apir-association-parisienne-des-internes-en-radiologie/adhesions/adhesion-apir",
+  "socials": {
+    "instagram": "https://www.instagram.com/apir.radiologie",
+    "facebook": "https://www.facebook.com/groups/apir.radio"
+  },
+  "partners": {
+    "corail": "https://corail-radiologie.fr/annonces/"
+  },
+  "address": {
+    "streetAddress": "83 boulevard de l’Hôpital",
+    "postalCode": "75013",
+    "addressLocality": "Paris",
+    "addressCountry": "FR"
+  }
+}

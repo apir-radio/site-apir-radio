@@ -29,6 +29,9 @@ jobs:
       - name: Vérifier le contenu éditorial
         run: npm run content:check
 
+      - name: Tester les règles du contenu
+        run: npm run test:content
+
       - name: Vérifier TypeScript
         run: npx tsc --noEmit --incremental false
 
@@ -45,6 +48,9 @@ jobs:
 
       - name: Vérifier le HTML généré
         run: node --test tests/rendered-html.test.mjs
+
+      - name: Vérifier les ancres internes
+        run: npm run anchors:check
 
       - name: Installer Chromium pour les tests UI
         run: npx playwright install --with-deps chromium

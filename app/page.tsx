@@ -5,10 +5,10 @@ import { JobList } from "./job-list";
 import { hospitalJobs } from "./jobs";
 import { SiteNav } from "./site-nav";
 import { archiveEvents, upcomingEvent } from "./events";
+import { assetPath, siteConfig, sitePath } from "./site-config";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const adhesionPath = `${basePath}/adhesion`;
-const siteUrl = "https://www.apir-radio.fr";
+const adhesionPath = sitePath("/adhesion");
+const { siteUrl, organizationName, organizationDescription, email, socials, address } = siteConfig;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -16,38 +16,28 @@ const structuredData = {
     {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
-      name: "Association Parisienne des Internes en Radiologie",
+      name: organizationName,
       alternateName: "APIR",
       url: siteUrl,
       logo: `${siteUrl}/apir-logo.webp`,
-      description: "Association loi 1901 qui organise des soirées de formation et rassemble les internes en radiologie d’Île-de-France.",
-      email: "contact@apir-radio.fr",
+      description: organizationDescription,
+      email,
       address: {
         "@type": "PostalAddress",
-        streetAddress: "83 boulevard de l’Hôpital",
-        postalCode: "75013",
-        addressLocality: "Paris",
-        addressCountry: "FR",
+        ...address,
       },
-      sameAs: [
-        "https://www.instagram.com/apir.radiologie",
-        "https://www.facebook.com/groups/apir.radio",
-      ],
+      sameAs: Object.values(socials),
     },
     {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
-      name: "APIR — Internes en radiologie d’Île-de-France",
+      name: siteConfig.name,
       inLanguage: "fr-FR",
       publisher: { "@id": `${siteUrl}/#organization` },
     },
   ],
 };
-
-function assetPath(path: string) {
-  return `${basePath}${path}`;
-}
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -67,7 +57,7 @@ export default function Home() {
             <Image className="brand-logo" src={assetPath("/apir-logo-small.webp")} alt="" width={192} height={205} sizes="2.5rem" />
             <span>APIR</span>
           </a>
-          <a className="header-contact" href="mailto:contact@apir-radio.fr">Nous contacter</a>
+          <a className="header-contact" href={`mailto:${email}`}>Nous contacter</a>
         </div>
         <SiteNav />
         <a className="header-cta" href={adhesionPath}>
@@ -99,7 +89,7 @@ export default function Home() {
 
         <div className="hero-stats" aria-label="APIR en chiffres">
           <div><strong>1998</strong><span>Fondation de l’association</span></div>
-          <div><strong>8</strong><span>Internes au bureau</span></div>
+          <div><strong>{board.members.length}</strong><span>Internes au bureau</span></div>
           <div><strong>{currentSeasonEventCount}</strong><span>Soirées organisées en {currentSeason?.year ?? "cours"}</span></div>
         </div>
       </section>
@@ -154,13 +144,13 @@ export default function Home() {
               <>
                 <strong>{upcomingEvent.specialty}</strong>
                 <span>Avec {upcomingEvent.speaker}, {upcomingEvent.speakerHospital}.</span>
-                <a href={upcomingEvent.registrationUrl} target="_blank" rel="noreferrer">S’inscrire à la soirée <Arrow /></a>
+                <a href={upcomingEvent.registrationUrl} target="_blank" rel="noopener noreferrer">S’inscrire à la soirée <Arrow /></a>
               </>
             ) : (
               <>
                 <p>Le programme sera annoncé prochainement.</p>
                 <span>La date, le thème et les inscriptions seront publiés sur Instagram.</span>
-                <a href="https://www.instagram.com/apir.radiologie" target="_blank" rel="noreferrer">@apir.radiologie <Arrow /></a>
+                <a href={socials.instagram} target="_blank" rel="noopener noreferrer">@apir.radiologie <Arrow /></a>
               </>
             )}
           </div>
@@ -193,8 +183,8 @@ export default function Home() {
               <p>Les annonces et les rappels sont publiés sur Instagram et dans le groupe Facebook des internes.</p>
             </div>
             <div className="double-links">
-              <a href="https://www.instagram.com/apir.radiologie" target="_blank" rel="noreferrer">Instagram <Arrow /></a>
-              <a href="https://www.facebook.com/groups/apir.radio" target="_blank" rel="noreferrer">Groupe Facebook <Arrow /></a>
+              <a href={socials.instagram} target="_blank" rel="noopener noreferrer">Instagram <Arrow /></a>
+              <a href={socials.facebook} target="_blank" rel="noopener noreferrer">Groupe Facebook <Arrow /></a>
             </div>
           </article>
           <article className="resource-card">
@@ -213,7 +203,7 @@ export default function Home() {
               <h3>Annonces d’exercice libéral</h3>
               <p>Depuis juillet 2024, les annonces concernant l’exercice libéral sont centralisées par notre partenaire CORAIL.</p>
             </div>
-            <a href="https://corail-radiologie.fr/annonces/" target="_blank" rel="noreferrer">Voir les annonces CORAIL <Arrow /></a>
+            <a href={siteConfig.partners.corail} target="_blank" rel="noopener noreferrer">Voir les annonces CORAIL <Arrow /></a>
           </article>
         </div>
 
@@ -240,13 +230,13 @@ export default function Home() {
         <div className="contact-links">
           <a
             className="contact-mail"
-            href="mailto:contact@apir-radio.fr"
+            href={`mailto:${email}`}
             aria-label="Écrire à l’APIR par e-mail"
           >
             <span className="contact-mail-copy">
               <small>Par e-mail</small>
               <strong>Écrire à l’APIR</strong>
-              <span className="contact-address">contact@apir-radio.fr</span>
+              <span className="contact-address">{email}</span>
             </span>
             <span className="contact-mail-arrow"><Arrow /></span>
           </a>
@@ -262,12 +252,12 @@ export default function Home() {
           Association Parisienne des Internes en Radiologie (APIR)<br />
           Association loi 1901 · RNA W751134082 · SIREN 440 769 057<br />
           83 boulevard de l’Hôpital, 75013 Paris<br />
-          Site officiel : apir-radio.fr
+          Site officiel : {siteConfig.domain}
         </p>
         <div className="footer-links">
-          <a href="https://www.instagram.com/apir.radiologie" target="_blank" rel="noreferrer">Instagram</a>
-          <a href="https://www.facebook.com/groups/apir.radio" target="_blank" rel="noreferrer">Facebook</a>
-          <a href="mailto:contact@apir-radio.fr">Contact</a>
+          <a href={socials.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href={socials.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href={`mailto:${email}`}>Contact</a>
         </div>
         <div className="footer-partner">
           <span>Partenaire</span>

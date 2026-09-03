@@ -1,13 +1,12 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "./site-config";
 
 export const dynamic = "force-static";
-
-const siteUrl = "https://www.apir-radio.fr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: siteUrl,
+      url: siteConfig.siteUrl,
       changeFrequency: "monthly",
       priority: 1,
     },

@@ -21,12 +21,14 @@ Le bloc entre les deux lignes `---` contient les champs de gestion :
 - `title` : intitulé court affiché dans la liste
 - `place` : établissement et ville
 - `status` : `active` ou `archived`
-- `publishedAt` et `expiresAt` : champs optionnels pour le suivi
+- `href` : URL HTTPS d’une annonce externe sans contenu local (optionnel)
 
 Le texte qui suit est du Markdown simple : paragraphes, titres de niveau 2 ou 3, listes, gras et liens e-mail/téléphone sont pris en charge.
 
 Pour ajouter une offre, crée un nouveau fichier .md dans content/jobs, renseigne les champs ci-dessus et place le texte de l’annonce sous le second séparateur ---.
 Pour retirer une offre sans perdre son contenu, passe simplement status à archived.
+Une annonce externe peut fournir `href` et laisser le corps vide ; une annonce
+avec contenu local ne doit pas fournir `href`.
 
 Un modèle prêt à copier est disponible dans [job-template.md](./job-template.md).
 Après une modification, lance `npm run content:check` pour vérifier que les

@@ -1,6 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  assertHttpsUrl,
+  assertKnownFields,
+  parseFrontmatter as parseSimpleFrontmatter,
+  requireFields,
+  validateMarkdownLinks,
+} from "./content-utils.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const jobsDirectory = path.join(projectRoot, "content", "jobs");
@@ -8,44 +15,38 @@ const outputPath = path.join(projectRoot, "app", "jobs.generated.ts");
 const checkMode = process.argv.includes("--check");
 
 function parseFrontmatter(source, fileName) {
-  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) {
-    throw new Error("Annonce invalide dans content/jobs/" + fileName + " : bloc frontmatter manquant.");
-  }
-
-  const [, rawFrontmatter, rawContent] = match;
-  const frontmatter = {};
-
-  for (const line of rawFrontmatter.split(/\r?\n/)) {
-    const separator = line.indexOf(":");
-    if (separator < 0) continue;
-    const key = line.slice(0, separator).trim();
-    const value = line
-      .slice(separator + 1)
-      .trim()
-      .replace(/^["']|["']$/g, "");
-    frontmatter[key] = value;
-  }
-
-  for (const key of ["id", "order", "title", "place"]) {
-    if (!frontmatter[key]) {
-      throw new Error("Annonce invalide dans content/jobs/" + fileName + " : champ " + key + " manquant.");
-    }
-  }
+  const context = `Annonce invalide dans content/jobs/${fileName}`;
+  const parsed = parseSimpleFrontmatter(source, context);
+  const { frontmatter, content } = parsed;
+  assertKnownFields(frontmatter, ["id", "order", "title", "place", "status", "href"], context);
+  requireFields(frontmatter, ["id", "order", "title", "place"], context);
 
   const idFromFile = path.basename(fileName, path.extname(fileName));
   if (frontmatter.id !== idFromFile) {
-    throw new Error("Annonce invalide dans content/jobs/" + fileName + " : id différent du nom de fichier.");
+    throw new Error(`${context} : id différent du nom de fichier.`);
+  }
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(frontmatter.id)) {
+    throw new Error(`${context} : id doit contenir uniquement des minuscules, chiffres et tirets.`);
   }
 
   const order = Number(frontmatter.order);
   if (!Number.isInteger(order) || order < 1) {
-    throw new Error("Annonce invalide dans content/jobs/" + fileName + " : order doit être un entier positif.");
+    throw new Error(`${context} : order doit être un entier positif.`);
   }
 
   const status = frontmatter.status || "active";
   if (status !== "active" && status !== "archived") {
-    throw new Error("Annonce invalide dans content/jobs/" + fileName + " : status doit être active ou archived.");
+    throw new Error(`${context} : status doit être active ou archived.`);
+  }
+
+  if (frontmatter.href) assertHttpsUrl(frontmatter.href, `${context} : href`);
+  validateMarkdownLinks(content, context);
+
+  if (!content && !frontmatter.href) {
+    throw new Error(`${context} : le contenu ou le champ href doit être renseigné.`);
+  }
+  if (content && frontmatter.href) {
+    throw new Error(`${context} : content et href ne peuvent pas être utilisés ensemble.`);
   }
 
   return {
@@ -54,9 +55,8 @@ function parseFrontmatter(source, fileName) {
     title: frontmatter.title,
     place: frontmatter.place,
     status,
-    ...(frontmatter.publishedAt ? { publishedAt: frontmatter.publishedAt } : {}),
-    ...(frontmatter.expiresAt ? { expiresAt: frontmatter.expiresAt } : {}),
-    content: rawContent.trim(),
+    ...(frontmatter.href ? { href: frontmatter.href } : {}),
+    ...(content ? { content } : {}),
   };
 }
 
@@ -89,8 +89,6 @@ const generated = [
   "  title: string;",
   "  place: string;",
   "  status: JobStatus;",
-  "  publishedAt?: string;",
-  "  expiresAt?: string;",
   "  href?: string;",
   "  content?: string;",
   "};",

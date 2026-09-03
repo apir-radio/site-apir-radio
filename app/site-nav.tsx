@@ -18,35 +18,31 @@ export function SiteNav() {
   const navRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
-    let frame = 0;
+    if (!("IntersectionObserver" in window)) return;
 
-    function updateActiveSection() {
-      frame = 0;
-      const marker = window.scrollY + window.innerHeight * 0.32;
-      let nextActiveId: string | null = null;
+    const sections = links
+      .map(([href]) => document.querySelector(href))
+      .filter((section): section is HTMLElement => section instanceof HTMLElement);
+    if (sections.length === 0) return;
 
-      for (const [href] of links) {
-        const section = document.querySelector(href);
-        if (section instanceof HTMLElement && section.offsetTop <= marker) {
-          nextActiveId = href.slice(1);
-        }
-      }
+    const sectionEntries = new Map<Element, IntersectionObserverEntry>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => sectionEntries.set(entry.target, entry));
+        const visibleSections = [...sectionEntries.values()]
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        const nextActiveId = visibleSections[0]?.target instanceof HTMLElement
+          ? visibleSections[0].target.id
+          : null;
+        setActiveId(nextActiveId);
+      },
+      { rootMargin: "-18% 0px -66% 0px", threshold: 0 },
+    );
 
-      setActiveId(nextActiveId);
-    }
-
-    function scheduleUpdate() {
-      if (frame) return;
-      frame = window.requestAnimationFrame(updateActiveSection);
-    }
-
-    updateActiveSection();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
+    sections.forEach((section) => observer.observe(section));
     return () => {
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      if (frame) window.cancelAnimationFrame(frame);
+      observer.disconnect();
     };
   }, []);
 

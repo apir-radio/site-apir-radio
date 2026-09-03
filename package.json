@@ -12,13 +12,16 @@
     "board:generate": "node scripts/generate-board.mjs",
     "content:generate": "npm run jobs:generate && npm run events:generate && npm run board:generate",
     "content:check": "node scripts/generate-jobs.mjs --check && node scripts/generate-events.mjs --check && node scripts/generate-board.mjs --check",
+    "test:content": "node --test tests/content-utils.test.mjs",
+    "anchors:check": "node scripts/check-anchors.mjs out",
     "links:check": "node scripts/check-links.mjs out",
     "health:check": "node scripts/check-site-health.mjs",
     "build": "npm run build:pages",
     "build:pages": "npm run content:generate && GITHUB_PAGES=true next build --webpack",
-    "test": "npm run build:pages && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build:pages && npm run test:content && node --test tests/rendered-html.test.mjs",
     "test:ui": "playwright test",
-    "lint": "eslint . --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern .next",
+    "verify": "npm run content:check && npm run test:content && npx tsc --noEmit --incremental false && npm run lint && npm run build:pages && node --test tests/rendered-html.test.mjs && npm run anchors:check"
   },
   "dependencies": {
     "next": "16.3.3",

@@ -1,14 +1,17 @@
+import { createRequire } from "node:module";
 import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-const baseUrl = process.argv[2] || "https://www.apir-radio.fr";
-const expectedDomain = "www.apir-radio.fr";
+const require = createRequire(import.meta.url);
+const siteConfig = require("../site.config.json");
+const baseUrl = process.argv[2] || siteConfig.siteUrl;
+const expectedDomain = siteConfig.domain;
 const expectedHttpsOrigin = `https://${expectedDomain}`;
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const timeoutMs = Number(process.env.SITE_HEALTH_TIMEOUT_MS || 15_000);
-const userAgent = "APIR-site-health-check/1.0 (+https://www.apir-radio.fr)";
+const userAgent = `APIR-site-health-check/1.0 (+${siteConfig.siteUrl})`;
 const base = new URL(baseUrl);
 const resources = [
   { path: "/", expectedText: "APIR", ...(base.hostname === expectedDomain && base.protocol === "https:" ? { expectedUrl: `${expectedHttpsOrigin}/` } : {}) },

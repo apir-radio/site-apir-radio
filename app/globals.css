@@ -426,7 +426,13 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
 
 @media (max-width: 900px) {
   nav { display: none; }
-  .mobile-nav { display: block; }
+  .mobile-nav {
+    display: block;
+    position: static;
+  }
+  .mobile-nav-popover {
+    right: .6rem;
+  }
   .header-contact { display: none; }
   .site-header { width: calc(100% - 1.5rem); top: max(.75rem, env(safe-area-inset-top)); }
   .hero { min-height: 62rem; height: auto; padding-top: 9.5rem; grid-template-columns: 1fr; gap: 1rem; }

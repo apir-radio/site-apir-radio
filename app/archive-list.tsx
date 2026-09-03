@@ -1,41 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ArchiveSeason } from "./events";
 
 const storageKey = "apir-open-archive-years";
 
+function persistOpenYears(years: string[]) {
+  try {
+    window.sessionStorage.setItem(storageKey, JSON.stringify(years));
+  } catch {
+    // Le stockage est un confort, pas une condition de fonctionnement.
+  }
+}
+
 export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
   const [openYears, setOpenYears] = useState<string[]>([]);
+  const [hasRestoredState, setHasRestoredState] = useState(false);
+  const userInteractedRef = useRef(false);
 
   useEffect(() => {
-    let restoreTimer: number | undefined;
-    try {
-      const stored = JSON.parse(window.sessionStorage.getItem(storageKey) || "[]");
-      if (Array.isArray(stored)) {
-        const restoredYears = stored.filter((year): year is string => typeof year === "string" && seasons.some((season) => season.year === year));
-        restoreTimer = window.setTimeout(() => setOpenYears(restoredYears), 0);
+    const restoreTimer = window.setTimeout(() => {
+      try {
+        const stored = JSON.parse(window.sessionStorage.getItem(storageKey) || "[]");
+        if (Array.isArray(stored) && !userInteractedRef.current) {
+          const restoredYears = stored.filter((year): year is string => typeof year === "string" && seasons.some((season) => season.year === year));
+          setOpenYears(restoredYears);
+        }
+      } catch {
+        // Le navigateur peut désactiver le stockage : les archives restent utilisables.
       }
-    } catch {
-      // Le navigateur peut désactiver le stockage : les archives restent utilisables.
-    }
-    return () => {
-      if (restoreTimer !== undefined) window.clearTimeout(restoreTimer);
-    };
+      setHasRestoredState(true);
+    }, 0);
+
+    return () => window.clearTimeout(restoreTimer);
   }, [seasons]);
 
   useEffect(() => {
-    try {
-      window.sessionStorage.setItem(storageKey, JSON.stringify(openYears));
-    } catch {
-      // Le stockage est un confort, pas une condition de fonctionnement.
-    }
-  }, [openYears]);
+    if (!hasRestoredState) return;
+    persistOpenYears(openYears);
+  }, [hasRestoredState, openYears]);
 
   function updateOpenYear(year: string, isOpen: boolean) {
-    setOpenYears((current) => {
-      return isOpen ? [...new Set([...current, year])] : current.filter((item) => item !== year);
-    });
+    userInteractedRef.current = true;
+    const nextOpenYears = isOpen ? [...new Set([...openYears, year])] : openYears.filter((item) => item !== year);
+    setOpenYears(nextOpenYears);
+    persistOpenYears(nextOpenYears);
   }
 
   return (
@@ -47,9 +56,13 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
           <details
             key={season.year}
             open={openYears.includes(season.year)}
-            onToggle={(event) => updateOpenYear(season.year, event.currentTarget.open)}
           >
-            <summary>
+            <summary
+              onClick={(event) => {
+                event.preventDefault();
+                updateOpenYear(season.year, !openYears.includes(season.year));
+              }}
+            >
               <span>{season.year}</span>
               <span className="archive-summary-meta">
                 <span className="archive-count">{count} soirée{count > 1 ? "s" : ""}</span>

@@ -1,37 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { assertEmail, assertKnownFields, parseFrontmatter, requireFields } from "./content-utils.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(projectRoot, "content", "board.md");
 const outputPath = path.join(projectRoot, "app", "board.generated.ts");
 const checkMode = process.argv.includes("--check");
 const source = fs.readFileSync(sourcePath, "utf8");
-const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-
-if (!match) {
-  throw new Error("Bureau invalide dans content/board.md : bloc frontmatter manquant.");
-}
-
-const [, rawFrontmatter, rawContent] = match;
-const frontmatter = {};
-for (const line of rawFrontmatter.split(/\r?\n/)) {
-  const separator = line.indexOf(":");
-  if (separator < 0) continue;
-  const key = line.slice(0, separator).trim();
-  const value = line.slice(separator + 1).trim().replace(/^["']|["']$/g, "");
-  frontmatter[key] = value;
-}
-
-for (const key of ["season", "description", "coordinationEmail", "coordinationNames"]) {
-  if (!frontmatter[key]) {
-    throw new Error("Bureau invalide dans content/board.md : champ " + key + " manquant.");
-  }
-}
-
-if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(frontmatter.coordinationEmail)) {
-  throw new Error("Bureau invalide dans content/board.md : coordinationEmail doit être une adresse e-mail.");
-}
+const context = "Bureau invalide dans content/board.md";
+const { frontmatter, content: rawContent } = parseFrontmatter(source, context);
+assertKnownFields(frontmatter, ["season", "description", "coordinationEmail", "coordinationNames"], context);
+requireFields(frontmatter, ["season", "description", "coordinationEmail", "coordinationNames"], context);
+assertEmail(frontmatter.coordinationEmail, `${context} : coordinationEmail`);
 
 const members = [];
 for (const [lineIndex, rawLine] of rawContent.split(/\r?\n/).entries()) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { basePath, siteConfig } from "./site-config";
 
 const geistSans = localFont({
   src: "./fonts/geist-8ac0455e797f/geist-98bbbccb.woff2",
@@ -11,12 +12,10 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
 });
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.apir-radio.fr"),
-  title: "APIR — Internes en radiologie d’Île-de-France",
-  description: "L’Association Parisienne des Internes en Radiologie organise des soirées de formation, rassemble les internes et relaie les offres de postes hospitaliers en Île-de-France.",
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: siteConfig.name,
+  description: siteConfig.description,
   keywords: [
     "APIR",
     "internes en radiologie",
@@ -25,23 +24,23 @@ export const metadata: Metadata = {
     "soirées de formation radiologie",
     "postes hospitaliers radiologie",
   ],
-  authors: [{ name: "Association Parisienne des Internes en Radiologie", url: "https://www.apir-radio.fr" }],
-  creator: "Association Parisienne des Internes en Radiologie",
-  publisher: "Association Parisienne des Internes en Radiologie",
+  authors: [{ name: siteConfig.organizationName, url: siteConfig.siteUrl }],
+  creator: siteConfig.organizationName,
+  publisher: siteConfig.organizationName,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "fr_FR",
     url: "/",
     siteName: "APIR",
-    title: "APIR — Internes en radiologie d’Île-de-France",
-    description: "Formations, vie associative et offres de postes hospitaliers pour les internes en radiologie d’Île-de-France.",
+    title: siteConfig.name,
+    description: siteConfig.openGraphDescription,
     images: [{ url: "/apir-logo.webp", width: 900, height: 959, alt: "Logo de l’Association Parisienne des Internes en Radiologie" }],
   },
   twitter: {
     card: "summary",
-    title: "APIR — Internes en radiologie d’Île-de-France",
-    description: "Formations, vie associative et offres de postes hospitaliers pour les internes en radiologie d’Île-de-France.",
+    title: siteConfig.name,
+    description: siteConfig.openGraphDescription,
     images: ["/apir-logo.webp"],
   },
   robots: {

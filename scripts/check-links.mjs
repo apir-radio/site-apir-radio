@@ -1,66 +1,28 @@
+import { createRequire } from "node:module";
 import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+import { collectExternalLinks, listHtmlFiles } from "./html-utils.mjs";
 
+const require = createRequire(import.meta.url);
+const siteConfig = require("../site.config.json");
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDirectory = path.resolve(projectRoot, process.argv[2] || "out");
-const timeoutMs = Number(process.env.LINK_CHECK_TIMEOUT_MS || 10_000);
-const userAgent = "APIR-site-link-check/1.0 (+https://www.apir-radio.fr)";
+const timeoutMs = positiveInteger(process.env.LINK_CHECK_TIMEOUT_MS, 10_000);
+const maxAttempts = positiveInteger(process.env.LINK_CHECK_ATTEMPTS, 3);
+const retryDelayMs = positiveInteger(process.env.LINK_CHECK_RETRY_DELAY_MS, 300);
+const concurrency = positiveInteger(process.env.LINK_CHECK_CONCURRENCY, 4);
+const userAgent = `APIR-site-link-check/1.0 (+${siteConfig.siteUrl})`;
+const retryableStatuses = new Set([408, 425, 429, 500, 502, 503, 504]);
 
-async function listHtmlFiles(directory) {
-  const entries = await fs.readdir(directory, { withFileTypes: true });
-  const files = [];
-
-  for (const entry of entries) {
-    const entryPath = path.join(directory, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...(await listHtmlFiles(entryPath)));
-    } else if (entry.isFile() && entry.name.endsWith(".html")) {
-      files.push(entryPath);
-    }
-  }
-
-  return files;
+function positiveInteger(value, fallback) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }
 
-function collectExternalLinks(html, filePath) {
-  const links = [];
-  const attributePattern = /\b(?:href|src)\s*=\s*["']([^"']+)["']/gi;
-  let match;
-
-  while ((match = attributePattern.exec(html))) {
-    const value = match[1].trim();
-    if (!/^https?:\/\//i.test(value)) continue;
-
-    try {
-      const url = new URL(value);
-      url.hash = "";
-      links.push({ url: url.toString(), filePath });
-    } catch {
-      console.warn(`URL ignorée dans ${path.relative(projectRoot, filePath)} : ${value}`);
-    }
-  }
-
-  return links;
-}
-
-function collectInternalAnchors(html, filePath) {
-  const links = [];
-  const attributePattern = /\bhref\s*=\s*["']([^"']+)["']/gi;
-  let match;
-
-  while ((match = attributePattern.exec(html))) {
-    const value = match[1].trim();
-    if (!value.startsWith("#") || value === "#") continue;
-    try {
-      links.push({ anchor: decodeURIComponent(value.slice(1)), filePath });
-    } catch {
-      console.warn(`Ancre ignorée dans ${path.relative(projectRoot, filePath)} : ${value}`);
-    }
-  }
-
-  return links;
+function wait(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
 async function request(url, method) {
@@ -80,17 +42,35 @@ async function request(url, method) {
   }
 }
 
+async function requestWithRetry(url, method) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const result = await request(url, method);
+      if (attempt === maxAttempts || !retryableStatuses.has(result.status)) return result;
+      lastError = new Error(`HTTP ${result.status}`);
+    } catch (error) {
+      lastError = error;
+      if (attempt === maxAttempts) throw error;
+    }
+    await wait(retryDelayMs * attempt);
+  }
+
+  throw lastError;
+}
+
 async function checkLink(url) {
   let headResult;
   try {
-    headResult = await request(url, "HEAD");
+    headResult = await requestWithRetry(url, "HEAD");
     if (headResult.status < 400) return { state: "ok", ...headResult };
   } catch (error) {
     headResult = { error };
   }
 
   try {
-    const getResult = await request(url, "GET");
+    const getResult = await requestWithRetry(url, "GET");
     if (getResult.status < 400) return { state: "ok", ...getResult };
     if (getResult.status === 403 || getResult.status === 429) {
       return { state: "warning", ...getResult };
@@ -104,6 +84,22 @@ async function checkLink(url) {
   }
 }
 
+async function mapWithConcurrency(items, limit, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+  const workerCount = Math.min(limit, items.length);
+
+  await Promise.all(Array.from({ length: workerCount }, async () => {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await mapper(items[index]);
+    }
+  }));
+
+  return results;
+}
+
 let htmlFiles;
 try {
   htmlFiles = await listHtmlFiles(outputDirectory);
@@ -115,15 +111,8 @@ try {
 }
 
 const linksByUrl = new Map();
-const anchorsByFile = new Map();
-const internalAnchors = [];
 for (const filePath of htmlFiles) {
   const html = await fs.readFile(filePath, "utf8");
-  anchorsByFile.set(
-    filePath,
-    new Set([...html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((match) => match[1])),
-  );
-  internalAnchors.push(...collectInternalAnchors(html, filePath));
   for (const link of collectExternalLinks(html, filePath)) {
     const locations = linksByUrl.get(link.url) || new Set();
     locations.add(path.relative(projectRoot, link.filePath));
@@ -132,19 +121,14 @@ for (const filePath of htmlFiles) {
 }
 
 const urls = [...linksByUrl.keys()].sort();
-const brokenAnchors = internalAnchors.filter(({ anchor, filePath }) => !anchorsByFile.get(filePath)?.has(anchor));
-console.log(`Vérification de ${urls.length} lien(s) externe(s) et ${internalAnchors.length} ancre(s) dans ${htmlFiles.length} page(s) HTML…`);
-
-for (const { anchor, filePath } of brokenAnchors) {
-  console.error(`❌ Ancre introuvable #${anchor} (${path.relative(projectRoot, filePath)})`);
-}
-
-const results = await Promise.all(urls.map(async (url) => ({ url, ...(await checkLink(url)) })));
+console.log(`Vérification de ${urls.length} lien(s) externe(s) dans ${htmlFiles.length} page(s) HTML…`);
+const results = await mapWithConcurrency(urls, concurrency, async (url) => ({ url, ...(await checkLink(url)) }));
 const broken = results.filter((result) => result.state === "broken");
 const warnings = results.filter((result) => result.state === "warning");
 
 for (const result of warnings) {
-  console.warn(`⚠️  Non vérifiable (${result.status}) : ${result.url}`);
+  const location = [...linksByUrl.get(result.url)].join(", ");
+  console.warn(`⚠️  Non vérifiable (${result.status}) : ${result.url} (${location})`);
 }
 for (const result of broken) {
   const location = [...linksByUrl.get(result.url)].join(", ");
@@ -152,10 +136,9 @@ for (const result of broken) {
   console.error(`❌ ${result.url} — ${reason} (${location})`);
 }
 
-if (broken.length > 0 || brokenAnchors.length > 0) {
-  if (broken.length > 0) console.error(`${broken.length} lien(s) externe(s) cassé(s) détecté(s).`);
-  if (brokenAnchors.length > 0) console.error(`${brokenAnchors.length} ancre(s) cassée(s) détectée(s).`);
+if (broken.length > 0) {
+  console.error(`${broken.length} lien(s) externe(s) cassé(s) détecté(s).`);
   process.exitCode = 1;
 } else {
-  console.log(`Aucun lien cassé détecté${warnings.length ? ` (${warnings.length} non vérifiable(s))` : ""}.`);
+  console.log(`Aucun lien externe cassé détecté${warnings.length ? ` (${warnings.length} non vérifiable(s))` : ""}.`);
 }

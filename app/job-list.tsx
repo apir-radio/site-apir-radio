@@ -4,7 +4,7 @@ import { Fragment, type ReactNode, useCallback, useEffect, useRef, useState } fr
 import type { HospitalJob } from "./jobs";
 
 function safeHref(href: string) {
-  return /^(https:\/\/|mailto:|tel:)/i.test(href) ? href : "#";
+  return /^(https:\/\/|mailto:|tel:)/i.test(href) ? href : null;
 }
 
 function renderInline(text: string): ReactNode[] {
@@ -22,11 +22,8 @@ function renderInline(text: string): ReactNode[] {
     } else {
       const link = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (link) {
-        nodes.push(
-          <a key={`link-${index}`} href={safeHref(link[2])}>
-            {link[1]}
-          </a>,
-        );
+        const href = safeHref(link[2]);
+        nodes.push(href ? <a key={`link-${index}`} href={href}>{link[1]}</a> : link[1]);
       }
     }
 
@@ -196,7 +193,7 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
             <RowContent job={job} index={index} />
           </button>
         ) : (
-          <a href={job.href} target="_blank" rel="noreferrer" className="job-row" key={job.id}>
+          <a href={job.href} target="_blank" rel="noopener noreferrer" className="job-row" key={job.id}>
             <RowContent job={job} index={index} />
           </a>
         ))}

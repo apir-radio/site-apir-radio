@@ -12,7 +12,6 @@ permissions:
 jobs:
   links:
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v7
@@ -30,4 +29,18 @@ jobs:
         run: npm run build:pages
 
       - name: Vérifier les liens
+        id: links
+        continue-on-error: true
         run: node scripts/check-links.mjs out
+
+      - name: Résumer le contrôle des liens
+        if: always()
+        run: |
+          {
+            echo "## Contrôle des liens externes"
+            if [[ "${{ steps.links.outcome }}" == "success" ]]; then
+              echo "✅ Aucun lien externe cassé détecté."
+            else
+              echo "⚠️ Des liens externes nécessitent une vérification. Consulter les logs du contrôle."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

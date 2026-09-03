@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "./site-config";
 
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [{ userAgent: "*", allow: "/" }],
-    host: "https://www.apir-radio.fr",
-    sitemap: "https://www.apir-radio.fr/sitemap.xml",
+    host: siteConfig.siteUrl,
+    sitemap: `${siteConfig.siteUrl}/sitemap.xml`,
   };
 }
