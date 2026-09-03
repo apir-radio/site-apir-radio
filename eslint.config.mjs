@@ -67,7 +67,7 @@ const eslintConfig = defineConfig([
   },
   {
     name: "next/core-web-vitals",
-    rules: { ...nextPlugin.configs["core-web-vitals"] },
+    rules: { ...nextPlugin.configs["core-web-vitals"].rules },
   },
   globalIgnores([
     ".next/**",
