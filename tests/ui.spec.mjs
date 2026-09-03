@@ -143,6 +143,8 @@ test("conserve la palette de marque en mode sombre du système", async ({ page }
       boardBackground: getBackground(".board-section"),
       resourcesBackground: getBackground(".resources-section"),
       contactBackground: getBackground(".contact-section"),
+      contactCardColor: getComputedStyle(document.querySelector(".contact-mail")).color,
+      contactArrowBackground: getComputedStyle(document.querySelector(".contact-mail-arrow")).backgroundColor,
     };
   });
 
@@ -154,6 +156,8 @@ test("conserve la palette de marque en mode sombre du système", async ({ page }
   expect(appearance.boardBackground).toBe("rgb(16, 31, 60)");
   expect(appearance.resourcesBackground).toBe("rgb(12, 25, 51)");
   expect(appearance.contactBackground).toBe("rgb(12, 25, 51)");
+  expect(appearance.contactCardColor).toBe("rgb(247, 249, 252)");
+  expect(appearance.contactArrowBackground).toBe("rgb(185, 210, 255)");
 });
 
 test("conserve une archive ouverte après rechargement", async ({ page }) => {
