@@ -35,8 +35,11 @@ build GitHub Pages.
 
 - `npm run content:check` vérifie que les données TypeScript générées sont bien
   synchronisées avec les fichiers Markdown éditoriaux.
-- `npm run links:check` cherche les liens externes cassés dans le dossier `out`
-  après un build. Le contrôle est relancé chaque semaine par
+- `npm run test:ui` vérifie les parcours interactifs principaux après un build,
+  notamment la fermeture des annonces, le retour navigateur, le menu mobile et
+  les contrôles tactiles du pied de page.
+- `npm run links:check` cherche les liens externes cassés et les ancres internes
+  invalides dans le dossier `out` après un build. Le contrôle est relancé chaque semaine par
   `.github/workflows/links.yml` et reste informatif : il ne bloque pas la
   publication.
 - `.github/workflows/lighthouse.yml` lance chaque semaine un audit Lighthouse

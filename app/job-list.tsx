@@ -107,7 +107,6 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
   const [selectedJob, setSelectedJob] = useState<HospitalJob | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const pushedHashRef = useRef(false);
   const syncingFromHistoryRef = useRef(false);
 
   const jobFromHash = useCallback(() => {
@@ -132,7 +131,6 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
     const updateFromLocation = () => {
       const job = jobFromHash();
       if (job) {
-        pushedHashRef.current = false;
         setSelectedJob(job);
         return;
       }
@@ -162,25 +160,15 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
   }, [selectedJob]);
 
   function closeDialog() {
-    if (typeof window !== "undefined" && pushedHashRef.current) {
-      // Mark the close as history-driven before traversing. The popstate
-      // callback can run after the dialog's close event, so setting this
-      // first prevents the close handler from going back a second time.
-      syncingFromHistoryRef.current = true;
-      window.history.back();
-      return;
-    }
+    // Closing is a state change, not navigation: replace the hash instead of going back.
     clearJobHash();
     dialogRef.current?.close();
   }
 
   function handleDialogClose() {
-    if (!syncingFromHistoryRef.current && pushedHashRef.current) {
-      window.history.back();
-    } else if (!syncingFromHistoryRef.current) {
+    if (!syncingFromHistoryRef.current) {
       clearJobHash();
     }
-    pushedHashRef.current = false;
     setSelectedJob(null);
     triggerRef.current?.focus();
     triggerRef.current = null;
@@ -201,7 +189,6 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
             aria-expanded={selectedJob?.id === job.id}
             onClick={(event) => {
               triggerRef.current = event.currentTarget;
-              pushedHashRef.current = true;
               window.history.pushState(null, "", `#poste-${encodeURIComponent(job.id)}`);
               setSelectedJob(job);
             }}
@@ -235,6 +222,10 @@ export function JobList({ jobs }: { jobs: HospitalJob[] }) {
         className="job-dialog"
         aria-labelledby="job-dialog-title"
         aria-describedby={selectedJob ? "job-dialog-description" : undefined}
+        onCancel={(event) => {
+          event.preventDefault();
+          closeDialog();
+        }}
         onClose={handleDialogClose}
         onClick={(event) => {
           if (event.target === event.currentTarget) closeDialog();

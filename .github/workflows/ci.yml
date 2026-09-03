@@ -1,0 +1,53 @@
+# Vérifie le code et les parcours principaux avant toute fusion.
+name: Vérifier le code
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérifier le contenu éditorial
+        run: npm run content:check
+
+      - name: Vérifier TypeScript
+        run: npx tsc --noEmit --incremental false
+
+      - name: Vérifier ESLint
+        run: npm run lint
+
+      - name: Auditer les dépendances de production
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Construire le site statique
+        run: npm run build:pages
+        env:
+          GITHUB_PAGES: "true"
+
+      - name: Vérifier le HTML généré
+        run: node --test tests/rendered-html.test.mjs
+
+      - name: Installer Chromium pour les tests UI
+        run: npx playwright install --with-deps chromium
+
+      - name: Tester les parcours principaux
+        run: npm run test:ui

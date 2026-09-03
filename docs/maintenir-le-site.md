@@ -21,7 +21,9 @@ Ne pas modifier directement `app/*.generated.ts` : ces fichiers sont régénér�
 npm ci
 npm run content:check
 npm run build:pages
+node --test tests/rendered-html.test.mjs
 npm run lint
+npm run test:ui
 ```
 
 Pour un contrôle supplémentaire après le build :

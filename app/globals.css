@@ -323,10 +323,10 @@ details li { padding: .7rem 0 .7rem 2rem; color: rgba(12,25,51,.72); font-size: 
 .job-row small { margin-top: .35rem; color: rgba(12,25,51,.68); font-size: .72rem; }
 .job-arrow { font-size: .95rem; }
 
-.job-dialog { position: fixed; inset: 0 0 0 auto; width: min(44rem, 94vw); max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; overflow: hidden; border: 0; color: var(--ink); background: transparent; }
-.job-dialog[open] { animation: panel-in .28s ease-out; }
+.job-dialog { position: fixed; inset: 0; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; display: none; flex-direction: column; align-items: flex-end; justify-content: flex-end; overflow: hidden; border: 0; color: var(--ink); background: transparent; }
+.job-dialog[open] { display: flex; }
 .job-dialog::backdrop { background: rgba(5, 12, 27, .62); backdrop-filter: blur(6px); animation: backdrop-in .2s ease-out; }
-.job-dialog-shell { height: 100%; display: flex; flex-direction: column; background: #fbfcfe; box-shadow: -2rem 0 5rem rgba(5, 12, 27, .22); }
+.job-dialog-shell { width: min(44rem, 94vw); height: 100%; display: flex; flex-direction: column; background: #fbfcfe; box-shadow: -2rem 0 5rem rgba(5, 12, 27, .22); animation: panel-in .28s ease-out; }
 .job-dialog-header { min-height: 5rem; padding: 1rem 1.25rem 1rem clamp(1.5rem, 4vw, 3.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); background: rgba(251,252,254,.92); backdrop-filter: blur(16px); }
 .job-dialog-header > span { color: rgba(12,25,51,.68); font-family: var(--font-geist-mono), monospace; font-size: .64rem; letter-spacing: .09em; text-transform: uppercase; }
 .job-dialog-header button { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: #fff; font-size: 1.45rem; line-height: 1; cursor: pointer; transition: transform .16s ease, background .16s ease; }
@@ -418,6 +418,7 @@ footer { padding: 4rem max(5vw, calc((100vw - 76rem) / 2)); display: grid; grid-
 .footer-brand .brand-logo { width: 3.2rem; height: 3.41rem; }
 footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-height: 1.7; }
 .footer-links { display: flex; gap: 1.4rem; color: rgba(255,255,255,.6); font-size: .72rem; }
+.footer-links a { min-height: 2.75rem; padding-inline: .35rem; display: inline-flex; align-items: center; }
 .footer-links a:hover { color: var(--accent); }
 .footer-partner { grid-column: 1 / -1; padding-top: 1.5rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; border-top: 1px solid rgba(255,255,255,.08); }
 .footer-partner span { color: rgba(255,255,255,.52); font-family: var(--font-geist-mono), monospace; font-size: .56rem; letter-spacing: .1em; text-transform: uppercase; }
@@ -468,8 +469,8 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
   .job-row { min-height: 6.8rem; grid-template-columns: 1.75rem minmax(0, 1fr) auto; gap: .75rem; padding-block: 1rem; }
   .job-row strong { font-size: .92rem; line-height: 1.28; }
   .job-row small { font-size: .7rem; }
-  .job-dialog { inset: auto 0 0; width: 100vw; height: min(90svh, 52rem); max-height: 90svh; border-radius: 1.25rem 1.25rem 0 0; animation: sheet-in .28s ease-out; }
-  .job-dialog-shell { border-radius: inherit; box-shadow: 0 -1.5rem 4rem rgba(5, 12, 27, .2); }
+  .job-dialog { height: 100dvh; max-height: none; border-radius: 0; }
+  .job-dialog-shell { width: 100%; height: min(90svh, 52rem); border-radius: 1.25rem 1.25rem 0 0; box-shadow: 0 -1.5rem 4rem rgba(5, 12, 27, .2); animation: sheet-in .28s ease-out; }
   .job-dialog-header { min-height: 4.25rem; padding: .75rem 1rem .75rem 1.25rem; }
   .job-dialog-header button { width: 2.7rem; height: 2.7rem; }
   .job-dialog-scroll { padding: 1.5rem 1.25rem calc(2.5rem + env(safe-area-inset-bottom)); }

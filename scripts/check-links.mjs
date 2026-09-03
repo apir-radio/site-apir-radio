@@ -45,6 +45,24 @@ function collectExternalLinks(html, filePath) {
   return links;
 }
 
+function collectInternalAnchors(html, filePath) {
+  const links = [];
+  const attributePattern = /\bhref\s*=\s*["']([^"']+)["']/gi;
+  let match;
+
+  while ((match = attributePattern.exec(html))) {
+    const value = match[1].trim();
+    if (!value.startsWith("#") || value === "#") continue;
+    try {
+      links.push({ anchor: decodeURIComponent(value.slice(1)), filePath });
+    } catch {
+      console.warn(`Ancre ignorée dans ${path.relative(projectRoot, filePath)} : ${value}`);
+    }
+  }
+
+  return links;
+}
+
 async function request(url, method) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -97,8 +115,15 @@ try {
 }
 
 const linksByUrl = new Map();
+const anchorsByFile = new Map();
+const internalAnchors = [];
 for (const filePath of htmlFiles) {
   const html = await fs.readFile(filePath, "utf8");
+  anchorsByFile.set(
+    filePath,
+    new Set([...html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map((match) => match[1])),
+  );
+  internalAnchors.push(...collectInternalAnchors(html, filePath));
   for (const link of collectExternalLinks(html, filePath)) {
     const locations = linksByUrl.get(link.url) || new Set();
     locations.add(path.relative(projectRoot, link.filePath));
@@ -107,7 +132,12 @@ for (const filePath of htmlFiles) {
 }
 
 const urls = [...linksByUrl.keys()].sort();
-console.log(`Vérification de ${urls.length} lien(s) externe(s) dans ${htmlFiles.length} page(s) HTML…`);
+const brokenAnchors = internalAnchors.filter(({ anchor, filePath }) => !anchorsByFile.get(filePath)?.has(anchor));
+console.log(`Vérification de ${urls.length} lien(s) externe(s) et ${internalAnchors.length} ancre(s) dans ${htmlFiles.length} page(s) HTML…`);
+
+for (const { anchor, filePath } of brokenAnchors) {
+  console.error(`❌ Ancre introuvable #${anchor} (${path.relative(projectRoot, filePath)})`);
+}
 
 const results = await Promise.all(urls.map(async (url) => ({ url, ...(await checkLink(url)) })));
 const broken = results.filter((result) => result.state === "broken");
@@ -122,8 +152,9 @@ for (const result of broken) {
   console.error(`❌ ${result.url} — ${reason} (${location})`);
 }
 
-if (broken.length > 0) {
-  console.error(`${broken.length} lien(s) cassé(s) détecté(s).`);
+if (broken.length > 0 || brokenAnchors.length > 0) {
+  if (broken.length > 0) console.error(`${broken.length} lien(s) externe(s) cassé(s) détecté(s).`);
+  if (brokenAnchors.length > 0) console.error(`${brokenAnchors.length} ancre(s) cassée(s) détectée(s).`);
   process.exitCode = 1;
 } else {
   console.log(`Aucun lien cassé détecté${warnings.length ? ` (${warnings.length} non vérifiable(s))` : ""}.`);

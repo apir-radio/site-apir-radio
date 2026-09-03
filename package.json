@@ -17,6 +17,7 @@
     "build": "npm run build:pages",
     "build:pages": "npm run content:generate && GITHUB_PAGES=true next build --webpack",
     "test": "npm run build:pages && node --test tests/rendered-html.test.mjs",
+    "test:ui": "playwright test",
     "lint": "eslint . --ignore-pattern .next"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "26.4.0",
     "@types/react": "19.2.18",
