@@ -266,7 +266,7 @@ nav a.is-active::after { content: ""; position: absolute; right: 0; bottom: .28r
 .event-heading { display: grid; grid-template-columns: 1fr minmax(20rem, .58fr); gap: 6vw; align-items: end; }
 .status-pill { width: fit-content; padding: .55rem .8rem; display: flex; align-items: center; gap: .55rem; margin: 0 0 1.4rem; border: 1px solid rgba(27,45,83,.2); border-radius: 99rem; color: var(--logo-navy); background: rgba(255,255,255,.55); font-family: var(--font-geist-mono), monospace; font-size: .67rem; letter-spacing: .06em; text-transform: uppercase; }
 .status-pill span { width: .45rem; height: .45rem; border-radius: 50%; background: var(--logo-navy); box-shadow: 0 0 0 .22rem rgba(27,45,83,.1); }
-.event-heading h2 { margin: 0; font-size: clamp(3.25rem, 5.8vw, 6rem); line-height: .94; letter-spacing: -.065em; font-weight: 590; }
+.event-heading h2 { margin: 0; font-size: clamp(2.5rem, 4.6vw, 4.5rem); line-height: .98; letter-spacing: -.055em; font-weight: 590; }
 .next-card { padding: 2rem; border: 1px solid var(--line); border-radius: 1.4rem; background: rgba(255,255,255,.58); backdrop-filter: blur(20px); }
 .next-card p { margin: 0 0 .6rem; font-size: 1.35rem; letter-spacing: -.03em; }
 .next-card .next-date { color: var(--logo-navy); font-family: var(--font-geist-mono), monospace; font-size: .72rem; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; }
@@ -490,7 +490,7 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
   .section { padding: 4.75rem 1.25rem; }
   .section-kicker { margin-bottom: 3.4rem; }
   .mission-grid h2, .resources-heading h2, .board-heading h2 { font-size: 3.5rem; }
-  .event-heading h2 { font-size: 3.5rem; }
+  .event-heading h2 { font-size: 2.75rem; }
   details li { padding-left: 1rem; line-height: 1.55; }
   .resource-grid, .board-grid { grid-template-columns: 1fr; }
   .resource-card { min-height: 22rem; }

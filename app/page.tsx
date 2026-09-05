@@ -47,6 +47,7 @@ function Arrow() {
 export default function Home() {
   const currentSeason = archiveEvents[0];
   const currentSeasonEventCount = currentSeason?.events.length ?? 0;
+  const upcomingEventDate = upcomingEvent?.date.replace(/\s+\d{4}$/, "");
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -138,7 +139,7 @@ export default function Home() {
         <div className="event-heading">
           <div>
             <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEvent.date} à {upcomingEvent.venue}.</> : <>On se retrouve<br />à la rentrée.</>}</h2>
+            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEventDate}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
           </div>
           <div className="next-card">
             {upcomingEvent ? (

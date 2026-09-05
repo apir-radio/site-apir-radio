@@ -62,6 +62,14 @@ test("affiche les annonces dans la navigation desktop", async ({ page }) => {
   await expect(page.getByRole("navigation", { name: "Navigation principale" }).getByRole("link", { name: "Annonces", exact: true })).toBeVisible();
 });
 
+test("affiche une date courte et lisible pour la prochaine soirée", async ({ page }) => {
+  const heading = page.locator(".event-heading h2");
+
+  await expect(heading).toHaveText("Rendez-vous le 16 septembre");
+  const fontSize = await heading.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+  expect(fontSize).toBeLessThan(56);
+});
+
 test("le menu mobile reste entièrement visible sur un écran étroit", async ({ page }) => {
   await page.locator("details.mobile-nav summary").click();
 
