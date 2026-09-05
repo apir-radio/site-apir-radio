@@ -139,7 +139,7 @@ export default function Home() {
         <div className="event-heading">
           <div>
             <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEventDate}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
+            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEventDate}.</> : <>On se retrouve<br />à la rentrée.</>}</h2>
           </div>
           <div className="next-card">
             {upcomingEvent ? (
