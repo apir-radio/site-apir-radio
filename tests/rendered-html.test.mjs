@@ -58,7 +58,10 @@ test("keeps the accessible job announcements in the static page", async () => {
   assert.match(html, /<h3[^>]*id=["']jobs-heading["'][^>]*>Offres hospitalières/i);
   assert.match(html, /id=["']postes-hospitaliers["'][^>]*data-nosnippet/i);
   assert.match(html, /JavaScript est désactivé.*annonces sont affichées directement/i);
-  assert.match(html, /class=["'][^"']*contact-section[^"']*["'][^>]*id=["']contact["'][^>]*>.*Contactez le bureau\./is);
+  assert.match(html, /class=["'][^"']*contact-section[^"']*["'][^>]*id=["']contact["'][^>]*>.*Contactez le bureau<\/h2>/is);
+  assert.match(html, /<h1>L’APIR, par et pour les <em>internes en radiologie<\/em><\/h1>/i);
+  assert.match(html, /<h2>Des soirées de formation pour tous les semestres<\/h2>/i);
+  assert.match(html, /<h2>Les informations utiles pendant l’internat<\/h2>/i);
   assert.match(html, /class=["'][^"']*mission-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*board-section[^"']*["']/i);
   assert.match(html, /class=["'][^"']*events-section[^"']*["']/i);
@@ -76,7 +79,7 @@ test("keeps the accessible job announcements in the static page", async () => {
   assert.doesNotMatch(html, /timeline-heading|class=["'][^"']*event-row/i);
   assert.match(html, /Archives des soirées.*2025 — 2026/is);
   assert.match(html, /class=["']archive-count["'][^>]*>6[\s\S]*?soirée/is);
-  assert.match(html, /<h2>Rendez-vous le[\s\S]*?16 septembre[\s\S]*?\.[\s\S]*?<\/h2>/i);
+  assert.match(html, /<h2>Rendez-vous le[\s\S]*?16 septembre<\/h2>/i);
   assert.doesNotMatch(html, /<h2>Rendez-vous le[\s\S]*?16 septembre 2026[\s\S]*?<\/h2>/i);
   assert.doesNotMatch(html, /<h2>Rendez-vous le[\s\S]*?à l’hôpital Saint-Joseph[\s\S]*?<\/h2>/i);
   assert.match(html, /Imagerie neurologique[\s\S]*?Avec[\s\S]*?Giacomo Lucchi[\s\S]*?Hôpital Bicêtre[\s\S]*?S’inscrire à la soirée/i);

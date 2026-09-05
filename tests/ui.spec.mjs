@@ -65,7 +65,7 @@ test("affiche les annonces dans la navigation desktop", async ({ page }) => {
 test("affiche une date courte et lisible pour la prochaine soirée", async ({ page }) => {
   const heading = page.locator(".event-heading h2");
 
-  await expect(heading).toHaveText("Rendez-vous le 16 septembre.");
+  await expect(heading).toHaveText("Rendez-vous le 16 septembre");
   const fontSize = await heading.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
   expect(fontSize).toBeLessThan(56);
 });

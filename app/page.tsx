@@ -71,7 +71,7 @@ export default function Home() {
         <div className="hero-noise" aria-hidden="true" />
         <div className="hero-copy">
           <p className="eyebrow"><span /> Association loi 1901 · Depuis 1998</p>
-          <h1>L’APIR, par et pour les <em>internes en radiologie.</em></h1>
+          <h1>L’APIR, par et pour les <em>internes en radiologie</em></h1>
           <p className="hero-lede">
             Depuis 1998, l’APIR organise des soirées de formation et rassemble les internes en radiologie d’Île-de-France.
           </p>
@@ -99,7 +99,7 @@ export default function Home() {
       <section className="section mission-section" id="mission">
         <div className="section-kicker">01 · L’association</div>
         <div className="mission-grid">
-          <h2>Des soirées de formation pour tous les semestres.</h2>
+          <h2>Des soirées de formation pour tous les semestres</h2>
           <div className="mission-copy">
             <p className="large-copy">
               L’APIR organise des soirées consacrées aux différentes spécialités d’imagerie, avec des radiologues choisis pour leur expérience et leurs qualités pédagogiques.
@@ -139,7 +139,7 @@ export default function Home() {
         <div className="event-heading">
           <div>
             <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEventDate}.</> : <>On se retrouve<br />à la rentrée.</>}</h2>
+            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEventDate}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
           </div>
           <div className="next-card">
             {upcomingEvent ? (
@@ -164,7 +164,7 @@ export default function Home() {
       <section className="section resources-section" id="ressources">
         <div className="section-kicker light">04 · Ressources</div>
         <div className="resources-heading">
-          <h2>Les informations utiles pendant l’internat.</h2>
+          <h2>Les informations utiles pendant l’internat</h2>
           <p>Adhérer à l’association, suivre son actualité et consulter les offres de postes.</p>
         </div>
         <div className="resource-grid">
@@ -227,7 +227,7 @@ export default function Home() {
       <section className="contact-section" id="contact">
         <div>
           <p className="eyebrow dark"><span /> Une question ou une proposition ?</p>
-          <h2>Contactez le bureau.</h2>
+          <h2>Contactez le bureau</h2>
         </div>
         <div className="contact-links">
           <a
