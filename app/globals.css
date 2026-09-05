@@ -444,6 +444,8 @@ footer p { margin: 0; color: rgba(255,255,255,.62); font-size: .75rem; line-heig
 .footer-links a:hover { color: var(--accent); }
 .footer-partner { grid-column: 1 / -1; padding-top: 1.5rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; border-top: 1px solid rgba(255,255,255,.08); }
 .footer-partner span { color: rgba(255,255,255,.52); font-family: var(--font-geist-mono), monospace; font-size: .56rem; letter-spacing: .1em; text-transform: uppercase; }
+.footer-partner a { min-height: 2.75rem; display: inline-flex; align-items: center; border-radius: .25rem; }
+.footer-partner a:hover img, .footer-partner a:focus-visible img { opacity: 1; }
 .footer-partner img { width: 7.8rem; height: auto; opacity: .76; }
 
 @media (max-width: 900px) {

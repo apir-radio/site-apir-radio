@@ -13,7 +13,8 @@
     "facebook": "https://www.facebook.com/groups/apir.radio"
   },
   "partners": {
-    "corail": "https://corail-radiologie.fr/annonces/"
+    "corail": "https://corail-radiologie.fr/annonces/",
+    "laMedicale": "https://www.lamedicale.fr/"
   },
   "address": {
     "streetAddress": "83 boulevard de l’Hôpital",

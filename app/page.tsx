@@ -262,15 +262,22 @@ export default function Home() {
         </div>
         <div className="footer-partner">
           <span>Partenaire</span>
-          <Image
-            src={assetPath("/la-medicale-logo.webp")}
-            alt="La Médicale par Generali"
-            width={2048}
-            height={661}
-            sizes="(max-width: 720px) 11rem, 13rem"
-            loading="lazy"
-            decoding="async"
-          />
+          <a
+            href={siteConfig.partners.laMedicale}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visiter le site de La Médicale par Generali"
+          >
+            <Image
+              src={assetPath("/la-medicale-logo.webp")}
+              alt=""
+              width={2048}
+              height={661}
+              sizes="(max-width: 720px) 11rem, 13rem"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
         </div>
       </footer>
     </main>

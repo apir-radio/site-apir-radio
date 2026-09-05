@@ -8,6 +8,7 @@ const require = createRequire(import.meta.url);
 const siteConfig = require("../site.config.json");
 const outputDirectory = new URL("../out/", import.meta.url);
 const helloAssoAdhesionUrl = siteConfig.helloAssoUrl;
+const laMedicaleUrl = siteConfig.partners.laMedicale;
 
 async function readOutput(relativePath) {
   return fs.readFile(new URL(relativePath, outputDirectory), "utf8");
@@ -37,6 +38,7 @@ test("publishes the canonical page with useful metadata", async () => {
   assert.match(html, /src=["'][^"']*apir-logo\.webp/i);
   assert.match(html, /src=["'][^"']*apir-logo-small\.webp/i);
   assert.match(html, /src=["'][^"']*la-medicale-logo\.webp/i);
+  assert.match(html, new RegExp(`class=["'][^"']*footer-partner[\\s\\S]*?href=["']${laMedicaleUrl.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}(["'])`, "i"));
   assert.match(html, /target=["']_blank["'][^>]*rel=["']noopener noreferrer["']/i);
   assert.doesNotMatch(html, /codex-preview|chatgpt\.site|apir-radio\.notion\.site/i);
   assert.match(robots, /User-Agent:\s*\*/i);

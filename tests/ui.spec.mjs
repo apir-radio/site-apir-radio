@@ -103,6 +103,15 @@ test("les archives s’ouvrent et les liens du pied de page restent tactiles", a
   }
 });
 
+test("le logo de La Médicale ouvre le site du partenaire", async ({ page }) => {
+  const partnerLink = page.locator("footer .footer-partner a");
+
+  await expect(partnerLink).toHaveAttribute("href", "https://www.lamedicale.fr/");
+  await expect(partnerLink).toHaveAttribute("target", "_blank");
+  await expect(partnerLink).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(partnerLink).toHaveAccessibleName("Visiter le site de La Médicale par Generali");
+});
+
 test("les archives restent utilisables au clavier", async ({ page }) => {
   const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
   const summary = archive.locator("summary");
