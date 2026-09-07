@@ -23,7 +23,7 @@
     "verify": "npm run content:check && npm run test:content && npx tsc --noEmit --incremental false && npm run lint && npm run build:pages && node --test tests/rendered-html.test.mjs && npm run anchors:check"
   },
   "dependencies": {
-    "next": "16.3.3",
+    "next": "16.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
