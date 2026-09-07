@@ -16,6 +16,7 @@ let parsingUpcoming = false;
 
 const upcomingLabels = new Map([
   ["Date", "date"],
+  ["Heure", "time"],
   ["Thème", "specialty"],
   ["Intervenant", "speaker"],
   ["Établissement de l’intervenant", "speakerHospital"],
@@ -90,7 +91,7 @@ if (seasons.length === 0 || seasons.some((season) => season.events.length === 0)
   throw new Error("Le catalogue des soirées doit contenir au moins un événement par saison.");
 }
 
-const upcomingFields = ["date", "specialty", "speaker", "speakerHospital", "venue", "registrationUrl"];
+const upcomingFields = ["date", "time", "specialty", "speaker", "speakerHospital", "venue", "registrationUrl"];
 if (upcomingEvent) {
   const missing = upcomingFields.filter((field) => !upcomingEvent[field]);
   if (missing.length > 0) {
@@ -105,7 +106,7 @@ const generated = [
   "",
   "export type ArchiveSeason = { year: string; events: ArchiveEvent[] };",
   "",
-  "export type UpcomingEvent = { date: string; specialty: string; speaker: string; speakerHospital: string; venue: string; registrationUrl: string };",
+  "export type UpcomingEvent = { date: string; time: string; specialty: string; speaker: string; speakerHospital: string; venue: string; registrationUrl: string };",
   "",
   "export const upcomingEvent: UpcomingEvent | null = " + JSON.stringify(upcomingEvent, null, 2) + ";",
   "",

@@ -272,6 +272,10 @@ nav a.is-active::after { content: ""; position: absolute; right: 0; bottom: .28r
 .next-card .next-date { color: var(--logo-navy); font-family: var(--font-geist-mono), monospace; font-size: .72rem; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; }
 .next-card strong { display: block; margin-bottom: .6rem; font-size: 1.35rem; line-height: 1.15; letter-spacing: -.03em; font-weight: 650; }
 .next-card > span { display: block; color: rgba(12,25,51,.7); font-size: .9rem; line-height: 1.55; }
+.next-card .next-card-detail { display: flex; align-items: flex-start; gap: .55rem; }
+.next-card .next-card-detail + .next-card-detail { margin-top: .25rem; }
+.next-card .next-card-detail + span:not(.next-card-detail) { margin-top: .6rem; }
+.next-card .next-card-detail > span { flex: 0 0 auto; }
 .next-card a { min-height: 2.75rem; margin-top: 2.1rem; display: flex; align-items: center; justify-content: space-between; color: var(--logo-navy); font-size: .84rem; font-weight: 680; }
 .archive-wrap { margin-top: clamp(6rem, 10vw, 10rem); }
 .archive-label { color: rgba(12,25,51,.62); font-family: var(--font-geist-mono), monospace; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; }

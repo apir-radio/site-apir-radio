@@ -2,11 +2,12 @@
 
 ## À venir
 
-- Date : 16 septembre 2026
+- Date : Mercredi 16 septembre 2026
+- Heure : 19h30
 - Thème : Imagerie neurologique
 - Intervenant : Giacomo Lucchi
 - Établissement de l’intervenant : Hôpital Bicêtre
-- Lieu : l’hôpital Saint-Joseph
+- Lieu : Hôpital Paris Saint Joseph
 - Inscriptions : https://forms.gle/aAKgJAYqwx9rAGbo6
 
 ## 2025 — 2026

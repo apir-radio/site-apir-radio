@@ -139,13 +139,15 @@ export default function Home() {
         <div className="event-heading">
           <div>
             <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>{upcomingEvent ? <>Rendez-vous le {upcomingEventDate}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
+            <h2>{upcomingEvent ? <>Rendez-vous en septembre</> : <>On se retrouve<br />à la rentrée.</>}</h2>
           </div>
           <div className="next-card">
             {upcomingEvent ? (
               <>
                 <strong>{upcomingEvent.specialty}</strong>
-                <span>Avec {upcomingEvent.speaker}, {upcomingEvent.speakerHospital}.</span>
+                <span className="next-card-detail"><span aria-hidden="true">📅</span> {upcomingEventDate} à {upcomingEvent.time}</span>
+                <span className="next-card-detail"><span aria-hidden="true">📍</span> {upcomingEvent.venue}</span>
+                <span>avec {upcomingEvent.speaker} ({upcomingEvent.speakerHospital})</span>
                 <a href={upcomingEvent.registrationUrl} target="_blank" rel="noopener noreferrer">S’inscrire à la soirée <Arrow /></a>
               </>
             ) : (
