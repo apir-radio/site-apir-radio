@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useSyncExternalStore, type ReactNode } from "react";
 
 type EncodedEmail = readonly number[];
 
+const subscribe = () => () => {};
+const getServerSnapshot = () => null;
+
 function useDecodedEmail(encoded: EncodedEmail) {
-  const [email, setEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    setEmail(String.fromCharCode(...encoded));
-  }, [encoded]);
-
-  return email;
+  return useSyncExternalStore(
+    subscribe,
+    () => String.fromCharCode(...encoded),
+    getServerSnapshot,
+  );
 }
 
 type ObfuscatedEmailLinkProps = {
