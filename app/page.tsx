@@ -6,10 +6,13 @@ import { hospitalJobs } from "./jobs";
 import { SiteNav } from "./site-nav";
 import { archiveEvents, upcomingEvent } from "./events";
 import { assetPath, siteConfig, sitePath } from "./site-config";
+import { ObfuscatedEmailAddress, ObfuscatedEmailLink } from "./obfuscated-email";
 
 // Page d’accueil publique : présentation, bureau, soirées, ressources et annonces.
 const adhesionPath = sitePath("/adhesion");
-const { siteUrl, organizationName, organizationDescription, email, socials, address } = siteConfig;
+const { siteUrl, organizationName, organizationDescription, socials, address } = siteConfig;
+const contactEmailCode = Array.from(siteConfig.email, (character) => character.charCodeAt(0));
+const coordinationEmailCode = Array.from(board.coordinationEmail, (character) => character.charCodeAt(0));
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -22,7 +25,6 @@ const structuredData = {
       url: siteUrl,
       logo: `${siteUrl}/apir-logo.webp`,
       description: organizationDescription,
-      email,
       address: {
         "@type": "PostalAddress",
         ...address,
@@ -59,7 +61,7 @@ export default function Home() {
             <Image className="brand-logo" src={assetPath("/apir-logo-small.webp")} alt="" width={192} height={205} sizes="2.5rem" />
             <span>APIR</span>
           </a>
-          <a className="header-contact" href={`mailto:${email}`}>Nous contacter</a>
+          <ObfuscatedEmailLink className="header-contact" encoded={contactEmailCode}>Nous contacter</ObfuscatedEmailLink>
         </div>
         <SiteNav />
         <a className="header-cta" href={adhesionPath}>
@@ -129,7 +131,9 @@ export default function Home() {
           <span>Coordination du DES</span>
           <div>
             <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
-            <a href={`mailto:${board.coordinationEmail}`}>{board.coordinationEmail} <Arrow /></a>
+            <ObfuscatedEmailLink encoded={coordinationEmailCode}>
+              <ObfuscatedEmailAddress encoded={coordinationEmailCode} /> <Arrow />
+            </ObfuscatedEmailLink>
           </div>
         </div>
       </section>
@@ -232,18 +236,18 @@ export default function Home() {
           <h2>Contactez le bureau</h2>
         </div>
         <div className="contact-links">
-          <a
+          <ObfuscatedEmailLink
             className="contact-mail"
-            href={`mailto:${email}`}
-            aria-label="Écrire à l’APIR par e-mail"
+            encoded={contactEmailCode}
+            ariaLabel="Écrire à l’APIR par e-mail"
           >
             <span className="contact-mail-copy">
               <small>Par e-mail</small>
               <strong>Écrire à l’APIR</strong>
-              <span className="contact-address">{email}</span>
+              <ObfuscatedEmailAddress encoded={contactEmailCode} className="contact-address" />
             </span>
             <span className="contact-mail-arrow"><Arrow /></span>
-          </a>
+          </ObfuscatedEmailLink>
         </div>
       </section>
 
@@ -261,7 +265,7 @@ export default function Home() {
         <div className="footer-links">
           <a href={socials.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href={socials.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
-          <a href={`mailto:${email}`}>Contact</a>
+          <ObfuscatedEmailLink encoded={contactEmailCode}>Contact</ObfuscatedEmailLink>
         </div>
         <div className="footer-partner">
           <span>Partenaire</span>

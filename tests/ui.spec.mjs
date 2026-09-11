@@ -62,6 +62,12 @@ test("affiche les annonces dans la navigation desktop", async ({ page }) => {
   await expect(page.getByRole("navigation", { name: "Navigation principale" }).getByRole("link", { name: "Annonces", exact: true })).toBeVisible();
 });
 
+test("reconstruit les adresses e-mail après le chargement", async ({ page }) => {
+  await expect(page.locator(".header-contact")).toHaveAttribute("href", "mailto:contact@apir-radio.fr");
+  await expect(page.locator(".coordination a")).toHaveAttribute("href", "mailto:coordidesrx.psl@aphp.fr");
+  await expect(page.locator(".contact-address")).toHaveText("contact@apir-radio.fr");
+});
+
 test("affiche une date courte et lisible pour la prochaine soirée", async ({ page }) => {
   const heading = page.locator(".event-heading h2");
 

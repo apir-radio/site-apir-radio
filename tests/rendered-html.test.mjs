@@ -47,11 +47,13 @@ test("publishes the canonical page with useful metadata", async () => {
   assert.doesNotMatch(sitemap, /\/adhesion\/?<\/loc>/i);
 });
 
-test("keeps the accessible job announcements in the static page", async () => {
+test("keeps public content and hides association e-mails from static HTML", async () => {
   const html = await readOutput("index.html");
 
-  assert.match(html, /href=["']mailto:contact@apir-radio\.fr["'][^>]*>Nous contacter/i);
-  assert.match(html, /class=["'][^"']*contact-address[^"']*["'][^>]*>contact@apir-radio\.fr/i);
+  assert.match(html, /class=["'][^"']*header-contact[^"']*["'][^>]*>Nous contacter/i);
+  assert.match(html, /class=["'][^"']*contact-mail[^"']*["'][^>]*>.*Écrire à l’APIR/is);
+  assert.doesNotMatch(html, /(?:mailto:)?contact@apir-radio\.fr/i);
+  assert.doesNotMatch(html, /(?:mailto:)?coordidesrx\.psl@aphp\.fr/i);
   assert.doesNotMatch(html, /apir\.radiologie@gmail\.com/i);
   assert.match(html, /class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["'][^>]*>Aller au contenu/i);
   assert.match(html, /<main[^>]*id=["']main-content["'][^>]*tabindex=["']-1["']/i);
