@@ -320,7 +320,7 @@ details li { padding: .7rem 0 .7rem 2rem; color: rgba(12,25,51,.72); font-size: 
 .jobs-panel { margin: 0; }
 .jobs-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; }
 .jobs-heading .card-tag { margin-bottom: .65rem; }
-.jobs-heading h3 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.6rem); line-height: 1; letter-spacing: -.055em; font-weight: 570; }
+.jobs-heading h2 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.6rem); line-height: 1; letter-spacing: -.055em; font-weight: 570; }
 .jobs-note { max-width: 17rem; margin: 0 0 .45rem; color: rgba(12,25,51,.68); font-size: .78rem; line-height: 1.55; }
 .jobs-list { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
 .job-row { min-height: 7.2rem; padding: 1.25rem 1.25rem 1.25rem 0; display: grid; grid-template-columns: 2rem 1fr auto; gap: 1rem; align-items: center; border: 0; border-bottom: 1px solid var(--line); appearance: none; color: inherit; background: transparent; font: inherit; text-align: left; cursor: pointer; transition: color .18s ease, padding .18s ease, background .18s ease; }

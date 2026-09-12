@@ -1,6 +1,7 @@
 // Tests unitaires des règles communes appliquées aux sources éditoriales.
 import assert from "node:assert/strict";
 import test from "node:test";
+import { getFrenchEventMonth } from "../app/event-month.mjs";
 import {
   assertHttpsUrl,
   assertKnownFields,
@@ -42,4 +43,11 @@ test("valide les URL HTTPS et les liens Markdown pris en charge", () => {
 
   assert.throws(() => assertHttpsUrl("http://example.org", "fixture"), /URL HTTPS invalide/);
   assert.throws(() => validateMarkdownLinks("[lien](javascript:alert(1))", "fixture"), /lien Markdown non pris en charge/);
+});
+
+test("déduit le mois de la soirée à partir d’une date française", () => {
+  assert.equal(getFrenchEventMonth("Mercredi 16 septembre 2026"), "septembre");
+  assert.equal(getFrenchEventMonth("Mercredi 14 octobre 2026"), "octobre");
+  assert.equal(getFrenchEventMonth("Vendredi 4 DÉCEMBRE 2026"), "décembre");
+  assert.throws(() => getFrenchEventMonth("Mercredi 14 October 2026"), /format français/);
 });

@@ -1,5 +1,6 @@
 // Parcours navigateur critiques sur écran étroit/mobile et retour historique.
 import { expect, test } from "@playwright/test";
+import { associationEmails } from "./helpers/association-emails.mjs";
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -63,9 +64,11 @@ test("affiche les annonces dans la navigation desktop", async ({ page }) => {
 });
 
 test("reconstruit les adresses e-mail après le chargement", async ({ page }) => {
-  await expect(page.locator(".header-contact")).toHaveAttribute("href", "mailto:contact@apir-radio.fr");
-  await expect(page.locator(".coordination a")).toHaveAttribute("href", "mailto:coordidesrx.psl@aphp.fr");
-  await expect(page.locator(".contact-address")).toHaveText("contact@apir-radio.fr");
+  await expect(page.locator(".header-contact")).toHaveAttribute("href", `mailto:${associationEmails.contact}`);
+  await expect(page.locator(".coordination a")).toHaveAttribute("href", `mailto:${associationEmails.coordination}`);
+  await expect(page.locator(".contact-mail")).toHaveAttribute("href", `mailto:${associationEmails.contact}`);
+  await expect(page.locator("footer .footer-links").getByRole("link", { name: "Contact", exact: true })).toHaveAttribute("href", `mailto:${associationEmails.contact}`);
+  await expect(page.locator(".contact-address")).toHaveText(associationEmails.contact);
 });
 
 test("affiche une date courte et lisible pour la prochaine soirée", async ({ page }) => {

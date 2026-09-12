@@ -1,7 +1,7 @@
 // This file is generated from content/board.md. Do not edit it directly.
 export type BoardMember = { name: string; role: string; initials: string };
 
-export type BoardInfo = { season: string; description: string; members: BoardMember[]; coordinationNames: string[]; coordinationEmail: string };
+export type BoardInfo = { season: string; description: string; members: BoardMember[]; coordinationNames: string[]; coordinationEmailCode: number[] };
 
 export const board: BoardInfo = {
   "season": "2025 — 2026",
@@ -52,5 +52,29 @@ export const board: BoardInfo = {
     "Pr Raphaële Renard-Penna",
     "Pr Stéphanie Franchi-Abella"
   ],
-  "coordinationEmail": "coordidesrx.psl@aphp.fr"
+  "coordinationEmailCode": [
+    99,
+    111,
+    111,
+    114,
+    100,
+    105,
+    100,
+    101,
+    115,
+    114,
+    120,
+    46,
+    112,
+    115,
+    108,
+    64,
+    97,
+    112,
+    104,
+    112,
+    46,
+    102,
+    114
+  ]
 };

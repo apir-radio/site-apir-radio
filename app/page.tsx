@@ -7,12 +7,13 @@ import { SiteNav } from "./site-nav";
 import { archiveEvents, upcomingEvent } from "./events";
 import { assetPath, siteConfig, sitePath } from "./site-config";
 import { ObfuscatedEmailAddress, ObfuscatedEmailLink } from "./obfuscated-email";
+import { getFrenchEventMonth } from "./event-month.mjs";
 
 // Page d’accueil publique : présentation, bureau, soirées, ressources et annonces.
 const adhesionPath = sitePath("/adhesion");
 const { siteUrl, organizationName, organizationDescription, socials, address } = siteConfig;
-const contactEmailCode = Array.from(siteConfig.email, (character) => character.charCodeAt(0));
-const coordinationEmailCode = Array.from(board.coordinationEmail, (character) => character.charCodeAt(0));
+const contactEmailCode = siteConfig.emailCode;
+const coordinationEmailCode = board.coordinationEmailCode;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -50,6 +51,7 @@ export default function Home() {
   const currentSeason = archiveEvents[0];
   const currentSeasonEventCount = currentSeason?.events.length ?? 0;
   const upcomingEventDate = upcomingEvent?.date.replace(/\s+\d{4}$/, "");
+  const upcomingEventMonth = upcomingEvent ? getFrenchEventMonth(upcomingEvent.date) : null;
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -143,7 +145,7 @@ export default function Home() {
         <div className="event-heading">
           <div>
             <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>{upcomingEvent ? <>Rendez-vous en septembre</> : <>On se retrouve<br />à la rentrée.</>}</h2>
+            <h2>{upcomingEvent ? <>Rendez-vous en {upcomingEventMonth}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
           </div>
           <div className="next-card">
             {upcomingEvent ? (
@@ -222,7 +224,7 @@ export default function Home() {
           <div className="jobs-heading">
             <div>
               <p className="card-tag">Annonces APIR</p>
-              <h3 id="jobs-heading">Offres hospitalières</h3>
+              <h2 id="jobs-heading">Offres hospitalières</h2>
             </div>
             <p className="jobs-note">Cliquez sur une offre pour consulter les détails.</p>
           </div>

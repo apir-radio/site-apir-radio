@@ -1,7 +1,7 @@
 ---
 season: "2025 — 2026"
 description: "Huit internes bénévoles organisent les formations et animent l’association tout au long de l’année."
-coordinationEmail: "coordidesrx.psl@aphp.fr"
+coordinationEmailCode: [99, 111, 111, 114, 100, 105, 100, 101, 115, 114, 120, 46, 112, 115, 108, 64, 97, 112, 104, 112, 46, 102, 114]
 coordinationNames: "Pr Raphaële Renard-Penna | Pr Stéphanie Franchi-Abella"
 ---
 

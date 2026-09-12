@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assertEmail, assertKnownFields, parseFrontmatter, requireFields } from "./content-utils.mjs";
+import { assertKnownFields, parseFrontmatter, requireFields } from "./content-utils.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(projectRoot, "content", "board.md");
@@ -10,9 +10,19 @@ const checkMode = process.argv.includes("--check");
 const source = fs.readFileSync(sourcePath, "utf8");
 const context = "Bureau invalide dans content/board.md";
 const { frontmatter, content: rawContent } = parseFrontmatter(source, context);
-assertKnownFields(frontmatter, ["season", "description", "coordinationEmail", "coordinationNames"], context);
-requireFields(frontmatter, ["season", "description", "coordinationEmail", "coordinationNames"], context);
-assertEmail(frontmatter.coordinationEmail, `${context} : coordinationEmail`);
+assertKnownFields(frontmatter, ["season", "description", "coordinationEmailCode", "coordinationNames"], context);
+requireFields(frontmatter, ["season", "description", "coordinationEmailCode", "coordinationNames"], context);
+
+const emailCodeMatch = /^\[(\d{2,3}(?:\s*,\s*\d{2,3})*)\]$/.exec(frontmatter.coordinationEmailCode);
+const coordinationEmailCode = emailCodeMatch?.[1].split(",").map((code) => Number(code.trim())) ?? [];
+const decodedCoordinationEmail = String.fromCharCode(...coordinationEmailCode);
+if (
+  coordinationEmailCode.length === 0 ||
+  coordinationEmailCode.some((code) => code < 33 || code > 126) ||
+  !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(decodedCoordinationEmail)
+) {
+  throw new Error(`${context} : coordinationEmailCode doit encoder une adresse e-mail valide en codes ASCII décimaux.`);
+}
 
 const members = [];
 for (const [lineIndex, rawLine] of rawContent.split(/\r?\n/).entries()) {
@@ -47,14 +57,14 @@ const generated = [
   "// This file is generated from content/board.md. Do not edit it directly.",
   "export type BoardMember = { name: string; role: string; initials: string };",
   "",
-  "export type BoardInfo = { season: string; description: string; members: BoardMember[]; coordinationNames: string[]; coordinationEmail: string };",
+  "export type BoardInfo = { season: string; description: string; members: BoardMember[]; coordinationNames: string[]; coordinationEmailCode: number[] };",
   "",
   "export const board: BoardInfo = " + JSON.stringify({
     season: frontmatter.season,
     description: frontmatter.description,
     members,
     coordinationNames,
-    coordinationEmail: frontmatter.coordinationEmail,
+    coordinationEmailCode,
   }, null, 2) + ";",
   "",
 ].join("\n");

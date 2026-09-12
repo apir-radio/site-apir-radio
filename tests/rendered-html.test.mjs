@@ -1,14 +1,29 @@
 // Vérifie les garanties SEO, accessibilité et contenu du HTML exporté.
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { associationEmails } from "./helpers/association-emails.mjs";
 
 const require = createRequire(import.meta.url);
 const siteConfig = require("../site.config.json");
 const outputDirectory = new URL("../out/", import.meta.url);
+const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 const helloAssoAdhesionUrl = siteConfig.helloAssoUrl;
 const laMedicaleUrl = siteConfig.partners.laMedicale;
+
+async function listFilesRecursively(directory) {
+  const entries = await fs.readdir(directory, { withFileTypes: true });
+  const files = await Promise.all(entries.map(async (entry) => {
+    const entryPath = path.join(directory, entry.name);
+    return entry.isDirectory() ? listFilesRecursively(entryPath) : [entryPath];
+  }));
+
+  return files.flat();
+}
 
 async function readOutput(relativePath) {
   return fs.readFile(new URL(relativePath, outputDirectory), "utf8");
@@ -52,13 +67,11 @@ test("keeps public content and hides association e-mails from static HTML", asyn
 
   assert.match(html, /class=["'][^"']*header-contact[^"']*["'][^>]*>Nous contacter/i);
   assert.match(html, /class=["'][^"']*contact-mail[^"']*["'][^>]*>.*Écrire à l’APIR/is);
-  assert.doesNotMatch(html, /(?:mailto:)?contact@apir-radio\.fr/i);
-  assert.doesNotMatch(html, /(?:mailto:)?coordidesrx\.psl@aphp\.fr/i);
   assert.doesNotMatch(html, /apir\.radiologie@gmail\.com/i);
   assert.match(html, /class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["'][^>]*>Aller au contenu/i);
   assert.match(html, /<main[^>]*id=["']main-content["'][^>]*tabindex=["']-1["']/i);
-  assert.match(html, /<h3[^>]*id=["']jobs-heading["'][^>]*>Offres hospitalières/i);
-  assert.match(html, /id=["']postes-hospitaliers["'][^>]*data-nosnippet/i);
+  assert.match(html, /<h2[^>]*id=["']jobs-heading["'][^>]*>Offres hospitalières/i);
+  assert.match(html, /<section(?=[^>]*\bid=["']postes-hospitaliers["'])(?=[^>]*\baria-labelledby=["']jobs-heading["'])(?=[^>]*\bdata-nosnippet)[^>]*>/i);
   assert.match(html, /JavaScript est désactivé.*annonces sont affichées directement/i);
   assert.match(html, /class=["'][^"']*contact-section[^"']*["'][^>]*id=["']contact["'][^>]*>.*Contactez le bureau<\/h2>/is);
   assert.match(html, /<h1>L’APIR, par et pour les <em>internes en radiologie<\/em><\/h1>/i);
@@ -81,7 +94,7 @@ test("keeps public content and hides association e-mails from static HTML", asyn
   assert.doesNotMatch(html, /timeline-heading|class=["'][^"']*event-row/i);
   assert.match(html, /Archives des soirées.*2025 — 2026/is);
   assert.match(html, /class=["']archive-count["'][^>]*>6[\s\S]*?soirée/is);
-  assert.match(html, /<h2>Rendez-vous en septembre<\/h2>/i);
+  assert.match(html, /<h2>Rendez-vous en\s*(?:<!-- -->)?\s*septembre<\/h2>/i);
   assert.match(html, /Mercredi 16 septembre[\s\S]*?19h30/i);
   assert.match(html, /Hôpital Paris Saint Joseph/i);
   assert.match(html, /Imagerie neurologique[\s\S]*?avec[\s\S]*?Giacomo Lucchi[\s\S]*?Hôpital Bicêtre[\s\S]*?S’inscrire à la soirée/i);
@@ -101,4 +114,67 @@ test("keeps the adhesion shortcut as a noindex redirect", async () => {
 
 test("does not generate the retired annonces route", async () => {
   assert.equal(await outputExists("annonces/index.html"), false);
+});
+
+test("keeps the event heading month data-driven", async () => {
+  const pageSource = await fs.readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+
+  assert.match(pageSource, /getFrenchEventMonth\(upcomingEvent\.date\)/);
+  assert.match(pageSource, /Rendez-vous en \{upcomingEventMonth\}/);
+  assert.doesNotMatch(pageSource, /Rendez-vous en septembre/i);
+  assert.match(pageSource, /On se retrouve<br \/>à la rentrée\./);
+});
+
+test("keeps one complete quality pipeline on pushes to main", async () => {
+  const ciWorkflow = await fs.readFile(new URL("../.github/workflows/ci.yml", import.meta.url), "utf8");
+  const pagesWorkflow = await fs.readFile(new URL("../.github/workflows/pages.yml", import.meta.url), "utf8");
+
+  assert.match(ciWorkflow, /\bpull_request:/);
+  assert.match(ciWorkflow, /\bworkflow_dispatch:/);
+  assert.doesNotMatch(ciWorkflow, /^\s{2}push:\s*\n\s{4}branches:\s*\[main\]/m);
+  assert.match(pagesWorkflow, /^\s{2}push:\s*\n\s{4}branches:\s*\[main\]/m);
+
+  for (const requiredCheck of [
+    "npm run content:check",
+    "npm run test:content",
+    "npx tsc --noEmit --incremental false",
+    "npm run lint",
+    "npm audit --omit=dev --audit-level=high",
+    "npm run build:pages",
+    "node --test tests/rendered-html.test.mjs",
+    "npm run anchors:check",
+    "npm run test:ui",
+    "actions/deploy-pages@",
+  ]) {
+    assert.ok(pagesWorkflow.includes(requiredCheck), `pages.yml must retain ${requiredCheck}`);
+  }
+});
+
+test("keeps the association e-mail strings out of tracked sources and public build files", async () => {
+  const trackedPaths = [
+    execFileSync("git", ["ls-files", "-z"], { cwd: projectRoot, encoding: "utf8" }),
+    execFileSync("git", ["ls-files", "--others", "--exclude-standard", "-z"], { cwd: projectRoot, encoding: "utf8" }),
+  ].flatMap((files) => files.split("\0")).filter(Boolean);
+  const trackedFiles = (await Promise.all(trackedPaths.map(async (filePath) => {
+    const details = await fs.stat(path.join(projectRoot, filePath));
+    return details.isFile() ? filePath : null;
+  }))).filter(Boolean);
+  const publicFiles = await listFilesRecursively(fileURLToPath(outputDirectory));
+  const emailBytes = Object.fromEntries(
+    Object.entries(associationEmails).map(([relativePath, email]) => [relativePath, Buffer.from(email, "utf8")]),
+  );
+
+  for (const filePath of trackedFiles) {
+    const source = await fs.readFile(path.join(projectRoot, filePath));
+    for (const [relativePath, email] of Object.entries(emailBytes)) {
+      assert.equal(source.includes(email), false, `${filePath} contains the clear ${relativePath} address`);
+    }
+  }
+
+  for (const filePath of publicFiles) {
+    const asset = await fs.readFile(filePath);
+    for (const [relativePath, email] of Object.entries(emailBytes)) {
+      assert.equal(asset.includes(email), false, `${path.relative(fileURLToPath(outputDirectory), filePath)} contains the clear ${relativePath} address`);
+    }
+  }
 });
