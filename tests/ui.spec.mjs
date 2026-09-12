@@ -61,6 +61,31 @@ test("le menu mobile se referme après une navigation", async ({ page }) => {
   await expect(page).toHaveURL(/#postes-hospitaliers$/);
 });
 
+test("les sections et la navigation suivent le nouvel ordre éditorial", async ({ page }) => {
+  const sectionIds = await page.locator("main > section").evaluateAll((sections) => sections.map((section) => section.id));
+  expect(sectionIds).toEqual(["top", "mission", "soirees", "bureau", "ressources", "postes-hospitaliers", "contact"]);
+
+  const mobileLinks = await page.locator(".mobile-nav-popover a").evaluateAll((links) => links.map((link) => [link.getAttribute("href"), link.textContent.trim()]));
+  expect(mobileLinks).toEqual([
+    ["#mission", "L’association"],
+    ["#soirees", "Soirées"],
+    ["#bureau", "Bureau"],
+    ["#ressources", "Ressources"],
+    ["#postes-hospitaliers", "Annonces"],
+    ["#contact", "Nous contacter"],
+  ]);
+
+  const desktopLinks = await page.locator('nav[aria-label="Navigation principale"] a').evaluateAll((links) => links.map((link) => [link.getAttribute("href"), link.textContent.trim()]));
+  expect(desktopLinks).toEqual(mobileLinks.slice(0, 5));
+});
+
+test("les numéros de sections reflètent le nouvel ordre", async ({ page }) => {
+  await expect(page.locator("#mission .section-kicker")).toHaveText("01 · L’association");
+  await expect(page.locator("#soirees .section-kicker")).toHaveText("02 · Les soirées de formation");
+  await expect(page.locator("#bureau .section-kicker")).toHaveText(/^03 · Bureau /);
+  await expect(page.locator("#ressources .section-kicker")).toHaveText("04 · Ressources");
+});
+
 test("affiche les annonces dans la navigation desktop", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
 
@@ -89,6 +114,11 @@ test("anime la flèche des liens Ressources sans toucher à la flèche descendan
   const downArrow = jobsLink.locator("span[aria-hidden='true']");
   await expect(downArrow).toHaveText("↓");
   expect(await downArrow.evaluate((element) => getComputedStyle(element).transform)).toBe("none");
+
+  for (const link of [page.locator(".header-cta"), page.locator(".event-signup"), page.locator(".coordination a")]) {
+    await link.hover();
+    expect(await link.locator(".link-arrow").evaluate((element) => getComputedStyle(element).transform)).not.toBe("none");
+  }
 });
 
 test("reconstruit les adresses e-mail après le chargement", async ({ page }) => {
@@ -221,7 +251,8 @@ test("les contours de focus restent visibles sur surfaces claires et foncées", 
 
   expect(await focusColor(page.locator('nav a[href="#mission"]'))).toBe(accent);
   expect(await focusColor(page.locator(".header-cta"))).toBe(navy);
-  expect(await focusColor(page.locator(".event-signup"))).toBe(navy);
+  expect(await focusColor(page.locator(".event-signup"))).toBe(accent);
+  expect(await focusColor(page.locator(".coordination a"))).toBe(navy);
   expect(await focusColor(page.locator(".resource-card.featured > a"))).toBe(accent);
   expect(await focusColor(page.locator(".resource-card.social-card a").first())).toBe(navy);
   expect(await focusColor(page.locator(".job-row").first())).toBe(navy);
@@ -232,10 +263,22 @@ test("les contours de focus restent visibles sur surfaces claires et foncées", 
 
   expect(await focusColor(page.locator(".contact-mail"))).toBe(accent);
   expect(await focusColor(page.locator("footer .footer-links a").first())).toBe(accent);
-  expect(await focusColor(page.locator(".archive-wrap summary").first())).toBe(navy);
+  expect(await focusColor(page.locator(".archive-wrap summary").first())).toBe(accent);
 
   await page.setViewportSize({ width: 390, height: 844 });
-  expect(await focusColor(page.locator("details.mobile-nav summary"))).toBe(accent);
+  await page.reload();
+  const mobileMenu = page.locator("details.mobile-nav summary");
+  await page.keyboard.press("Tab"); // skip link
+  await page.keyboard.press("Tab"); // brand
+  await page.keyboard.press("Tab"); // mobile navigation trigger
+  const mobileFocus = await mobileMenu.evaluate((element) => ({
+    visible: element.matches(":focus-visible"),
+    color: getComputedStyle(element).outlineColor,
+    style: getComputedStyle(element).outlineStyle,
+  }));
+  expect(mobileFocus.visible).toBe(true);
+  expect(mobileFocus.style).toBe("solid");
+  expect(mobileFocus.color).toBe(accent);
 });
 
 test("le menu mobile reste entièrement visible sur un écran étroit", async ({ page }) => {
@@ -314,6 +357,9 @@ test("ne crée pas de débordement horizontal sur un petit écran", async ({ pag
 test("reste sans débordement aux principaux formats desktop et mobile", async ({ page }) => {
   for (const viewport of [
     { width: 1440, height: 900 },
+    { width: 1440, height: 720 },
+    { width: 1440, height: 768 },
+    { width: 1280, height: 800 },
     { width: 900, height: 900 },
     { width: 390, height: 844 },
     { width: 320, height: 568 },
@@ -325,6 +371,45 @@ test("reste sans débordement aux principaux formats desktop et mobile", async (
     }));
 
     expect(dimensions.documentWidth, `viewport ${viewport.width}x${viewport.height}`).toBeLessThanOrEqual(dimensions.viewportWidth);
+  }
+});
+
+test("le hero s’adapte aux hauteurs desktop sans couper son contenu", async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 720 },
+    { width: 1440, height: 768 },
+    { width: 1440, height: 900 },
+    { width: 1280, height: 800 },
+    { width: 900, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const layout = await page.locator(".hero").evaluate((hero) => {
+      const bounds = (element) => {
+        const rect = element.getBoundingClientRect();
+        return { top: rect.top, right: rect.right, bottom: rect.bottom, left: rect.left, height: rect.height };
+      };
+      return {
+        hero: bounds(hero),
+        copy: bounds(hero.querySelector(".hero-copy")),
+        mark: bounds(hero.querySelector(".hero-mark")),
+        stats: bounds(hero.querySelector(".hero-stats")),
+      };
+    });
+
+    expect(layout.hero.height, `hero at ${viewport.width}x${viewport.height}`).toBeGreaterThanOrEqual(viewport.height);
+    if (viewport.width === 1440 && viewport.height === 720) {
+      expect(layout.hero.height).toBeLessThan(960);
+    }
+    for (const child of [layout.copy, layout.mark, layout.stats]) {
+      expect(child.top).toBeGreaterThanOrEqual(layout.hero.top);
+      expect(child.bottom).toBeLessThanOrEqual(layout.hero.bottom);
+    }
+    const overlaps = (first, second) => first.left < second.right && first.right > second.left && first.top < second.bottom && first.bottom > second.top;
+    expect(overlaps(layout.copy, layout.mark)).toBe(false);
+    expect(overlaps(layout.copy, layout.stats)).toBe(false);
+    expect(overlaps(layout.mark, layout.stats)).toBe(false);
+    if (viewport.width > 900) expect(layout.copy.right).toBeLessThanOrEqual(layout.mark.left);
+    expect(layout.stats.top).toBeGreaterThanOrEqual(Math.max(layout.copy.bottom, layout.mark.bottom));
   }
 });
 
@@ -347,6 +432,11 @@ test("respecte la préférence de réduction des animations", async ({ page }) =
   await resourceLink.hover();
   const arrowTransform = await resourceLink.locator(".link-arrow").evaluate((element) => getComputedStyle(element).transform);
   expect(arrowTransform).toBe("none");
+
+  for (const link of [page.locator(".header-cta"), page.locator(".event-signup"), page.locator(".coordination a")]) {
+    await link.hover();
+    expect(await link.locator(".link-arrow").evaluate((element) => getComputedStyle(element).transform)).toBe("none");
+  }
 
   const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
   await archive.locator("summary").click();
@@ -410,9 +500,9 @@ test("conserve la palette de marque en mode sombre du système", async ({ page }
   expect(appearance.colorScheme).toContain("light");
   expect(appearance.documentWidth).toBeLessThanOrEqual(appearance.viewportWidth);
   expect(appearance.missionBackground).toBe("rgb(246, 247, 248)");
-  expect(appearance.eventsBackground).toBe("rgb(232, 238, 247)");
+  expect(appearance.eventsBackground).toBe("rgb(12, 25, 51)");
   expect(appearance.jobsBackground).toBe("rgb(246, 247, 248)");
-  expect(appearance.boardBackground).toBe("rgb(16, 31, 60)");
+  expect(appearance.boardBackground).toBe("rgb(232, 238, 247)");
   expect(appearance.resourcesBackground).toBe("rgb(12, 25, 51)");
   expect(appearance.contactBackground).toBe("rgb(12, 25, 51)");
   expect(appearance.contactCardColor).toBe("rgb(247, 249, 252)");

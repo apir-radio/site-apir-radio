@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 
 const links = [
   ["#mission", "L’association"],
-  ["#bureau", "Bureau"],
   ["#soirees", "Soirées"],
+  ["#bureau", "Bureau"],
   ["#ressources", "Ressources"],
   ["#postes-hospitaliers", "Annonces"],
   ["#contact", "Nous contacter"],

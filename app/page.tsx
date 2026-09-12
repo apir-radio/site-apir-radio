@@ -10,7 +10,7 @@ import { ObfuscatedEmailAddress, ObfuscatedEmailLink } from "./obfuscated-email"
 import { getFrenchEventMonth } from "./event-month.mjs";
 import { getEventStatusLabel } from "./event-status.mjs";
 
-// Page d’accueil publique : présentation, bureau, soirées, ressources et annonces.
+// Page d’accueil publique : présentation, soirées, bureau, ressources et annonces.
 const adhesionPath = sitePath("/adhesion");
 const { siteUrl, organizationName, organizationDescription, socials, address } = siteConfig;
 const contactEmailCode = siteConfig.emailCode;
@@ -136,33 +136,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section board-section" id="bureau">
-          <div className="section-kicker light">02 · Bureau {board.season}</div>
-          <div className="board-heading">
-            <h2>Le bureau de l’APIR</h2>
-            <p>{board.description}</p>
-          </div>
-          <div className="board-grid">
-            {board.members.map((member) => (
-              <article className="member-card" key={member.name}>
-                <span className="member-avatar">{member.initials}</span>
-                <div><h3>{member.name}</h3><p>{member.role}</p></div>
-              </article>
-            ))}
-          </div>
-          <div className="coordination">
-            <span className="coordination-label">Coordination du DES</span>
-            <div>
-              <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
-              <ObfuscatedEmailLink encoded={coordinationEmailCode}>
-                <ObfuscatedEmailAddress encoded={coordinationEmailCode} /> <Arrow />
-              </ObfuscatedEmailLink>
-            </div>
-          </div>
-        </section>
-
         <section className="section events-section" id="soirees">
-          <div className="section-kicker">03 · Les soirées de formation</div>
+          <div className="section-kicker light">02 · Les soirées de formation</div>
           <div className="event-heading">
             <div>
               <p className="status-pill"><span aria-hidden="true" /> {getEventStatusLabel(Boolean(upcomingEvent))}</p>
@@ -188,6 +163,31 @@ export default function Home() {
           </div>
 
           <ArchiveList seasons={archiveEvents} />
+        </section>
+
+        <section className="section board-section" id="bureau">
+          <div className="section-kicker">03 · Bureau {board.season}</div>
+          <div className="board-heading">
+            <h2>Le bureau de l’APIR</h2>
+            <p>{board.description}</p>
+          </div>
+          <div className="board-grid">
+            {board.members.map((member) => (
+              <article className="member-card" key={member.name}>
+                <span className="member-avatar">{member.initials}</span>
+                <div><h3>{member.name}</h3><p>{member.role}</p></div>
+              </article>
+            ))}
+          </div>
+          <div className="coordination">
+            <span className="coordination-label">Coordination du DES</span>
+            <div>
+              <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
+              <ObfuscatedEmailLink encoded={coordinationEmailCode}>
+                <ObfuscatedEmailAddress encoded={coordinationEmailCode} /> <Arrow />
+              </ObfuscatedEmailLink>
+            </div>
+          </div>
         </section>
 
         <section className="section resources-section" id="ressources">
