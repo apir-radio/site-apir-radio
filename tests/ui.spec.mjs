@@ -302,7 +302,8 @@ test("le menu mobile reste entièrement visible sur un écran étroit", async ({
   for (const link of bounds.links) {
     expect(link.left).toBeGreaterThanOrEqual(bounds.popover.left);
     expect(link.right).toBeLessThanOrEqual(bounds.popover.right);
-    expect(link.height).toBeGreaterThanOrEqual(44);
+    // Ignore subpixel rounding while preserving the 44 px touch-target check.
+    expect(link.height).toBeGreaterThanOrEqual(44 - 0.01);
   }
 });
 
@@ -520,11 +521,15 @@ test("conserve une archive ouverte après rechargement", async ({ page }) => {
 
 test("permet de garder plusieurs années d’archives ouvertes", async ({ page }) => {
   const archives = page.locator(".archive-wrap details");
+  const openedYears = await archives.evaluateAll((items) =>
+    items.slice(0, 2).map((details) => details.querySelector("summary span")?.textContent?.trim()),
+  );
   await archives.nth(0).locator("summary").click();
   await archives.nth(1).locator("summary").click();
 
   await expect(archives.nth(0)).toHaveAttribute("open", "");
   await expect(archives.nth(1)).toHaveAttribute("open", "");
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem("apir-open-archive-years"))).toBe(JSON.stringify(openedYears));
   await page.reload();
   await expect(page.locator(".archive-wrap details").nth(0)).toHaveAttribute("open", "");
   await expect(page.locator(".archive-wrap details").nth(1)).toHaveAttribute("open", "");
