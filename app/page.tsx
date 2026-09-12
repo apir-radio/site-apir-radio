@@ -44,7 +44,7 @@ const structuredData = {
 };
 
 function Arrow() {
-  return <span aria-hidden="true">↗</span>;
+  return <span className="link-arrow" aria-hidden="true">↗</span>;
 }
 
 export default function Home() {
@@ -130,7 +130,7 @@ export default function Home() {
           ))}
         </div>
         <div className="coordination">
-          <span>Coordination du DES</span>
+          <span className="coordination-label">Coordination du DES</span>
           <div>
             <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
             <ObfuscatedEmailLink encoded={coordinationEmailCode}>

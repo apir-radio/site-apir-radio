@@ -29,7 +29,11 @@ test("restaure le focus après la fermeture d’une annonce", async ({ page }) =
   const job = page.locator("#postes-hospitaliers .job-row").first();
 
   await job.click();
-  await page.locator("dialog").getByRole("button", { name: "Fermer l’annonce" }).click();
+  const closeButton = page.locator("dialog").getByRole("button", { name: "Fermer l’annonce" });
+  await closeButton.hover();
+  const closeButtonTransform = await closeButton.evaluate((element) => getComputedStyle(element).transform);
+  expect(closeButtonTransform).toBe("none");
+  await closeButton.click();
 
   await expect(job).toBeFocused();
 });
@@ -61,6 +65,30 @@ test("affiche les annonces dans la navigation desktop", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
 
   await expect(page.getByRole("navigation", { name: "Navigation principale" }).getByRole("link", { name: "Annonces", exact: true })).toBeVisible();
+});
+
+test("garde les noms des coordinateurs dans la famille sans", async ({ page }) => {
+  const families = await page.evaluate(() => ({
+    body: getComputedStyle(document.body).fontFamily,
+    name: getComputedStyle(document.querySelector(".coordination p span")).fontFamily,
+    label: getComputedStyle(document.querySelector(".coordination-label")).fontFamily,
+  }));
+
+  expect(families.name).toBe(families.body);
+  expect(families.label).not.toBe(families.body);
+});
+
+test("anime la flèche des liens Ressources sans toucher à la flèche descendante", async ({ page }) => {
+  const externalLink = page.locator(".resource-card.featured > a");
+  await externalLink.hover();
+  const diagonalTransform = await externalLink.locator(".link-arrow").evaluate((element) => getComputedStyle(element).transform);
+  expect(diagonalTransform).not.toBe("none");
+
+  const jobsLink = page.locator('.resource-card a[href="#postes-hospitaliers"]');
+  await jobsLink.hover();
+  const downArrow = jobsLink.locator("span[aria-hidden='true']");
+  await expect(downArrow).toHaveText("↓");
+  expect(await downArrow.evaluate((element) => getComputedStyle(element).transform)).toBe("none");
 });
 
 test("reconstruit les adresses e-mail après le chargement", async ({ page }) => {
@@ -152,6 +180,80 @@ test("ne crée pas de débordement horizontal sur un petit écran", async ({ pag
   }));
 
   expect(dimensions.documentWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+});
+
+test("reste sans débordement aux principaux formats desktop et mobile", async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 900, height: 900 },
+    { width: 390, height: 844 },
+    { width: 320, height: 568 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const dimensions = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth,
+    }));
+
+    expect(dimensions.documentWidth, `viewport ${viewport.width}x${viewport.height}`).toBeLessThanOrEqual(dimensions.viewportWidth);
+  }
+});
+
+test("respecte la préférence de réduction des animations", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.reload();
+
+  const motion = await page.evaluate(() => ({
+    scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
+    heroAnimation: getComputedStyle(document.querySelector(".hero-logo")).animationName,
+  }));
+  expect(motion.scrollBehavior).toBe("auto");
+  expect(motion.heroAnimation).toBe("none");
+
+  await page.locator("details.mobile-nav summary").click();
+  const menuTransform = await page.locator(".mobile-nav-icon").evaluate((element) => getComputedStyle(element).transform);
+  expect(menuTransform).toBe("none");
+
+  const resourceLink = page.locator(".resource-card.featured > a");
+  await resourceLink.hover();
+  const arrowTransform = await resourceLink.locator(".link-arrow").evaluate((element) => getComputedStyle(element).transform);
+  expect(arrowTransform).toBe("none");
+
+  const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
+  await archive.locator("summary").click();
+  const archiveTransform = await archive.locator(".plus").evaluate((element) => getComputedStyle(element).transform);
+  expect(archiveTransform).toBe("none");
+
+  const contact = page.locator(".contact-mail");
+  await contact.hover();
+  const contactTransform = await contact.evaluate((element) => getComputedStyle(element).transform);
+  expect(contactTransform).toBe("none");
+
+  await page.locator("#postes-hospitaliers .job-row").first().click();
+  const panelAnimation = await page.locator(".job-dialog-shell").evaluate((element) => getComputedStyle(element).animationName);
+  expect(panelAnimation).toBe("none");
+});
+
+test("la carte Contact se soulève à la souris mais reste stable au focus clavier", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const contact = page.locator(".contact-mail");
+
+  await page.keyboard.press("Tab");
+  await contact.focus();
+  const focusState = await contact.evaluate((element) => ({
+    isFocusVisible: element.matches(":focus-visible"),
+    transform: getComputedStyle(element).transform,
+    outlineStyle: getComputedStyle(element).outlineStyle,
+  }));
+
+  expect(focusState.isFocusVisible).toBe(true);
+  expect(focusState.transform).toBe("none");
+  expect(focusState.outlineStyle).toBe("solid");
+
+  await page.keyboard.press("Tab");
+  await contact.hover();
+  const hoverTransform = await contact.evaluate((element) => getComputedStyle(element).transform);
+  expect(hoverTransform).not.toBe("none");
 });
 
 test("conserve la palette de marque en mode sombre du système", async ({ page }) => {
