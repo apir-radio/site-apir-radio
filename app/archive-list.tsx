@@ -18,14 +18,15 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
   const [openYears, setOpenYears] = useState<string[]>([]);
   const [hasRestoredState, setHasRestoredState] = useState(false);
   const userInteractedRef = useRef(false);
-  const detailsRefs = useRef(new Map<string, HTMLDetailsElement>());
+  const openYearsRef = useRef<string[]>([]);
 
   useEffect(() => {
     const restoreTimer = window.setTimeout(() => {
       try {
         const stored = JSON.parse(window.sessionStorage.getItem(storageKey) || "[]");
         if (Array.isArray(stored) && !userInteractedRef.current) {
-          const restoredYears = stored.filter((year): year is string => typeof year === "string" && seasons.some((season) => season.year === year));
+          const restoredYears = [...new Set(stored.filter((year): year is string => typeof year === "string" && seasons.some((season) => season.year === year)))];
+          openYearsRef.current = restoredYears;
           setOpenYears(restoredYears);
         }
       } catch {
@@ -39,25 +40,18 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
 
   useEffect(() => {
     if (!hasRestoredState) return;
-    detailsRefs.current.forEach((details, year) => {
-      details.open = openYears.includes(year);
-    });
     persistOpenYears(openYears);
   }, [hasRestoredState, openYears]);
 
-  function updateOpenYear(year: string, isOpen: boolean) {
+  function handleToggle(year: string, isOpen: boolean) {
     userInteractedRef.current = true;
-    const nextOpenYears = isOpen ? [...new Set([...openYears, year])] : openYears.filter((item) => item !== year);
-    setOpenYears(nextOpenYears);
-    persistOpenYears(nextOpenYears);
-  }
-
-  function toggleArchive(year: string) {
-    const details = detailsRefs.current.get(year);
-    if (!details) return;
-    const isOpen = !details.open;
-    details.open = isOpen;
-    updateOpenYear(year, isOpen);
+    const current = openYearsRef.current;
+    const next = isOpen
+      ? [...new Set([...current, year])]
+      : current.filter((item) => item !== year);
+    openYearsRef.current = next;
+    setOpenYears(next);
+    persistOpenYears(next);
   }
 
   return (
@@ -68,23 +62,10 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
         return (
           <details
             key={season.year}
-            ref={(element) => {
-              if (element) detailsRefs.current.set(season.year, element);
-              else detailsRefs.current.delete(season.year);
-            }}
+            open={openYears.includes(season.year)}
+            onToggle={(event) => handleToggle(season.year, event.currentTarget.open)}
           >
-            <summary
-              onClick={(event) => {
-                event.preventDefault();
-                toggleArchive(season.year);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  toggleArchive(season.year);
-                }
-              }}
-            >
+            <summary>
               <span>{season.year}</span>
               <span className="archive-summary-meta">
                 <span className="archive-count">{count} soirée{count > 1 ? "s" : ""}</span>

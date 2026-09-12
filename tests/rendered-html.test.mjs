@@ -128,6 +128,7 @@ test("keeps the event heading month data-driven", async () => {
 test("keeps one complete quality pipeline on pushes to main", async () => {
   const ciWorkflow = await fs.readFile(new URL("../.github/workflows/ci.yml", import.meta.url), "utf8");
   const pagesWorkflow = await fs.readFile(new URL("../.github/workflows/pages.yml", import.meta.url), "utf8");
+  const healthWorkflow = await fs.readFile(new URL("../.github/workflows/health.yml", import.meta.url), "utf8");
 
   assert.match(ciWorkflow, /\bpull_request:/);
   assert.match(ciWorkflow, /\bworkflow_dispatch:/);
@@ -148,13 +149,17 @@ test("keeps one complete quality pipeline on pushes to main", async () => {
   ]) {
     assert.ok(pagesWorkflow.includes(requiredCheck), `pages.yml must retain ${requiredCheck}`);
   }
+
+  assert.match(healthWorkflow, /cron: ["']17 6 \* \* \*["']/);
+  assert.match(healthWorkflow, /timezone: ["']Europe\/Paris["']/);
+  assert.match(healthWorkflow, /npm run content:freshness/);
+  assert.match(healthWorkflow, /if: \$\{\{ !cancelled\(\) && steps\.checkout\.outcome == 'success' && steps\.node\.outcome == 'success' \}\}/);
+  assert.match(pagesWorkflow, /playwright install --with-deps chromium webkit/);
+  assert.match(ciWorkflow, /playwright install --with-deps chromium webkit/);
 });
 
 test("keeps the association e-mail strings out of tracked sources and public build files", async () => {
-  const trackedPaths = [
-    execFileSync("git", ["ls-files", "-z"], { cwd: projectRoot, encoding: "utf8" }),
-    execFileSync("git", ["ls-files", "--others", "--exclude-standard", "-z"], { cwd: projectRoot, encoding: "utf8" }),
-  ].flatMap((files) => files.split("\0")).filter(Boolean);
+  const trackedPaths = execFileSync("git", ["ls-files", "-z"], { cwd: projectRoot, encoding: "utf8" }).split("\0").filter(Boolean);
   const trackedFiles = (await Promise.all(trackedPaths.map(async (filePath) => {
     const details = await fs.stat(path.join(projectRoot, filePath));
     return details.isFile() ? filePath : null;

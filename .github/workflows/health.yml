@@ -1,9 +1,10 @@
-# Vérifie la disponibilité publique du site, indépendamment du déploiement.
-name: Surveiller la disponibilité du site
+# Vérifie la disponibilité publique et la fraîcheur éditoriale, indépendamment du déploiement.
+name: Surveiller le site public et son contenu
 
 on:
   schedule:
-    - cron: "0 9 * * 1"
+    - cron: "17 6 * * *"
+      timezone: "Europe/Paris"
   workflow_dispatch:
 
 permissions:
@@ -15,12 +16,18 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Récupérer le code
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Installer Node.js
+        id: node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
 
+      - name: Vérifier la fraîcheur des soirées
+        run: npm run content:freshness
+
       - name: Vérifier la disponibilité publique
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' && steps.node.outcome == 'success' }}
         run: node scripts/check-site-health.mjs

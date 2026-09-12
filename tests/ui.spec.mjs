@@ -512,7 +512,20 @@ test("conserve la palette de marque en mode sombre du système", async ({ page }
 test("conserve une archive ouverte après rechargement", async ({ page }) => {
   const archive = page.locator("details").filter({ hasText: "2025 — 2026" }).first();
   await archive.locator("summary").click();
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem("apir-open-archive-years"))).toBe(JSON.stringify(["2025 — 2026"]));
   await page.reload();
 
   await expect(page.locator("details").filter({ hasText: "2025 — 2026" }).first()).toHaveAttribute("open", "");
+});
+
+test("permet de garder plusieurs années d’archives ouvertes", async ({ page }) => {
+  const archives = page.locator(".archive-wrap details");
+  await archives.nth(0).locator("summary").click();
+  await archives.nth(1).locator("summary").click();
+
+  await expect(archives.nth(0)).toHaveAttribute("open", "");
+  await expect(archives.nth(1)).toHaveAttribute("open", "");
+  await page.reload();
+  await expect(page.locator(".archive-wrap details").nth(0)).toHaveAttribute("open", "");
+  await expect(page.locator(".archive-wrap details").nth(1)).toHaveAttribute("open", "");
 });

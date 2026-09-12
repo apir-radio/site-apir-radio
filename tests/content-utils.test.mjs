@@ -1,6 +1,7 @@
 // Tests unitaires des règles communes appliquées aux sources éditoriales.
 import assert from "node:assert/strict";
 import test from "node:test";
+import { getParisCalendarDate, isFrenchEventDatePast, parseFrenchEventDate } from "../app/event-date.mjs";
 import { getFrenchEventMonth } from "../app/event-month.mjs";
 import { getEventStatusLabel } from "../app/event-status.mjs";
 import {
@@ -51,6 +52,38 @@ test("déduit le mois de la soirée à partir d’une date française", () => {
   assert.equal(getFrenchEventMonth("Mercredi 14 octobre 2026"), "octobre");
   assert.equal(getFrenchEventMonth("Vendredi 4 DÉCEMBRE 2026"), "décembre");
   assert.throws(() => getFrenchEventMonth("Mercredi 14 October 2026"), /format français/);
+});
+
+test("parse les dates françaises comme des dates calendaires vérifiables", () => {
+  const event = parseFrenchEventDate("Mercredi 16 septembre 2026");
+
+  assert.equal(event.isoDate, "2026-09-16");
+  assert.equal(event.year, 2026);
+  assert.equal(event.monthIndex, 8);
+  assert.equal(event.day, 16);
+  assert.equal(event.weekday, "mercredi");
+  assert.equal(getFrenchEventMonth("Mercredi 16 septembre 2026"), "septembre");
+});
+
+test("valide les jours de semaine, les mois et les années bissextiles", () => {
+  assert.doesNotThrow(() => parseFrenchEventDate("Jeudi 29 février 2024"));
+  assert.doesNotThrow(() => parseFrenchEventDate("29 février 2024"));
+
+  assert.throws(() => parseFrenchEventDate("Lundi 16 septembre 2026"), /ne correspond pas/);
+  assert.throws(() => parseFrenchEventDate("Lundi 31 février 2027"), /impossible/);
+  assert.throws(() => parseFrenchEventDate("29 février 2023"), /impossible/);
+  assert.throws(() => parseFrenchEventDate("16 floréal 2026"), /Mois français inconnu/);
+  assert.throws(() => parseFrenchEventDate("le 16 septembre 2026"), /Jour de semaine français inconnu/);
+});
+
+test("détermine la fraîcheur avec une date de référence injectable", () => {
+  const date = "Mercredi 16 septembre 2026";
+
+  assert.equal(isFrenchEventDatePast(date, "2026-09-15"), false);
+  assert.equal(isFrenchEventDatePast(date, "2026-09-16"), false);
+  assert.equal(isFrenchEventDatePast(date, "2026-09-17"), true);
+  assert.equal(getParisCalendarDate(new Date("2026-09-15T22:30:00.000Z")), "2026-09-16");
+  assert.throws(() => isFrenchEventDatePast(date, "2026-02-29"), /date de référence/);
 });
 
 test("choisit le libellé de statut selon la présence d’une prochaine soirée", () => {

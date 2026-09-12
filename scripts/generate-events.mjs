@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseFrenchEventDate } from "../app/event-date.mjs";
 import { assertHttpsUrl } from "./content-utils.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -96,6 +97,11 @@ if (upcomingEvent) {
   const missing = upcomingFields.filter((field) => !upcomingEvent[field]);
   if (missing.length > 0) {
     throw new Error("Événement à venir incomplet dans content/events.md : " + missing.join(", ") + ".");
+  }
+  try {
+    parseFrenchEventDate(upcomingEvent.date);
+  } catch (error) {
+    throw new Error(`Date invalide pour l’événement à venir dans content/events.md : ${error instanceof Error ? error.message : String(error)}`);
   }
   assertHttpsUrl(upcomingEvent.registrationUrl, "Lien d’inscription invalide dans content/events.md");
 }
