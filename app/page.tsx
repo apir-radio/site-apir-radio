@@ -8,6 +8,7 @@ import { archiveEvents, upcomingEvent } from "./events";
 import { assetPath, siteConfig, sitePath } from "./site-config";
 import { ObfuscatedEmailAddress, ObfuscatedEmailLink } from "./obfuscated-email";
 import { getFrenchEventMonth } from "./event-month.mjs";
+import { getEventStatusLabel } from "./event-status.mjs";
 
 // Page d’accueil publique : présentation, bureau, soirées, ressources et annonces.
 const adhesionPath = sitePath("/adhesion");
@@ -47,6 +48,24 @@ function Arrow() {
   return <span className="link-arrow" aria-hidden="true">↗</span>;
 }
 
+function CalendarIcon() {
+  return (
+    <svg className="next-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <rect x="3.5" y="5.5" width="17" height="15" rx="2" />
+      <path d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17" />
+    </svg>
+  );
+}
+
+function LocationIcon() {
+  return (
+    <svg className="next-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
+      <circle cx="12" cy="10" r="2.2" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const currentSeason = archiveEvents[0];
   const currentSeasonEventCount = currentSeason?.events.length ?? 0;
@@ -54,8 +73,7 @@ export default function Home() {
   const upcomingEventMonth = upcomingEvent ? getFrenchEventMonth(upcomingEvent.date) : null;
 
   return (
-    <main id="main-content" tabIndex={-1}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+    <>
       <a className="skip-link" href="#main-content">Aller au contenu</a>
       <header className="site-header">
         <div className="header-identity">
@@ -71,187 +89,192 @@ export default function Home() {
         </a>
       </header>
 
-      <section className="hero" id="top">
-        <div className="hero-noise" aria-hidden="true" />
-        <div className="hero-copy">
-          <p className="eyebrow"><span /> Association loi 1901 · Depuis 1998</p>
-          <h1>L’APIR, par et pour les <em>internes en radiologie</em></h1>
-          <p className="hero-lede">
-            Depuis 1998, l’APIR organise des soirées de formation et rassemble les internes en radiologie d’Île-de-France.
-          </p>
-        </div>
+      <main id="main-content" tabIndex={-1}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-        <div className="hero-mark">
-          <Image
-            className="hero-logo"
-            src={assetPath("/apir-logo.webp")}
-            alt="Logo de l’Association Parisienne des Internes en Radiologie"
-            width={900}
-            height={959}
-            sizes="(max-width: 720px) 34vw, 28vw"
-            priority
-          />
-        </div>
-
-        <div className="hero-stats" aria-label="APIR en chiffres">
-          <div><strong>1998</strong><span>Fondation de l’association</span></div>
-          <div><strong>{board.members.length}</strong><span>Internes au bureau</span></div>
-          <div><strong>{currentSeasonEventCount}</strong><span>Soirées organisées en {currentSeason?.year ?? "cours"}</span></div>
-        </div>
-      </section>
-
-      <section className="section mission-section" id="mission">
-        <div className="section-kicker">01 · L’association</div>
-        <div className="mission-grid">
-          <h2>Des soirées de formation pour tous les semestres</h2>
-          <div className="mission-copy">
-            <p className="large-copy">
-              L’APIR organise des soirées consacrées aux différentes spécialités d’imagerie, avec des radiologues choisis pour leur expérience et leurs qualités pédagogiques.
-            </p>
-            <p>
-              Ouvertes à tous les semestres, ces rencontres complètent la formation du DES. Elles permettent aussi d’échanger avec les intervenants et de faire connaissance avec les autres internes franciliens.
+        <section className="hero" id="top">
+          <div className="hero-noise" aria-hidden="true" />
+          <div className="hero-copy">
+            <p className="eyebrow"><span /> Association loi 1901 · Depuis 1998</p>
+            <h1>L’APIR, par et pour les <em>internes en radiologie</em></h1>
+            <p className="hero-lede">
+              Depuis 1998, l’APIR organise des soirées de formation et rassemble les internes en radiologie d’Île-de-France.
             </p>
           </div>
-        </div>
-      </section>
 
-      <section className="section board-section" id="bureau">
-        <div className="section-kicker light">02 · Bureau {board.season}</div>
-        <div className="board-heading">
-          <h2>Le bureau de l’APIR</h2>
-          <p>{board.description}</p>
-        </div>
-        <div className="board-grid">
-          {board.members.map((member) => (
-            <article className="member-card" key={member.name}>
-              <span className="member-avatar">{member.initials}</span>
-              <div><h3>{member.name}</h3><p>{member.role}</p></div>
+          <div className="hero-mark">
+            <Image
+              className="hero-logo"
+              src={assetPath("/apir-logo.webp")}
+              alt="Logo de l’Association Parisienne des Internes en Radiologie"
+              width={900}
+              height={959}
+              sizes="(max-width: 720px) 34vw, 28vw"
+              priority
+            />
+          </div>
+
+          <div className="hero-stats" aria-label="APIR en chiffres">
+            <div><strong>1998</strong><span>Fondation de l’association</span></div>
+            <div><strong>{board.members.length}</strong><span>Internes au bureau</span></div>
+            <div><strong>{currentSeasonEventCount}</strong><span>Soirées organisées en {currentSeason?.year ?? "cours"}</span></div>
+          </div>
+        </section>
+
+        <section className="section mission-section" id="mission">
+          <div className="section-kicker">01 · L’association</div>
+          <div className="mission-grid">
+            <h2>Des soirées de formation pour tous les semestres</h2>
+            <div className="mission-copy">
+              <p className="large-copy">
+                L’APIR organise des soirées consacrées aux différentes spécialités d’imagerie, avec des radiologues choisis pour leur expérience et leurs qualités pédagogiques.
+              </p>
+              <p>
+                Ouvertes à tous les semestres, ces rencontres complètent la formation du DES. Elles permettent aussi d’échanger avec les intervenants et de faire connaissance avec les autres internes franciliens.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="section board-section" id="bureau">
+          <div className="section-kicker light">02 · Bureau {board.season}</div>
+          <div className="board-heading">
+            <h2>Le bureau de l’APIR</h2>
+            <p>{board.description}</p>
+          </div>
+          <div className="board-grid">
+            {board.members.map((member) => (
+              <article className="member-card" key={member.name}>
+                <span className="member-avatar">{member.initials}</span>
+                <div><h3>{member.name}</h3><p>{member.role}</p></div>
+              </article>
+            ))}
+          </div>
+          <div className="coordination">
+            <span className="coordination-label">Coordination du DES</span>
+            <div>
+              <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
+              <ObfuscatedEmailLink encoded={coordinationEmailCode}>
+                <ObfuscatedEmailAddress encoded={coordinationEmailCode} /> <Arrow />
+              </ObfuscatedEmailLink>
+            </div>
+          </div>
+        </section>
+
+        <section className="section events-section" id="soirees">
+          <div className="section-kicker">03 · Les soirées de formation</div>
+          <div className="event-heading">
+            <div>
+              <p className="status-pill"><span aria-hidden="true" /> {getEventStatusLabel(Boolean(upcomingEvent))}</p>
+              <h2>{upcomingEvent ? <>Rendez-vous en {upcomingEventMonth}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
+            </div>
+            <div className="next-card">
+              {upcomingEvent ? (
+                <>
+                  <strong>{upcomingEvent.specialty}</strong>
+                  <span className="next-card-detail"><CalendarIcon /> {upcomingEventDate} à {upcomingEvent.time}</span>
+                  <span className="next-card-detail"><LocationIcon /> {upcomingEvent.venue}</span>
+                  <span>avec {upcomingEvent.speaker} ({upcomingEvent.speakerHospital})</span>
+                  <a className="event-signup" href={upcomingEvent.registrationUrl} target="_blank" rel="noopener noreferrer">S’inscrire à la soirée <Arrow /></a>
+                </>
+              ) : (
+                <>
+                  <p>Le programme sera annoncé prochainement.</p>
+                  <span>La date, le thème et les inscriptions seront publiés sur Instagram.</span>
+                  <a href={socials.instagram} target="_blank" rel="noopener noreferrer">@apir.radiologie <Arrow /></a>
+                </>
+              )}
+            </div>
+          </div>
+
+          <ArchiveList seasons={archiveEvents} />
+        </section>
+
+        <section className="section resources-section" id="ressources">
+          <div className="section-kicker light">04 · Ressources</div>
+          <div className="resources-heading">
+            <h2>Les informations utiles pendant l’internat</h2>
+            <p>Adhérer à l’association, suivre son actualité et consulter les offres de postes.</p>
+          </div>
+          <div className="resource-grid">
+            <article className="resource-card featured">
+              <span className="card-number">01</span>
+              <div>
+                <p className="card-tag">Adhésion</p>
+                <h3>Adhérer à l’APIR</h3>
+                <p>L’adhésion couvre toute la durée de l’internat et contribue à l’organisation des soirées de formation. Elle devient annuelle après l’internat.</p>
+              </div>
+              <a href={adhesionPath}>Adhérer sur HelloAsso <Arrow /></a>
             </article>
-          ))}
-        </div>
-        <div className="coordination">
-          <span className="coordination-label">Coordination du DES</span>
+            <article className="resource-card social-card">
+              <span className="card-number">02</span>
+              <div>
+                <p className="card-tag">La communauté</p>
+                <h3>Suivre la vie de l’association</h3>
+                <p>Les annonces et les rappels sont publiés sur Instagram et dans le groupe Facebook des internes.</p>
+              </div>
+              <div className="double-links">
+                <a href={socials.instagram} target="_blank" rel="noopener noreferrer">Instagram <Arrow /></a>
+                <a href={socials.facebook} target="_blank" rel="noopener noreferrer">Groupe Facebook <Arrow /></a>
+              </div>
+            </article>
+            <article className="resource-card">
+              <span className="card-number">03</span>
+              <div>
+                <p className="card-tag">Postes hospitaliers</p>
+                <h3>Offres de postes hospitaliers</h3>
+                <p>Consultez les offres de CCA, d’assistant et de spécialiste relayées par l’APIR en Île-de-France.</p>
+              </div>
+              <a href="#postes-hospitaliers">Voir les postes <span aria-hidden="true">↓</span></a>
+            </article>
+            <article className="resource-card">
+              <span className="card-number">04</span>
+              <div>
+                <p className="card-tag">Postes libéraux</p>
+                <h3>Annonces d’exercice libéral</h3>
+                <p>Depuis juillet 2024, les annonces concernant l’exercice libéral sont centralisées par notre partenaire CORAIL.</p>
+              </div>
+              <a href={siteConfig.partners.corail} target="_blank" rel="noopener noreferrer">Voir les annonces CORAIL <Arrow /></a>
+            </article>
+          </div>
+
+        </section>
+
+        <section className="section jobs-section" id="postes-hospitaliers" aria-labelledby="jobs-heading" data-nosnippet>
+          <div className="jobs-panel">
+            <div className="jobs-heading">
+              <div>
+                <p className="card-tag">Annonces APIR</p>
+                <h2 id="jobs-heading">Offres hospitalières</h2>
+              </div>
+              <p className="jobs-note">Cliquez sur une offre pour consulter les détails.</p>
+            </div>
+            <JobList jobs={hospitalJobs} />
+          </div>
+        </section>
+
+        <section className="contact-section" id="contact">
           <div>
-            <p>{board.coordinationNames.map((name) => <span key={name}>{name}<br /></span>)}</p>
-            <ObfuscatedEmailLink encoded={coordinationEmailCode}>
-              <ObfuscatedEmailAddress encoded={coordinationEmailCode} /> <Arrow />
+            <p className="eyebrow dark"><span /> Une question ou une proposition ?</p>
+            <h2>Contactez le bureau</h2>
+          </div>
+          <div className="contact-links">
+            <ObfuscatedEmailLink
+              className="contact-mail"
+              encoded={contactEmailCode}
+              ariaLabel="Écrire à l’APIR par e-mail"
+            >
+              <span className="contact-mail-copy">
+                <small>Par e-mail</small>
+                <strong>Écrire à l’APIR</strong>
+                <ObfuscatedEmailAddress encoded={contactEmailCode} className="contact-address" />
+              </span>
+              <span className="contact-mail-arrow"><Arrow /></span>
             </ObfuscatedEmailLink>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="section events-section" id="soirees">
-        <div className="section-kicker">03 · Les soirées de formation</div>
-        <div className="event-heading">
-          <div>
-            <p className="status-pill"><span /> Prochaine soirée</p>
-            <h2>{upcomingEvent ? <>Rendez-vous en {upcomingEventMonth}</> : <>On se retrouve<br />à la rentrée.</>}</h2>
-          </div>
-          <div className="next-card">
-            {upcomingEvent ? (
-              <>
-                <strong>{upcomingEvent.specialty}</strong>
-                <span className="next-card-detail"><span aria-hidden="true">📅</span> {upcomingEventDate} à {upcomingEvent.time}</span>
-                <span className="next-card-detail"><span aria-hidden="true">📍</span> {upcomingEvent.venue}</span>
-                <span>avec {upcomingEvent.speaker} ({upcomingEvent.speakerHospital})</span>
-                <a href={upcomingEvent.registrationUrl} target="_blank" rel="noopener noreferrer">S’inscrire à la soirée <Arrow /></a>
-              </>
-            ) : (
-              <>
-                <p>Le programme sera annoncé prochainement.</p>
-                <span>La date, le thème et les inscriptions seront publiés sur Instagram.</span>
-                <a href={socials.instagram} target="_blank" rel="noopener noreferrer">@apir.radiologie <Arrow /></a>
-              </>
-            )}
-          </div>
-        </div>
-
-        <ArchiveList seasons={archiveEvents} />
-      </section>
-
-      <section className="section resources-section" id="ressources">
-        <div className="section-kicker light">04 · Ressources</div>
-        <div className="resources-heading">
-          <h2>Les informations utiles pendant l’internat</h2>
-          <p>Adhérer à l’association, suivre son actualité et consulter les offres de postes.</p>
-        </div>
-        <div className="resource-grid">
-          <article className="resource-card featured">
-            <span className="card-number">01</span>
-            <div>
-              <p className="card-tag">Adhésion</p>
-              <h3>Adhérer à l’APIR</h3>
-              <p>L’adhésion couvre toute la durée de l’internat et contribue à l’organisation des soirées de formation. Elle devient annuelle après l’internat.</p>
-            </div>
-            <a href={adhesionPath}>Adhérer sur HelloAsso <Arrow /></a>
-          </article>
-          <article className="resource-card social-card">
-            <span className="card-number">02</span>
-            <div>
-              <p className="card-tag">La communauté</p>
-              <h3>Suivre la vie de l’association</h3>
-              <p>Les annonces et les rappels sont publiés sur Instagram et dans le groupe Facebook des internes.</p>
-            </div>
-            <div className="double-links">
-              <a href={socials.instagram} target="_blank" rel="noopener noreferrer">Instagram <Arrow /></a>
-              <a href={socials.facebook} target="_blank" rel="noopener noreferrer">Groupe Facebook <Arrow /></a>
-            </div>
-          </article>
-          <article className="resource-card">
-            <span className="card-number">03</span>
-            <div>
-              <p className="card-tag">Postes hospitaliers</p>
-              <h3>Offres de postes hospitaliers</h3>
-              <p>Consultez les offres de CCA, d’assistant et de spécialiste relayées par l’APIR en Île-de-France.</p>
-            </div>
-            <a href="#postes-hospitaliers">Voir les postes <span aria-hidden="true">↓</span></a>
-          </article>
-          <article className="resource-card">
-            <span className="card-number">04</span>
-            <div>
-              <p className="card-tag">Postes libéraux</p>
-              <h3>Annonces d’exercice libéral</h3>
-              <p>Depuis juillet 2024, les annonces concernant l’exercice libéral sont centralisées par notre partenaire CORAIL.</p>
-            </div>
-            <a href={siteConfig.partners.corail} target="_blank" rel="noopener noreferrer">Voir les annonces CORAIL <Arrow /></a>
-          </article>
-        </div>
-
-      </section>
-
-      <section className="section jobs-section" id="postes-hospitaliers" aria-labelledby="jobs-heading" data-nosnippet>
-        <div className="jobs-panel">
-          <div className="jobs-heading">
-            <div>
-              <p className="card-tag">Annonces APIR</p>
-              <h2 id="jobs-heading">Offres hospitalières</h2>
-            </div>
-            <p className="jobs-note">Cliquez sur une offre pour consulter les détails.</p>
-          </div>
-          <JobList jobs={hospitalJobs} />
-        </div>
-      </section>
-
-      <section className="contact-section" id="contact">
-        <div>
-          <p className="eyebrow dark"><span /> Une question ou une proposition ?</p>
-          <h2>Contactez le bureau</h2>
-        </div>
-        <div className="contact-links">
-          <ObfuscatedEmailLink
-            className="contact-mail"
-            encoded={contactEmailCode}
-            ariaLabel="Écrire à l’APIR par e-mail"
-          >
-            <span className="contact-mail-copy">
-              <small>Par e-mail</small>
-              <strong>Écrire à l’APIR</strong>
-              <ObfuscatedEmailAddress encoded={contactEmailCode} className="contact-address" />
-            </span>
-            <span className="contact-mail-arrow"><Arrow /></span>
-          </ObfuscatedEmailLink>
-        </div>
-      </section>
+      </main>
 
       <footer>
         <a className="brand footer-brand" href="#top" aria-label="APIR, retour en haut">
@@ -289,6 +312,6 @@ export default function Home() {
           </a>
         </div>
       </footer>
-    </main>
+    </>
   );
 }

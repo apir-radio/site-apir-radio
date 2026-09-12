@@ -62,7 +62,7 @@ export function ArchiveList({ seasons }: { seasons: ArchiveSeason[] }) {
 
   return (
     <div className="archive-wrap">
-      <p className="archive-label">Archives des soirées</p>
+      <h3 className="archive-label">Archives des soirées</h3>
       {seasons.map((season) => {
         const count = season.events.length;
         return (

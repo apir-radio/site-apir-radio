@@ -103,10 +103,139 @@ test("affiche une date courte et lisible pour la prochaine soirée", async ({ pa
   const heading = page.locator(".event-heading h2");
 
   await expect(heading).toHaveText("Rendez-vous en septembre");
+  await expect(page.locator(".status-pill")).toHaveText("Prochaine soirée");
   await expect(page.locator(".next-card")).toContainText("Mercredi 16 septembre à 19h30");
   await expect(page.locator(".next-card")).toContainText("Hôpital Paris Saint Joseph");
   const fontSize = await heading.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
   expect(fontSize).toBeLessThan(56);
+});
+
+test("conserve des landmarks distincts et le lien d’évitement", async ({ page }) => {
+  const landmarks = await page.evaluate(() => {
+    const main = document.querySelector("main");
+    return {
+      mainCount: document.querySelectorAll("main").length,
+      headerOutsideMain: !main.contains(document.querySelector(".site-header")),
+      footerOutsideMain: !main.contains(document.querySelector("footer")),
+      skipLinkTarget: document.querySelector(".skip-link").getAttribute("href"),
+    };
+  });
+
+  expect(landmarks).toEqual({
+    mainCount: 1,
+    headerOutsideMain: true,
+    footerOutsideMain: true,
+    skipLinkTarget: "#main-content",
+  });
+
+  const skipLink = page.locator(".skip-link");
+  await skipLink.focus();
+  await skipLink.click();
+  await expect(page).toHaveURL(/#main-content$/);
+  await expect(page.locator("#main-content")).toBeFocused();
+});
+
+test("présente les archives comme sous-titre et la soirée avec des icônes décoratives", async ({ page }) => {
+  await expect(page.getByRole("heading", { level: 3, name: "Archives des soirées" })).toBeVisible();
+  const signup = page.locator(".next-card .event-signup");
+  await expect(signup).toHaveText("S’inscrire à la soirée ↗");
+  const signupTarget = await signup.evaluate((element) => ({
+    height: element.getBoundingClientRect().height,
+    borderTopStyle: getComputedStyle(element).borderTopStyle,
+  }));
+  expect(signupTarget.height).toBeGreaterThanOrEqual(44);
+  expect(signupTarget.borderTopStyle).toBe("solid");
+
+  const icons = page.locator(".next-card-detail svg");
+  await expect(icons).toHaveCount(2);
+  for (const icon of await icons.all()) {
+    await expect(icon).toHaveAttribute("aria-hidden", "true");
+    await expect(icon).toHaveAttribute("focusable", "false");
+  }
+
+  const cardDetails = await page.locator(".next-card").innerText();
+  expect(cardDetails).not.toContain("📅");
+  expect(cardDetails).not.toContain("📍");
+});
+
+test("le logo du header garde une cible tactile d’au moins 44 px sur mobile", async ({ page }) => {
+  const size = await page.locator(".site-header .brand").evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
+  });
+
+  expect(size.width).toBeGreaterThanOrEqual(44);
+  expect(size.height).toBeGreaterThanOrEqual(44);
+});
+
+test("les cartes Ressources restent lisibles et actionnables à 390 px", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const cards = page.locator(".resource-card");
+  await expect(cards).toHaveCount(4);
+
+  for (const card of await cards.all()) {
+    const layout = await card.evaluate((element) => {
+      const cardBounds = element.getBoundingClientRect();
+      const actionBounds = [...element.querySelectorAll("a")].map((link) => {
+        const rect = link.getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom, height: rect.height };
+      });
+      return {
+        left: cardBounds.left,
+        right: cardBounds.right,
+        bottom: cardBounds.bottom,
+        scrollHeight: element.scrollHeight,
+        clientHeight: element.clientHeight,
+        actionBounds,
+      };
+    });
+
+    expect(layout.left).toBeGreaterThanOrEqual(0);
+    expect(layout.right).toBeLessThanOrEqual(390);
+    expect(layout.scrollHeight).toBeLessThanOrEqual(layout.clientHeight);
+    for (const action of layout.actionBounds) {
+      expect(action.height).toBeGreaterThanOrEqual(44);
+      expect(action.bottom).toBeLessThanOrEqual(layout.bottom);
+    }
+  }
+});
+
+test("les contours de focus restent visibles sur surfaces claires et foncées", async ({ page }) => {
+  const focusColor = async (locator) => {
+    await page.keyboard.press("Tab");
+    await locator.focus();
+    const style = await locator.evaluate((element) => ({
+      visible: element.matches(":focus-visible"),
+      color: getComputedStyle(element).outlineColor,
+      style: getComputedStyle(element).outlineStyle,
+    }));
+    expect(style.visible).toBe(true);
+    expect(style.style).toBe("solid");
+    return style.color;
+  };
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.keyboard.press("Tab");
+  const accent = "rgb(185, 210, 255)";
+  const navy = "rgb(27, 45, 83)";
+
+  expect(await focusColor(page.locator('nav a[href="#mission"]'))).toBe(accent);
+  expect(await focusColor(page.locator(".header-cta"))).toBe(navy);
+  expect(await focusColor(page.locator(".event-signup"))).toBe(navy);
+  expect(await focusColor(page.locator(".resource-card.featured > a"))).toBe(accent);
+  expect(await focusColor(page.locator(".resource-card.social-card a").first())).toBe(navy);
+  expect(await focusColor(page.locator(".job-row").first())).toBe(navy);
+
+  await page.locator(".job-row").first().click();
+  expect(await focusColor(page.locator(".job-dialog-header button"))).toBe(navy);
+  await page.locator(".job-dialog-header button").click();
+
+  expect(await focusColor(page.locator(".contact-mail"))).toBe(accent);
+  expect(await focusColor(page.locator("footer .footer-links a").first())).toBe(accent);
+  expect(await focusColor(page.locator(".archive-wrap summary").first())).toBe(navy);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await focusColor(page.locator("details.mobile-nav summary"))).toBe(accent);
 });
 
 test("le menu mobile reste entièrement visible sur un écran étroit", async ({ page }) => {

@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { getFrenchEventMonth } from "../app/event-month.mjs";
+import { getEventStatusLabel } from "../app/event-status.mjs";
 import {
   assertHttpsUrl,
   assertKnownFields,
@@ -50,4 +51,9 @@ test("déduit le mois de la soirée à partir d’une date française", () => {
   assert.equal(getFrenchEventMonth("Mercredi 14 octobre 2026"), "octobre");
   assert.equal(getFrenchEventMonth("Vendredi 4 DÉCEMBRE 2026"), "décembre");
   assert.throws(() => getFrenchEventMonth("Mercredi 14 October 2026"), /format français/);
+});
+
+test("choisit le libellé de statut selon la présence d’une prochaine soirée", () => {
+  assert.equal(getEventStatusLabel(true), "Prochaine soirée");
+  assert.equal(getEventStatusLabel(false), "Programme à venir");
 });
