@@ -11,7 +11,11 @@ destiné aux internes en radiologie d’Île-de-France.
 
 Prérequis : Node.js 22 ou une version plus récente.
 
+Sur un clone frais, initialiser d’abord le sous-module qui contient les règles
+de contribution UI/UX :
+
 ```bash
+git submodule update --init --recursive
 npm ci
 npm run dev
 ```
@@ -68,10 +72,13 @@ Les contrôles disponibles sont les suivants :
 - `npm run test:ui` vérifie les interactions principales, dont la fermeture des
   annonces, le retour navigateur, les archives au clavier, le menu mobile, les
   petits écrans et l’apparence sombre ;
+- `npm run content:freshness` vérifie que la soirée indiquée comme prochaine
+  n’est pas passée ; ce contrôle tourne chaque jour avec la surveillance du site ;
 - `npm run health:check` vérifie les ressources publiques essentielles ;
 - `npm run verify` regroupe les contrôles statiques principaux.
 
-La disponibilité du site public est contrôlée périodiquement par GitHub Actions.
+La disponibilité du site public et la fraîcheur de la prochaine soirée sont
+contrôlées chaque jour par GitHub Actions.
 
 ## Publication
 
@@ -81,8 +88,9 @@ les catalogues, le contenu, TypeScript, ESLint, les dépendances de production,
 le HTML, les ancres internes et les parcours navigateur. Une erreur de qualité
 empêche donc la publication.
 
-L’interface suit aussi l’apparence claire ou sombre choisie dans les réglages
-du système, sans ajouter de réglage local supplémentaire.
+Le site conserve sa palette de marque et ne propose pas actuellement de thème
+sombre alternatif. Il respecte toutefois les préférences d’accessibilité du
+système, notamment `prefers-reduced-motion` et `prefers-reduced-transparency`.
 
 Le fichier `public/CNAME` associe GitHub Pages à `www.apir-radio.fr`. La zone DNS
 du domaine est administrée depuis OVHcloud.

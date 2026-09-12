@@ -23,6 +23,7 @@ Ne pas modifier directement `app/*.generated.ts` : ces fichiers sont régénér�
 ```bash
 npm ci
 npm run content:check
+npm run content:freshness
 npm run test:content
 npm run build:pages
 node --test tests/rendered-html.test.mjs
@@ -30,6 +31,11 @@ npm run anchors:check
 npm run lint
 npm run test:ui
 ```
+
+`npm run content:freshness` échoue si une soirée passée figure toujours dans la
+section `À venir`. Archivez-la dans `content/events.md` et renseignez la
+prochaine soirée si elle est connue. GitHub Actions exécute ce contrôle chaque
+jour avec la surveillance de disponibilité du site.
 
 Pour vérifier la disponibilité du site public :
 

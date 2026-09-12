@@ -67,8 +67,8 @@ jobs:
       - name: Vérifier les ancres internes
         run: npm run anchors:check
 
-      - name: Installer Chromium pour les tests UI
-        run: npx playwright install --with-deps chromium
+      - name: Installer Chromium et WebKit pour les tests UI
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Tester les parcours principaux
         run: npm run test:ui

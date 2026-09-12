@@ -12,6 +12,7 @@
     "board:generate": "node scripts/generate-board.mjs",
     "content:generate": "npm run jobs:generate && npm run events:generate && npm run board:generate",
     "content:check": "node scripts/generate-jobs.mjs --check && node scripts/generate-events.mjs --check && node scripts/generate-board.mjs --check",
+    "content:freshness": "node scripts/check-event-freshness.mjs",
     "test:content": "node --test tests/content-utils.test.mjs",
     "anchors:check": "node scripts/check-anchors.mjs out",
     "health:check": "node scripts/check-site-health.mjs",
@@ -33,7 +34,7 @@
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
-    "eslint": "10.10.0",
+    "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3"
